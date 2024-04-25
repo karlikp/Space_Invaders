@@ -11,11 +11,14 @@ void Game::initWindow()
 	this->videoMode.height = 600;
 	this->videoMode.width = 800;
 
-	this->window = new sf::RenderWindow(this->videoMode, "Space Invaders", sf::Style::Titlebar | sf::Style::Close);
+	this->window = new sf::RenderWindow(this->videoMode, "Space Invaders",
+		sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 }
 
 Game::Game()
 {
+	this->initVariables();
+	this->initWindow();
 }
 
 Game::~Game()
@@ -48,7 +51,7 @@ void Game::pollEvents()
 
 void Game::update()
 {
-	//Game loop
+	this->pollEvents();
 
 }
 void Game::render()
@@ -62,4 +65,5 @@ void Game::render()
 		Renders the game objects
 	*/
 	this->window->clear(sf::Color::Green);
+	this->window->display();
 }
