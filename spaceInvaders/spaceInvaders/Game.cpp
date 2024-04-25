@@ -4,6 +4,15 @@
 void Game::initVariables()
 {
 	this->window = nullptr;
+	
+	//Game logic
+	this->points = 0;
+	this->enemySpawnTimerMax = 1000.f;
+	this->enemySpawnTimer = this->enemySpawnTimerMax;
+	this->maxEnemies = 5;
+
+
+
 }
 
 void Game::initWindow()
@@ -13,6 +22,8 @@ void Game::initWindow()
 
 	this->window = new sf::RenderWindow(this->videoMode, "Space Invaders",
 		sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+
+	this->window->setFramerateLimit(60);
 }
 
 void Game::initEnemies()
@@ -40,6 +51,33 @@ Game::~Game()
 const bool Game::getWindowIsOpen() const
 {
 	return this->window->isOpen();
+}
+
+void Game::spawnEnemy()
+{
+	/*
+		@return void
+
+		Spawn enemies and sets their colors and position.
+		-Sets a random position.
+		-Sets a random color.
+		-Adds enemy to the vector.
+	*/
+
+	// rzutowanie na float oraz int 
+
+	this->enemy.setPosition(
+		static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)), 
+		0.f		//start y position
+	);
+
+	this->enemy.setFillColor(sf::Color::Green);
+
+	//Spawn the enemy
+	this->enemies.push_back(this->enemy);
+
+	//Remove enemies at end of screen
+
 }
 
 void Game::pollEvents()
@@ -72,24 +110,54 @@ void Game::updateMousePosition()
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
 }
 
+void Game::updateEnemies()
+{
+	/*
+		@return void
+
+		Update the enemy spawn timer and spawns enemies
+		when the total amount of enemies is smaller then the maximum.
+		Moves the enemies downwards.
+		Removes the enemies at the edge of the screen. //TODO
+	*/
+	//Updating the timer for enemy spawning
+	if (this->enemies.size() < this->maxEnemies)
+	{
+		if (this->enemySpawnTimer >= this->enemySpawnTimerMax)
+		{
+			//Spawn the enemy and reset the timer
+			this->spawnEnemy();
+			this->enemySpawnTimer = 0.f;
+		}
+		else
+			this->enemySpawnTimer += 1.f;
+	}
+
+	//Move the enemies
+	for (auto &e : this->enemies)
+	{
+		e.move(0.f, 1.f);
+	}
+}
+
 void Game::update()
 {
 	this->pollEvents();
 
-	//this->updateMousePosition();
+	this->updateMousePosition();
 
-	//Update mouse position
-	/*std::cout << "Mouse pos:" 
-		<< sf::Mouse::getPosition().x << " " 
-		<< sf::Mouse::getPosition().y << "\n";*/
-
-	//position relative to window
-	std::cout << "Mouse pos:" 
-		<< sf::Mouse::getPosition(*this->window).x << " "  
-		<< sf::Mouse::getPosition(*this->window).y << "\n";
-
+	this->updateEnemies();
 
 }
+
+void Game::renderEnemies()
+{
+	for (auto& e : this->enemies)
+	{
+		this->window->draw(e);
+	}
+}
+
 void Game::render()
 {
 	/*
@@ -103,7 +171,7 @@ void Game::render()
 	this->window->clear();
 
 	//Draw game objects
-	this->window->draw(this->enemy);
+	this->renderEnemies();
 
 	this->window->display();
 }
