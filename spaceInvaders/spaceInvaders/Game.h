@@ -27,10 +27,13 @@ private:
 	sf::RectangleShape enemy;
 
 	//Game logic
-	int points;
+	bool endGame;
+	unsigned points;
+	int health;
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
 	int maxEnemies;
+	bool mouseHeld;
 
 	//Private function
 	void initVariables();
@@ -44,6 +47,7 @@ public:
 
 	//Accessors
 	const bool getWindowIsOpen() const;
+	const bool getEndGame() const;
 
 	//function
 	void spawnEnemy();
