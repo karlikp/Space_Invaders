@@ -87,7 +87,7 @@ void Game::spawnEnemy()
 
 }
 
-void Game::pollEvents()
+void Game::interruptEvents()
 {
 	
 		while (this->window->pollEvent(this->ev))
@@ -114,8 +114,8 @@ void Game::updateMousePosition()
 		- Mouse position relative to window (Vector2i)
 	*/
 
-	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+	/*this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);*/
 }
 
 void Game::updateEnemies()
@@ -188,7 +188,7 @@ void Game::updateEnemies()
 
 void Game::update()
 {
-	this->pollEvents();
+	this->interruptEvents();
 
 	if (this->endGame == false)
 	{

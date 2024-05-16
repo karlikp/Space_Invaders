@@ -18,8 +18,8 @@ private:
 	sf::Event ev;
 
 	//Mouse position
-	sf::Vector2i mousePosWindow;
-	sf::Vector2f mousePosView;
+	/*sf::Vector2i mousePosWindow;
+	sf::Vector2f mousePosView;*/
 	
 
 	//Game objects
@@ -51,7 +51,7 @@ public:
 
 	//function
 	void spawnEnemy();
-	void pollEvents();
+	void interruptEvents();
 	void updateMousePosition();
 	void updateEnemies();
 	void update();
