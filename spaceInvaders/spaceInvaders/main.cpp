@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Game.h"
+#include "Headers/Game.h"
 
 #include <SFML/Graphics.hpp> 
 #include <SFML/Window.hpp>
@@ -19,6 +19,7 @@ int main()
 
 		//Render
 		game.render();
+
 	}
 	return 0;
 }

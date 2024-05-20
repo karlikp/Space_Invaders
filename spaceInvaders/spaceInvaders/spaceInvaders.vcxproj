@@ -168,16 +168,16 @@
     <ClCompile Include="UFO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Enemy1.h" />
-    <ClInclude Include="Enemy2.h" />
-    <ClInclude Include="Enemy3.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Obstacle.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="UFO.h" />
+    <ClInclude Include="Headers\Bullet.h" />
+    <ClInclude Include="Headers\Enemy.h" />
+    <ClInclude Include="Headers\Enemy1.h" />
+    <ClInclude Include="Headers\Enemy2.h" />
+    <ClInclude Include="Headers\Enemy3.h" />
+    <ClInclude Include="Headers\Entity.h" />
+    <ClInclude Include="Headers\Game.h" />
+    <ClInclude Include="Headers\Obstacle.h" />
+    <ClInclude Include="Headers\Player.h" />
+    <ClInclude Include="Headers\UFO.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

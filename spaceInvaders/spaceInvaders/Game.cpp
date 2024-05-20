@@ -1,47 +1,66 @@
-#include "Game.h"
+#include "Headers/Game.h"
 
 
 void Game::initVariables()
 {
+	this->videoMode = sf::VideoMode::getDesktopMode();
 	this->window = nullptr;
 	
 	//Game logic
 	this->endGame = false;
 	this->points = 0;
 	this->health = 10;
-	this->enemySpawnTimerMax = 10.f;
-	this->enemySpawnTimer = this->enemySpawnTimerMax;
-	this->maxEnemies = 5;
-
-
 
 }
 
 void Game::initWindow()
 {
-	this->videoMode.height = 600;
-	this->videoMode.width = 800;
 
 	this->window = new sf::RenderWindow(this->videoMode, "Space Invaders",
-		sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+		sf::Style::Fullscreen);
 
+
+	//60 frames per second
 	this->window->setFramerateLimit(60);
+}
+
+void Game::initGameGround()
+{
+	// calculate width and height where proportions are 2:1
+	unsigned int textureWidth = std::min(this->videoMode.height * 2, this->videoMode.width);
+	unsigned int textureHeight = textureWidth / 2;
+
+	// read texture
+	this->backgroundTexture;
+	if (not this->backgroundTexture.loadFromFile("Resources/Background.png"))
+		std::cerr << "Failed to load image 'Resources/Background.png'" << std::endl;
+
+	this->backgroundSprite.setTexture(backgroundTexture);
+
+	// Texture scale
+	float scaleX = static_cast<float>(textureWidth) / this->backgroundTexture.getSize().x;
+	float scaleY = static_cast<float>(textureHeight) / this->backgroundTexture.getSize().y;
+	this->backgroundSprite.setScale(scaleX, scaleY);
+
+	// centre of texture
+	this->backgroundSprite.setPosition(
+		float(this->videoMode.width - textureWidth) / 2.0f,
+		float(this->videoMode.height - textureHeight) / 2.0f
+	);
+	// Calculate texture bounds
+	this->textureBounds = backgroundSprite.getGlobalBounds();
 }
 
 void Game::initEnemies()
 {
-	this->enemy.setPosition(10.f, 10.f);
-	this->enemy.setSize(sf::Vector2f(100.f, 100.f));
-	this->enemy.setScale(sf::Vector2f(0.5f, 0.5f)); //scale size from original
-	this->enemy.setFillColor(sf::Color::Cyan);
-	/*this->enemy.setOutlineColor(sf::Color::Green);
-	this->enemy.setOutlineThickness(5.f);*/
+//to do
 }
 
 Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
+	this->initGameGround();
 	this->initEnemies();
 }
 
@@ -107,15 +126,24 @@ void Game::interruptEvents()
 
 void Game::updateMousePosition()
 {
-	/*
-		@ return void
+	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
 
-		Update the mouse positions:
-		- Mouse position relative to window (Vector2i)
-	*/
+	if (this->mousePosWindow.x < this->textureBounds.left) {
+		this->mousePosWindow.x = static_cast<int>(this->textureBounds.left);
+	}
+	if (this->mousePosWindow.x > this->textureBounds.left + this->textureBounds.width) {
+		this->mousePosWindow.x = static_cast<int>(this->textureBounds.left + this->textureBounds.width);
+	}
+	if (this->mousePosWindow.y < this->textureBounds.top) {
+		this->mousePosWindow.y = static_cast<int>(this->textureBounds.top);
+	}
+	if (this->mousePosWindow.y > this->textureBounds.top + this->textureBounds.height) {
+		this->mousePosWindow.y = static_cast<int>(this->textureBounds.top + this->textureBounds.height);
+	}
 
-	/*this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-	this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);*/
+	// Ustawienie pozycji kursora w oknie na ograniczon¹ wartoœæ
+	sf::Mouse::setPosition(this->mousePosWindow, *this->window);
 }
 
 void Game::updateEnemies()
@@ -161,28 +189,16 @@ void Game::updateEnemies()
 	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		if (this->mouseHeld == false)
+	
+		for (size_t i = 0; i < this->enemies.size(); i++)
 		{
-			this->mouseHeld = true;
-			bool deleted = false;
-			for (size_t i = 0; i < this->enemies.size(); i++)
+			if (this->enemies[i].getGlobalBounds().contains(this->mousePosView))
 			{
-				if (this->enemies[i].getGlobalBounds().contains(this->mousePosView))
-				{
-					deleted = true;
-					this->enemies.erase(this->enemies.begin() + i);
 
-					//Gain points
-					this->points += 1;
-					std::cout << "Points: " << this->points << "\n";
-				}
+			
 			}
 		}
-	}
 
-	else
-	{
-		this->mouseHeld = false;
 	}
 }
 
@@ -199,6 +215,13 @@ void Game::update()
 	//End game condition
 	if (this->health <= 0)
 		this->endGame = true;
+}
+
+
+void Game::renderGameGround()
+{
+	auto gameGround = (this->backgroundSprite);
+	this->window->draw(this->backgroundSprite);
 }
 
 void Game::renderEnemies()
@@ -222,7 +245,9 @@ void Game::render()
 	this->window->clear();
 
 	//Draw game objects
-	this->renderEnemies();
+	//this->renderGameGround();
+	this->window->draw(this->backgroundSprite);
+	//this->renderEnemies();
 
 	this->window->display();
 }

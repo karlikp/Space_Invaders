@@ -14,12 +14,15 @@ private:
 	//Variables
 	//Window
 	sf::RenderWindow* window;
+	sf::Sprite backgroundSprite;
+	sf::Texture backgroundTexture;
+	sf::FloatRect textureBounds;
 	sf::VideoMode videoMode;
 	sf::Event ev;
 
 	//Mouse position
-	/*sf::Vector2i mousePosWindow;
-	sf::Vector2f mousePosView;*/
+	sf::Vector2i mousePosWindow;
+	sf::Vector2f mousePosView;
 	
 
 	//Game objects
@@ -38,6 +41,7 @@ private:
 	//Private function
 	void initVariables();
 	void initWindow();
+	void initGameGround();
 	void initEnemies();
 
 public:
@@ -56,6 +60,7 @@ public:
 	void updateEnemies();
 	void update();
 
+	void renderGameGround();
 	void renderEnemies();
 	void render();
 };
