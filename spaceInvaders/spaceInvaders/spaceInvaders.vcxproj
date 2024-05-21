@@ -161,6 +161,7 @@
     <ClCompile Include="Enemy2.cpp" />
     <ClCompile Include="Enemy3.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="functions.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="UFO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="functions.h" />
     <ClInclude Include="Headers\Bullet.h" />
     <ClInclude Include="Headers\Enemy.h" />
     <ClInclude Include="Headers\Enemy1.h" />
