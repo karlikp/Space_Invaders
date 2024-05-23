@@ -1,5 +1,8 @@
 #include <iostream>
 #include "Headers/Game.h"
+#include "Headers/Entity.h"
+#include "Headers/Player.h"
+
 
 #include <SFML/Graphics.hpp> 
 #include <SFML/Window.hpp>
@@ -10,6 +13,11 @@ int main()
 {
 	//Init Game engine
 	Game game;
+
+	//Init Entity objects
+	Player player;
+	set
+
 
 	//Game loop
 	while (game.getWindowIsOpen() and !game.getEndGame())
@@ -23,24 +31,4 @@ int main()
 	}
 	return 0;
 }
-
-//int main(void) {
-//    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-//    sf::CircleShape shape(100.f);
-//    shape.setFillColor(sf::Color::Green);
-//
-//    while (window.isOpen()) {
-//        sf::Event event;
-//        while (window.pollEvent(event)) {
-//            if (event.type == sf::Event::Closed)
-//                window.close();
-//        }
-//
-//        window.clear();
-//        window.draw(shape);
-//        window.display();
-//    }
-//
-//    return 0;
-//}
 

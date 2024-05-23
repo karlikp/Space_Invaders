@@ -1,5 +1,7 @@
 #include <string>
 
+#include"structs.h"
+
 #pragma once
 
 class Player
@@ -11,10 +13,13 @@ class Player
 	unsigned short powerup_timer;
 	std::string name;
 
+	std::vector<Bullet> bullets;
+
 public:
 
 	Player();
 	~Player();
+	void reset();
 	void moveInputs();
 	void updatePlayer();
 	void updateLives();

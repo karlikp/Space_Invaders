@@ -1,3 +1,5 @@
+#include <vector>
+
 #pragma once
 class Entity
 {
@@ -18,4 +20,6 @@ public:
 	virtual short getStepY();
 	virtual void rendering();
 };
+
+
 

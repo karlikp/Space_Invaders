@@ -5,6 +5,7 @@ class Enemy
 	int health;
 	static int enemyCounter;
 	bool isDead;
+	
 
 public:
 
