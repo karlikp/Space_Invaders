@@ -1,6 +1,8 @@
 #include <iostream>
+#include "Headers/Interface.h"
 #include "Headers/Game.h"
 #include "Headers/Entity.h"
+#include "Headers/Enemy.h"
 #include "Headers/Player.h"
 
 
@@ -11,13 +13,12 @@
 
 int main()
 {
-	//Init Game engine
+	Interface interface;
+
+	short level = 1;
+
+	//Init Game engine (object class needed to gameplay)
 	Game game;
-
-	//Init Entity objects
-	Player player;
-	set
-
 
 	//Game loop
 	while (game.getWindowIsOpen() and !game.getEndGame())

@@ -1,4 +1,5 @@
 #include "Headers/Game.h"
+#include "Headers/EnemyManager.h"
 
 
 void Game::initVariables()
@@ -27,41 +28,58 @@ void Game::initWindow()
 void Game::initGameGround()
 {
 	// calculate width and height where proportions are 2:1
-	unsigned int textureWidth = std::min(this->videoMode.height * 2, this->videoMode.width);
-	unsigned int textureHeight = textureWidth / 2;
+	unsigned int screenWidth = std::min(this->videoMode.height * 2, this->videoMode.width);
+	unsigned int screenHeight = screenWidth / 2;
 
 	// read texture
-	this->backgroundTexture;
 	if (not this->backgroundTexture.loadFromFile("Resources/Background.png"))
 		std::cerr << "Failed to load image 'Resources/Background.png'" << std::endl;
 
 	this->backgroundSprite.setTexture(backgroundTexture);
 
 	// Texture scale
-	float scaleX = static_cast<float>(textureWidth) / this->backgroundTexture.getSize().x;
-	float scaleY = static_cast<float>(textureHeight) / this->backgroundTexture.getSize().y;
+	float scaleX = static_cast<float>(screenWidth) / this->backgroundTexture.getSize().x;
+	float scaleY = static_cast<float>(screenHeight) / this->backgroundTexture.getSize().y;
 	this->backgroundSprite.setScale(scaleX, scaleY);
 
 	// centre of texture
 	this->backgroundSprite.setPosition(
-		float(this->videoMode.width - textureWidth) / 2.0f,
-		float(this->videoMode.height - textureHeight) / 2.0f
+		float(this->videoMode.width - screenWidth) / 2.0f,
+		float(this->videoMode.height - screenHeight) / 2.0f
 	);
 	// Calculate texture bounds
 	this->textureBounds = backgroundSprite.getGlobalBounds();
 }
 
+void Game::initPlayer()
+{
+	//TODO
+}
+
 void Game::initEnemies()
 {
-//to do
+	EnemyManager enemyManager; //w konstruktorze zostaj¹ zainicjowani wrogowie
+}
+
+void Game::initObstacles()
+{
+	//TODO
+}
+
+void Game::initUFO()
+{
+	//TODO
 }
 
 Game::Game()
 {
-	this->initVariables();
+	this->initVariables();  //potencjalne u¿ycie wielow¹tkowoœci
 	this->initWindow();
 	this->initGameGround();
+	this->initPlayer();
 	this->initEnemies();
+	this->initObstacles();
+	this->initUFO();
 }
 
 Game::~Game()
@@ -148,27 +166,6 @@ void Game::updateMousePosition()
 
 void Game::updateEnemies()
 {
-	
-	/*
-		@return void
-
-		Update the enemy spawn timer and spawns enemies
-		when the total amount of enemies is smaller then the maximum.
-		Moves the enemies downwards.
-		Removes the enemies at the edge of the screen. //TODO
-	*/
-	//Updating the timer for enemy spawning
-	if (this->enemies.size() < this->maxEnemies)
-	{
-		if (this->enemySpawnTimer >= this->enemySpawnTimerMax)
-		{
-			//Spawn the enemy and reset the timer
-			this->spawnEnemy();
-			this->enemySpawnTimer = 0.f;
-		}
-		else
-			this->enemySpawnTimer += 1.f;
-	}
 
 	//Moving and updating enemies
 	for (int i = 0; i < this->enemies.size(); i++)

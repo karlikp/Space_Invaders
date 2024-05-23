@@ -1,6 +1,6 @@
-#include "Entity.h"
-
 #pragma once
+
+#include "Entity.h"
 
 class UFO : public Entity
 {

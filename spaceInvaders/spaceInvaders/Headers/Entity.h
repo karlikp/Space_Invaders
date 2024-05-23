@@ -1,21 +1,32 @@
+#pragma once
+
 #include <vector>
 
-#pragma once
+
 class Entity
 {
-	unsigned short realX;
-	unsigned short realY;
-	short stepX;
-	short stepY;
+	
 	//texture - picture
 
 public:
 
+	short currentX;
+	short currentY;
+	short stepX;
+	short stepY;
+
 	Entity();
+
+	Entity(int x, int y) : currentX(x), currentY(y) {};
+
+	// Konstruktor kopiuj¹cy
+	Entity(const Entity& other)
+		: currentX(other.currentX), currentY(other.currentY) {}
+
 	~Entity();
 	virtual void update();
-	virtual unsigned short getRealX();
-	virtual unsigned short getRealY();
+	virtual short getRealX();
+	virtual short getRealY();
 	virtual short getStepX();
 	virtual short getStepY();
 	virtual void rendering();

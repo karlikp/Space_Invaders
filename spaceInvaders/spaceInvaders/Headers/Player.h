@@ -1,8 +1,10 @@
-#include <string>
+#pragma once
+
+#include <SFML/Graphics.hpp>
 
 #include"structs.h"
 
-#pragma once
+#include <string>
 
 class Player
 {
@@ -14,6 +16,12 @@ class Player
 	std::string name;
 
 	std::vector<Bullet> bullets;
+
+	sf::Sprite bulletSprite;
+	sf::Sprite shipSprite;
+
+	sf::Texture bulletTexture;
+	sf::Texture shipTexture;
 
 public:
 

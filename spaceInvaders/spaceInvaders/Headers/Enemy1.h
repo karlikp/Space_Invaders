@@ -1,10 +1,16 @@
+#pragma once
+
+#include "Entity.h"
 #include "Enemy.h"
 
-#pragma once
-class Enemy1 : Enemy
+
+class Enemy1 : public Enemy
 {
 public:
-	Enemy1();
+	Enemy1(int x, int y);
+	
 	~Enemy1();
+
+	void update() override;
 };
 

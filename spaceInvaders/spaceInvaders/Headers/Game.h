@@ -10,8 +10,10 @@
 
 class Game
 {
-private:
 	//Variables
+	unsigned int screenWidth;
+	unsigned int screenHight;
+
 	//Window
 	sf::RenderWindow* window;
 	sf::Sprite backgroundSprite;
@@ -32,17 +34,19 @@ private:
 	//Game logic
 	bool endGame;
 	unsigned points;
-	int health;
+	short health;
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
-	int maxEnemies;
 	bool mouseHeld;
 
 	//Private function
 	void initVariables();
 	void initWindow();
 	void initGameGround();
+	void initPlayer();
 	void initEnemies();
+	void initObstacles();
+	void initUFO();
 
 public:
 

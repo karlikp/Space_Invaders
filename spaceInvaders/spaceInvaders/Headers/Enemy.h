@@ -1,5 +1,11 @@
 #pragma once
-class Enemy
+
+#include "Entity.h"
+#include "structs.h"
+
+#include <random>
+
+class Enemy : public Entity
 {
 	short direction;
 	int health;
@@ -8,13 +14,17 @@ class Enemy
 	
 
 public:
+	Enemy(int x, int y);
+	virtual ~Enemy() = default;
 
+	// Wirtualna metoda do nadpisania w klasach pochodnych
+	virtual void update() = 0;
 	virtual bool bulletCollision();
 	virtual int getDirection();
 	virtual int getHealth();
 	virtual int getEnemyCounter();
 	virtual int move();
-	virtual void shoot();
+	virtual void shoot() = 0;
 	virtual void hit();
 };
 

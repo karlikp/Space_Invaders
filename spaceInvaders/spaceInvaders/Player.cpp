@@ -4,11 +4,11 @@ Player::Player()
 {
 	reset();
 
-	bullet_texture.loadFromFile("Resources/Images/PlayerBullet.png");
-	ship_texture.loadFromFile("Resources/Images/Player.png");
+	bulletTexture.loadFromFile("Resources/Images/playerBullet1.png");
+	shipTexture.loadFromFile("Resources/Images/playerShip1.png");
 
-	bullet_sprite.setTexture(bullet_texture);
-	ship_sprite.setTexture(texture);
+	bulletSprite.setTexture(bulletTexture);
+	shipSprite.setTexture(shipTexture);
 }
 
 void Player::reset()

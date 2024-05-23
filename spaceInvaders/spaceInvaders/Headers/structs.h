@@ -1,11 +1,6 @@
-#include "Entity.h"
-
 #pragma once
 
-std::vector<Entity> enemiesVector;
-std::vector<Bullet> enemiesBulletsVector;
-std::vector<Entity> obstacleVector;
-std::vector<Bullet> playerBullets;
+#include "Entity.h"
 
 struct Bullet : public Entity
 {
@@ -16,3 +11,5 @@ struct Powerup : public Entity
 {
 
 };
+
+std::vector<Entity> obstacleVector;

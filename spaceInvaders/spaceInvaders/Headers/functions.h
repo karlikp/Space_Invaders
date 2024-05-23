@@ -1,3 +1,5 @@
 #pragma once
 
-void update();
+#include "Entity.h"
+#include "structs.h"
+
