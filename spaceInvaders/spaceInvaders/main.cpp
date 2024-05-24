@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Headers/Interface.h"
 #include "Headers/Game.h"
-#include "Headers/Entity.h"
 #include "Headers/Enemy.h"
 #include "Headers/Player.h"
 

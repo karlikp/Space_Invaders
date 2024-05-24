@@ -14,7 +14,7 @@ void EnemyManager::initEnemies() {
     float offsetY = 60.f;
 
     // Tworzenie wierszy przeciwników
-    for (int i = 0; i < 5; ++i) {
+    /*for (int i = 0; i < 5; ++i) {
         for (int j = 0; j < 10; ++j) {
             if (i % 3 == 0) {
                 enemies.push_back(std::make_unique<Enemy1>(startX + j * offsetX, startY + i * offsetY));
@@ -26,5 +26,5 @@ void EnemyManager::initEnemies() {
                 enemies.push_back(std::make_unique<Enemy3>(startX + j * offsetX, startY + i * offsetY));
             }
         }
-    }
+    }*/
 }

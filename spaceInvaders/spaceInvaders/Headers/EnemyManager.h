@@ -2,11 +2,9 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "structs.h"
 #include "Enemy.h"
-#include "Enemy1.h"
-#include "Enemy2.h"
-#include "Enemy3.h"
+#include "structs.h"
+
 
 #include <random>
 

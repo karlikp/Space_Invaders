@@ -2,11 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 
+#include"Entity.h"
 #include"structs.h"
 
 #include <string>
 
-class Player
+class Player : Entity
 {
 	unsigned points;
 	bool isDead;
