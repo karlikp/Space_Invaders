@@ -1,5 +1,5 @@
 #include "Headers/Game.h"
-#include "Headers/EnemyManager.h"
+#include "Headers/EntityManager.h"
 
 
 void Game::initVariables()
@@ -58,7 +58,7 @@ void Game::initPlayer()
 
 void Game::initEnemies()
 {
-	EnemyManager enemyManager; //w konstruktorze zostaj¹ zainicjowani wrogowie
+	EntityManager enemyManager; //w konstruktorze bêd¹ zainicjowani wrogowie
 }
 
 void Game::initObstacles()
@@ -97,32 +97,6 @@ const bool Game::getEndGame() const
 	return this->endGame;
 }
 
-void Game::spawnEnemy()
-{
-	/*
-		@return void
-
-		Spawn enemies and sets their colors and position.
-		-Sets a random position.
-		-Sets a random color.
-		-Adds enemy to the vector.
-	*/
-
-	// rzutowanie na float oraz int 
-
-	this->enemy.setPosition(
-		static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)), 
-		0.f		//start y position
-	);
-
-	this->enemy.setFillColor(sf::Color::Green);
-
-	//Spawn the enemy
-	this->enemies.push_back(this->enemy);
-
-	//Remove enemies at end of screen
-
-}
 
 void Game::interruptEvents()
 {

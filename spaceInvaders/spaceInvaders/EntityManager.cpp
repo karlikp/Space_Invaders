@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Headers/EnemyManager.h"
+#include "Headers/EntityManager.h"
 
-EnemyManager::EnemyManager()
+EntityManager::EntityManager()
 {
     initEnemies();
 }
 
-void EnemyManager::initEnemies() {
+void EntityManager::initEnemies() {
     float startX = 100.f;
     float startY = 50.f;
     float offsetX = 60.f;

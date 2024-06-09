@@ -12,4 +12,3 @@ struct Powerup : public Entity
 
 };
 
-std::vector<Entity> obstacleVector;

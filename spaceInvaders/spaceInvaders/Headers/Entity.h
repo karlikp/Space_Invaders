@@ -15,7 +15,7 @@ public:
 	short stepX;
 	short stepY;
 
-	Entity();
+	Entity() = default;
 
 	Entity(int x, int y) : currentX(x), currentY(y) {};
 
@@ -23,13 +23,13 @@ public:
 	Entity(const Entity& other)
 		: currentX(other.currentX), currentY(other.currentY) {}
 
-	~Entity();
-	virtual void update();
-	virtual short getRealX();
-	virtual short getRealY();
-	virtual short getStepX();
-	virtual short getStepY();
-	virtual void rendering();
+	~Entity() = default;
+	virtual void update() = 0;
+	short getCurrentX();
+	short getCurrentY();
+	short getStepX();
+	short getStepY();
+	virtual void rendering() = 0;
 };
 
 

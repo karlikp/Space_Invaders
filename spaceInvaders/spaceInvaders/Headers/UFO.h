@@ -10,6 +10,8 @@ class UFO : public Entity
 
 public:
 
+	void update() override;
+	void rendering() override;
 	bool randomArrived();
 	int randomPowerup();
 	bool bulletCollision();

@@ -48,7 +48,7 @@
     <ClCompile Include="functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
+    <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Interface.cpp">
@@ -86,7 +86,7 @@
     <ClInclude Include="Headers\structs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\EnemyManager.h">
+    <ClInclude Include="Headers\EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Headers\Info.h">

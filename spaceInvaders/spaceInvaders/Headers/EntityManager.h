@@ -8,7 +8,7 @@
 
 #include <random>
 
-class EnemyManager
+class EntityManager
 {
 	std::uniform_int_distribution <unsigned short> shootPossibility;
 
@@ -16,14 +16,16 @@ class EnemyManager
 
 	std::vector<Enemy> enemies;
 
+	std::vector<Entity> obstacleVector;
+
 	sf::Sprite enemyBulletSprite;
 
 	sf::Texture enemyBulletTexture;
 public:
 
-	EnemyManager();
+	EntityManager();
 
-	~EnemyManager();
+	~EntityManager() = default;
 
 	void initEnemies();
 

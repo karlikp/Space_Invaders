@@ -27,10 +27,13 @@ class Player : Entity
 public:
 
 	Player();
-	~Player();
+	~Player() = default;
+
+	void update() override;
+	void rendering() override;
+
 	void reset();
 	void moveInputs();
-	void updatePlayer();
 	void updateLives();
 	void updatePoints();
 	void renderPlayer();

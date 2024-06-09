@@ -159,7 +159,7 @@
     <ClCompile Include="Enemy1.cpp" />
     <ClCompile Include="Enemy2.cpp" />
     <ClCompile Include="Enemy3.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -174,7 +174,7 @@
     <ClInclude Include="Headers\Enemy1.h" />
     <ClInclude Include="Headers\Enemy2.h" />
     <ClInclude Include="Headers\Enemy3.h" />
-    <ClInclude Include="Headers\EnemyManager.h" />
+    <ClInclude Include="Headers\EntityManager.h" />
     <ClInclude Include="Headers\Entity.h" />
     <ClInclude Include="Headers\functions.h" />
     <ClInclude Include="Headers\Game.h" />

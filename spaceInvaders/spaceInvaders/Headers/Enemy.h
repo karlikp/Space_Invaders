@@ -19,12 +19,14 @@ public:
 
 	// Wirtualna metoda do nadpisania w klasach pochodnych
 	virtual void update() = 0;
-	virtual bool bulletCollision();
-	virtual int getDirection();
-	virtual int getHealth();
-	virtual int getEnemyCounter();
-	virtual int move();
 	virtual void shoot() = 0;
-	virtual void hit();
+	virtual void rendering() = 0;
+
+	bool bulletCollision();
+	int getDirection();
+	int getHealth();
+	int getEnemyCounter();
+	int move();
+	void hit();
 };
 

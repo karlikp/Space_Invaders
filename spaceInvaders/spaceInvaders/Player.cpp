@@ -11,6 +11,14 @@ Player::Player()
 	shipSprite.setTexture(shipTexture);
 }
 
+void Player::update()
+{//TO DO
+}
+
+void Player::rendering()
+{//TO DO
+}
+
 void Player::reset()
-{
+{//TO DO
 }

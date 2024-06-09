@@ -13,6 +13,8 @@
 int main()
 {
 	Interface interface;
+	
+	interface.run();
 
 	short level = 1;
 
@@ -22,10 +24,8 @@ int main()
 	//Game loop
 	while (game.getWindowIsOpen() and !game.getEndGame())
 	{
-		//Update
 		game.update();
 
-		//Render
 		game.render();
 
 	}
