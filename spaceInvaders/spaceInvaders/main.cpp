@@ -16,6 +16,9 @@ int main()
 	
 	interface.run();
 
+	if (interface.getClose())
+		return 0;
+
 	short level = 1;
 
 	//Init Game engine (object class needed to gameplay)
