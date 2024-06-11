@@ -11,11 +11,12 @@
 
 class Interface {
 
-    enum class State { MainMenu, NewPlayer, ContinuePlayer, ScoreTable}
+    enum class State { MainMenu, NewPlayer, ContinuePlayer, ScoreTable, Rules}
     currentState = State::MainMenu;
 
     bool readyToStart, noRecord, showUniqueNameMessage, showPatternNameMessage,
         successCreating;
+    float scrollOffset;
   
     sf::RenderWindow window;
     sf::VideoMode videoMode;
@@ -35,6 +36,7 @@ class Interface {
     sf::Text uniqueNameText;
     sf::Text patternNameText;
     sf::Text playerNotFoundText;
+    sf::Text instructionText;
 
     sf::RectangleShape playerNameBox;
     sf::RectangleShape saveButtonWindow;
@@ -46,6 +48,8 @@ class Interface {
     sf::Text backButtonText;
 
     void loadResources();
+    void loadInstructions();
+    void loadPlayerNames();
     void setupText(sf::Text& text, const std::string& content, int charSize, const sf::Color& color, float posX, float posY);
     void setupRectangle(sf::RectangleShape& rectangle, const sf::Vector2f& size,
         const sf::Color& fillColor, float outlineThickness, const sf::Color& outlineColor, float posX, float posY);
@@ -58,15 +62,16 @@ class Interface {
     void handleNewPlayerEvents(sf::Event& event);
     void handleContinuePlayerEvents(sf::Event& event);
     void handleScoreTableEvents(sf::Event& event);
+    void handleRulesEvents(sf::Event& event);
     void checkOptionClicked(sf::Vector2i& mousePos);
     void render();
     void renderMainMenu();
     void renderNewPlayer();
     void renderContinuePlayer();
     void renderScoreTable();
+    void renderRules();
     void createPlayer();
     bool playerExists(const std::string& playerName);
-    void loadPlayerNames();
     void setupBackButton();
     bool isBackButtonClicked(sf::Vector2i mousePos);
 

@@ -1,0 +1,33 @@
+Space Invaders is a type of fixed shooter game, meaning that the entire game screen
+ is visible from the beginning to the end of the gameplay.
+ The objective is to destroy four rows of aliens,
+ with 14 enemies in each row, which move horizontally back
+ and forth and descend towards the bottom of the screen.
+ The player defeats an alien by shooting it from the player's ship,
+ earning a certain number of points in the process.
+
+Every time 14 aliens are destroyed, their speed increases.
+ Defeating one wave of aliens brings the next wave, which is more difficult
+ due to the increased speed of the aliens,
+
+The aliens try to destroy the player's ship by shooting at it while simultaneously
+ advancing towards the bottom of the screen. If they reach the bottom,
+ the invasion is successful, and the game ends. A special mystery ship
+ occasionally moves across the top of the screen.
+ Destroying this ship rewards the player with extra points,
+ and the destroyed ship drops a cargo which, if caught by the player,
+ increases the player's shooting frequency or adds an extra life.
+
+The player's ship is protected by four stationary defense positions,
+ which are gradually destroyed by enemy fire and occasional player shots.
+ The player's task is to score as many points as possible by destroying aliens.
+
+Scoring:
+    Enemy type I 10 points (shoot vertically downwards)
+    Enemy type II 20 points (faster projectiles)
+    Enemy type III 30 points (faster projectiles + multiply shoots)
+    Mystery ship 200 points
+
+The player loses when the aliens reach the bottom level of the screen where
+ the player's ship moves or if the player loses all their lives by being hit
+ by enemy projectiles. Initially, the player has three lives, which is the maximum number.

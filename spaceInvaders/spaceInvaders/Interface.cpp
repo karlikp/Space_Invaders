@@ -6,7 +6,7 @@ const float OPTION_GAP = 20.0f;
 const int OPTION_CHARACTER_SIZE = 40;
 const bool WITHOUT_MESSAGE = false;
 const bool WITH_MESSAGE = true;
-const float CELL_WIDTH = 200.0f;
+const float CELL_WIDTH = 400.0f;
 const float CELL_HEIGHT = 50.0f;
 const float CELL_GAP = 10.0f;
 
@@ -36,7 +36,7 @@ Interface::Interface() {
 
     setupText(enterNameText, "Enter a unique name, which include:", 50, sf::Color::Yellow,
         center.x, center.y - 200);
-    setupText(patternText, "- one lowercase and one uppercase,\n- at least 4 characters",
+    setupText(patternText, "- one lowercase and one uppercase,\n- from 4 to 12 characters",
         30, sf::Color::Yellow, center.x, center.y - 130);
     setupRectangle(playerNameBox, sf::Vector2f(400, 60), sf::Color::White, 2, sf::Color::Black,
         center.x, center.y - 50);
@@ -50,6 +50,7 @@ Interface::Interface() {
         center.x, center.y + 250);
     setupText(playerNotFoundText, "Type in name of an existing player!", 30, sf::Color::Red,
         center.x, center.y + 150);
+    setupText(instructionText, "", 30, sf::Color::Yellow, OPTION_GAP, OPTION_GAP);
 
     //Exeption in set position
     playerInputNameText.setFont(font);
@@ -86,6 +87,23 @@ void Interface::loadResources() {
     }
 }
 
+void Interface::loadInstructions()
+{
+    instructionText.setString("");
+
+    std::ifstream file("Resources/Instruction.txt");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            instructionText.setString(instructionText.getString() + line + "\n");
+        }
+        file.close();
+    }
+    else {
+        instructionText.setString("Failed to load instructions.");
+    }
+}
+
 void Interface::setupBackground() {
     backgroundSprite.setTexture(backgroundTexture);
 
@@ -99,54 +117,6 @@ void Interface::setupBackground() {
         (window.getSize().x - spriteBounds.width) / 2.0f,
         (window.getSize().y - spriteBounds.height) / 2.0f
     );
-
-   /* playerNameText.setPosition(
-        window.getSize().x - playerNameBox.getSize().x / 2.0f,
-        window.getSize().y - 40
-    );*/
-    // Set message comunication insade background
-    /*sf::Vector2f center(
-        window.getSize().x / 2.0f,
-        window.getSize().y / 2.0f
-    );
-    
-   
-    enterNameText.setPosition(
-        center.x - enterNameText.getGlobalBounds().width / 2.0f,
-        center.y - 200
-    );
-    patternText.setPosition(
-        center.x - enterNameText.getGlobalBounds().width / 2.0f,
-        center.y - 130
-    );
-    playerNameBox.setPosition(
-        center.x - playerNameBox.getSize().x / 2.0f,
-        center.y - 50
-    );
-        saveButtonWindow.setPosition(
-        center.x - saveButtonWindow.getSize().x / 2.0f,
-        center.y + 50
-    );
-    saveButtonText.setPosition(
-        center.x - saveButtonText.getGlobalBounds().width / 2.0f,
-        center.y + 60
-    );
-    uniqueNameText.setPosition(
-        center.x - uniqueNameText.getGlobalBounds().width / 2.0f,
-        center.y + 150
-    );
-    patternNameText.setPosition(
-        center.x - patternNameText.getGlobalBounds().width / 2.0f,
-        center.y + 250
-    );
-    playerNotFoundText.setPosition(
-        center.x - saveButtonText.getGlobalBounds().width / 2.0f,
-        center.y + 150
-    );
-    scoreTableWindow.setPosition(
-        center.x - scoreTableWindow.getSize().x / 2.0f,
-        OPTION_GAP
-    );*/
 
 }
 
@@ -222,8 +192,12 @@ void Interface::handleEvents() {
         case State::ScoreTable:
             handleScoreTableEvents(event);
             break;
+        case State::Rules:
+            handleRulesEvents(event);
+            break;
         }
     }
+    
 }
 
 void Interface::render() {
@@ -240,6 +214,9 @@ void Interface::render() {
         break;
     case State::ScoreTable:
         renderScoreTable();
+        break;
+    case State::Rules:
+        renderRules();
         break;
     }
     window.display();
@@ -340,6 +317,30 @@ void Interface::handleScoreTableEvents(sf::Event& event) {
 
 }
 
+void Interface::handleRulesEvents(sf::Event& event)
+{
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        if (isBackButtonClicked(mousePos)) {
+            currentState = State::MainMenu;
+        }
+    }
+    else if (event.type == sf::Event::MouseWheelScrolled) {
+        if (event.mouseWheelScroll.delta > 0) {
+            // Scroll up
+            scrollOffset += 10; 
+        }
+        else if (event.mouseWheelScroll.delta < 0) {
+            // Scroll down
+            scrollOffset -= 10; 
+        }
+
+        // Limiting scrolling to area of text
+        scrollOffset = std::max(scrollOffset, -instructionText.getGlobalBounds().height + window.getSize().y - 200);
+        scrollOffset = std::min(scrollOffset, 0.0f);
+    }
+}
+
 
 void Interface::checkOptionClicked(sf::Vector2i& mousePos) {
     for (size_t i = 0; i < optionWindows.size(); ++i) {
@@ -356,7 +357,8 @@ void Interface::checkOptionClicked(sf::Vector2i& mousePos) {
                 currentState = State::ScoreTable;
                 break;
             case 3:
-                // Implementacja opcji "Rules"
+                loadInstructions();
+                currentState = State::Rules;
                 break;
             case 4:
                 window.close();
@@ -436,6 +438,17 @@ void Interface::renderScoreTable() {
     window.draw(backButtonText);
 }
 
+void Interface::renderRules()
+{
+    window.draw(backgroundSprite); // Clear the window with white color
+    window.draw(instructionText);   // Draw the instructions text
+    window.draw(backButtonWindow);
+    window.draw(backButtonText);
+
+    instructionText.setPosition(50, 50 + scrollOffset);
+
+}
+
 void Interface::loadPlayerNames() {
 
     playerNames.clear();
@@ -491,7 +504,7 @@ void Interface::createPlayer() {
             file.close();
         }
         
-        std::regex reg("(?=\.*[a-z])(?=\.*[A-Z])(?=\.*\\d)\.{4,}"); 
+        std::regex reg("(?=\.*[a-z])(?=\.*[A-Z])(?=\.*\\d)\.{4,12}"); 
 
         auto isNameValid = std::regex_match(playerName, reg);
         if (not isNameValid) {
