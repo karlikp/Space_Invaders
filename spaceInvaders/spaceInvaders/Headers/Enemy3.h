@@ -3,10 +3,12 @@
 #include "Enemy.h"
 
 
-class Enemy3 : Enemy
+class Enemy3 : public Enemy
 {
-	Enemy3();
-	~Enemy3();
+public:
+
+	Enemy3(short x, short y);
+	~Enemy3() = default;
 
 	void update() override;
 	void shoot() override;

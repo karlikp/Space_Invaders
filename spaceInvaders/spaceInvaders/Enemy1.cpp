@@ -1,7 +1,14 @@
 #include "Headers/Enemy1.h"
 
-Enemy1::Enemy1(int x, int y)
-    : Enemy(x, y) {}
+Enemy1::Enemy1(short x, short y)
+    : Enemy(x, y) {
+
+	enemyBulletTexture.loadFromFile("Resources/enemyBullet1.png");
+	enemyTexture.loadFromFile("Resources/Enemy1.png");
+
+	enemyBulletSprite.setTexture(enemyBulletTexture);
+	enemySprite.setTexture(enemyTexture);
+}
 
 void Enemy1::update()
 { //TO DO

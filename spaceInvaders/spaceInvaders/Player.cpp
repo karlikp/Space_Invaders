@@ -2,23 +2,29 @@
 
 Player::Player()
 {
-	reset();
+	posX = (0.5 * window.getSize().x);
 
-	bulletTexture.loadFromFile("Resources/Images/playerBullet1.png");
-	shipTexture.loadFromFile("Resources/Images/playerShip1.png");
+	bulletTexture.loadFromFile("Resources/playerBullet1.png");
+	shipTexture.loadFromFile("Resources/playerShip1_blue.png");
 
 	bulletSprite.setTexture(bulletTexture);
 	shipSprite.setTexture(shipTexture);
+
 }
 
 void Player::update()
-{//TO DO
+{
+	
 }
 
 void Player::rendering()
-{//TO DO
+{
+	if (not isDead) {
+		shipSprite.setPosition(posX, posY);
+
+	}
 }
 
-void Player::reset()
-{//TO DO
-}
+//void Player::reset()
+//{//TO DO
+//}

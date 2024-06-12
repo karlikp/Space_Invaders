@@ -6,7 +6,7 @@
 class Enemy1 : public Enemy
 {
 public:
-	Enemy1(int x, int y);
+	Enemy1(short x, short y);
 	~Enemy1() = default;
 
 	void update() override;

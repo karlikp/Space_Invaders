@@ -2,8 +2,9 @@
 
 #include "Entity.h"
 
-
+#include <vector>
 #include <random>
+#include <memory>
 
 class Enemy : public Entity
 {
@@ -11,10 +12,17 @@ class Enemy : public Entity
 	int health;
 	static int enemyCounter;
 	bool isDead;
+
+protected:
+	sf::Sprite enemyBulletSprite;
+	sf::Sprite enemySprite;
+
+	sf::Texture enemyBulletTexture;
+	sf::Texture enemyTexture;
 	
 
 public:
-	Enemy(int x, int y);
+	Enemy(short x, short y);
 	virtual ~Enemy() = default;
 
 	// Wirtualna metoda do nadpisania w klasach pochodnych

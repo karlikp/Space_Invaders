@@ -14,7 +14,7 @@ class EntityManager
 
 	std::vector<Bullet> enemyBullets;
 
-	std::vector<Enemy> enemies;
+	std::vector<std::unique_ptr<Enemy>> enemies;
 
 	std::vector<Entity> obstacleVector;
 

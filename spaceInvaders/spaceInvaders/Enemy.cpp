@@ -1,3 +1,7 @@
 #include "Headers/Enemy.h"
 
-Enemy::Enemy(int x, int y) : Entity(x, y) {};
+int Enemy::enemyCounter = 0;
+
+Enemy::Enemy(short x, short y) : Entity(x, y) {
+	enemyCounter++;
+};

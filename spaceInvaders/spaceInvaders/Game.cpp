@@ -1,4 +1,5 @@
 #include "Headers/Game.h"
+#include "Headers/Player.h"
 #include "Headers/EntityManager.h"
 
 void Game::initVariables()
@@ -42,7 +43,7 @@ void Game::initGameGround()
 
 void Game::initPlayer()
 {
-    // TODO
+    Player player;
 }
 
 void Game::initEnemies()

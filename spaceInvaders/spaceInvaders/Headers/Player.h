@@ -32,7 +32,7 @@ public:
 	void update() override;
 	void rendering() override;
 
-	void reset();
+	//void reset();
 	void moveInputs();
 	void updateLives();
 	void updatePoints();

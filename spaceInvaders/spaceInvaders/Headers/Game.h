@@ -8,27 +8,15 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
+const short BASIC_SIZE = 50;
+
 class Game
 {
     //Variables
     unsigned int screenWidth;
     unsigned int screenHeight;
 
-    //Window
-    sf::RenderWindow window;
-    sf::Sprite backgroundSprite;
-    sf::Texture backgroundTexture;
-    sf::FloatRect textureBounds;
-    sf::VideoMode videoMode;
-    sf::Event ev;
-
-    //Mouse position
-    sf::Vector2i mousePosWindow;
-    sf::Vector2f mousePosView;
-
-    //Game objects
-    std::vector<sf::RectangleShape> enemies;
-    sf::RectangleShape enemy;
+    
 
     //Game logic
     bool endGame;
@@ -49,6 +37,22 @@ class Game
 
 public:
 
+    //Window
+    static sf::RenderWindow window;
+    sf::Sprite backgroundSprite;
+    sf::Texture backgroundTexture;
+    sf::FloatRect textureBounds;
+    sf::VideoMode videoMode;
+    sf::Event ev;
+
+    //Mouse position
+    sf::Vector2i mousePosWindow;
+    sf::Vector2f mousePosView;
+
+    //Game objects
+    std::vector<sf::RectangleShape> enemies;
+    sf::RectangleShape enemy;
+
     Game();
     virtual ~Game();
 
@@ -65,4 +69,6 @@ public:
     void renderGameGround();
     void renderEnemies();
     void render();
+
+    friend class Entity;
 };
