@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-	posX = (0.5 * window.getSize().x);
+	posX = (0.5 * (*window).getSize().x);
 
 	bulletTexture.loadFromFile("Resources/playerBullet1.png");
 	shipTexture.loadFromFile("Resources/playerShip1_blue.png");

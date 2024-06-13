@@ -287,7 +287,7 @@ void Interface::handleContinuePlayerEvents(sf::Event& event) {
         playerInputNameText.setString(playerName);
         break;
     case sf::Event::MouseButtonPressed:
-        if (event.mouseButton.button == sf::Mouse::Left) {
+       if (event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             if (saveButtonWindow.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 if (playerExists(playerName)) {
@@ -300,7 +300,7 @@ void Interface::handleContinuePlayerEvents(sf::Event& event) {
             else if (isBackButtonClicked(mousePos)) 
                 currentState = State::MainMenu;
         }
-        break;
+        break;      
     default:
         break;
     }

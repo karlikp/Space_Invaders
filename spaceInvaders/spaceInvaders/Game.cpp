@@ -2,6 +2,8 @@
 #include "Headers/Player.h"
 #include "Headers/EntityManager.h"
 
+sf::RenderWindow Game::window;
+
 void Game::initVariables()
 {
     videoMode = sf::VideoMode::getDesktopMode();

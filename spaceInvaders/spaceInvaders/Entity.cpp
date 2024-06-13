@@ -4,6 +4,6 @@
 
 Entity::Entity(short x, short y) : posX(x), posY(y) {
 
-	window = &Game::window;
+	window = &(Game::window);
 
 };

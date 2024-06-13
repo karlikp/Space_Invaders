@@ -39,6 +39,7 @@ public:
 
     //Window
     static sf::RenderWindow window;
+    //static sf::RenderWindow* prtWindow;
     sf::Sprite backgroundSprite;
     sf::Texture backgroundTexture;
     sf::FloatRect textureBounds;

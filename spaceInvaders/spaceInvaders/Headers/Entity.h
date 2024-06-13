@@ -18,6 +18,7 @@ public:
 	short stepY;
 	sf::RenderWindow* window;
 
+	Entity() = default;
 	Entity(short x, short y);
 
 	// Konstruktor kopiuj¹cy
