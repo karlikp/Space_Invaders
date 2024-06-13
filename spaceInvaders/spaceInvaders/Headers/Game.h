@@ -51,11 +51,11 @@ public:
     sf::Vector2f mousePosView;
 
     //Game objects
-    std::vector<sf::RectangleShape> enemies;
-    sf::RectangleShape enemy;
+    
+    EntityManager* entityManager;
 
     Game();
-    virtual ~Game();
+    ~Game();
 
     //Accessors
     const bool getWindowIsOpen() const;

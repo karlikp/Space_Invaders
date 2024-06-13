@@ -6,6 +6,7 @@ sf::RenderWindow Game::window;
 
 void Game::initVariables()
 {
+    entityManager = new EntityManager;
     videoMode = sf::VideoMode::getDesktopMode();
 
     // Game logic
@@ -76,7 +77,8 @@ Game::Game()
 
 Game::~Game()
 {
-    // No need to delete window, it is now a stack object
+    delete entityManager;
+    entityManager = NULL;
 }
 
 const bool Game::getWindowIsOpen() const
@@ -108,30 +110,7 @@ void Game::interruptEvents()
 
 void Game::updateEnemies()
 {
-    // Moving and updating enemies
-    for (size_t i = 0; i < enemies.size(); i++)
-    {
-        enemies[i].move(0.f, 5.f);
-
-        if (enemies[i].getPosition().y > window.getSize().y)
-        {
-            enemies.erase(enemies.begin() + i);
-            health -= 1;
-            std::cout << "Health: " << health << "\n";
-        }
-    }
-
-    // Check if clicked upon
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
-        for (size_t i = 0; i < enemies.size(); i++)
-        {
-            if (enemies[i].getGlobalBounds().contains(mousePosView))
-            {
-                // Implement enemy click handling logic here
-            }
-        }
-    }
+   entityManager
 }
 
 void Game::update()

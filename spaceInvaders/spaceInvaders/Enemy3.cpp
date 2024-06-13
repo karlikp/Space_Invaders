@@ -1,6 +1,6 @@
 #include "Headers/Enemy3.h"
 
-Enemy3::Enemy3(short x, short y)
+Enemy3::Enemy3(float x, float y)
     : Enemy(x, y) {
 
 	enemyBulletTexture.loadFromFile("Resources/enemyBullet1.png");

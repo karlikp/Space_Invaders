@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game.h"
+#include "EntityManager.h"
 
 #include <vector>
 
@@ -12,18 +13,18 @@ class Entity
 
 public:
 
-	short posX;
-	short posY;
-	short stepX;
-	short stepY;
-	sf::RenderWindow* window;
+	//float posX;
+	//float posY;
+	float stepX;
+	float stepY;
 
-	Entity() = default;
-	Entity(short x, short y);
+	sf::Vector2f position;
+
+	Entity();
+	Entity(float x, float y);
 
 	// Konstruktor kopiuj¹cy
-	Entity(const Entity& other)
-		: posX(other.stepX), posY(other.posY) {}
+	Entity(const Entity& other) : position(other.position){}
 
 	~Entity() = default;
 	virtual void update() = 0;
@@ -33,6 +34,8 @@ public:
 	short getCurrentY();
 	short getStepX();
 	short getStepY();
+
+	friend class EntityManager;
 };
 
 

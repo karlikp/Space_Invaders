@@ -526,6 +526,7 @@ void Interface::run() {
         handleEvents();
         render();
     }
+    window.close();
 }
 
 bool Interface::getClose()

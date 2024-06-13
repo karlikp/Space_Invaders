@@ -2,6 +2,6 @@
 
 int Enemy::enemyCounter = 0;
 
-Enemy::Enemy(short x, short y) : Entity(x, y) {
+Enemy::Enemy(float x, float y) : Entity(x, y) {
 	enemyCounter++;
 };

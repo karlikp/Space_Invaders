@@ -13,10 +13,10 @@ class EntityManager
 	std::uniform_int_distribution <unsigned short> shootPossibility;
 
 	std::vector<Bullet> enemyBullets;
-
-	std::vector<std::unique_ptr<Enemy>> enemies;
-
+	std::vector<Enemy> enemies;
 	std::vector<Entity> obstacleVector;
+
+	static sf::RenderWindow* window;
 
 	sf::Sprite enemyBulletSprite;
 
@@ -28,6 +28,9 @@ public:
 	~EntityManager() = default;
 
 	void initEnemies();
+
+	void updateEnemies();
+	void renderEnemies();
 
 	bool catchedPlayer(short playerY);
 

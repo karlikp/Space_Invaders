@@ -13,16 +13,15 @@ class Enemy : public Entity
 	static int enemyCounter;
 	bool isDead;
 
-protected:
+public:
+
 	sf::Sprite enemyBulletSprite;
 	sf::Sprite enemySprite;
 
 	sf::Texture enemyBulletTexture;
 	sf::Texture enemyTexture;
-	
 
-public:
-	Enemy(short x, short y);
+	Enemy(float x, float y);
 	virtual ~Enemy() = default;
 
 	// Wirtualna metoda do nadpisania w klasach pochodnych

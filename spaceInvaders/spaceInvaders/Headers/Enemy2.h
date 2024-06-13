@@ -7,7 +7,7 @@ class Enemy2 : public Enemy
 {
 public:
 
-	Enemy2(short x, short y);
+	Enemy2(float x, float y);
 	~Enemy2() = default;
 
 	void update() override;
