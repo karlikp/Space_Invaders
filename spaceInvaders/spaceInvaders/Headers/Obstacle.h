@@ -2,13 +2,14 @@
 
 #include "Entity.h"
 
-class Obstacle : Entity
+class Obstacle : public Entity
 {
 public:
-	Obstacle();
-	~Obstacle();
+	Obstacle() = default;
+	Obstacle(float x, float y, float scale);
+	~Obstacle() = default;
 
-	void update() override;
-	void rendering() override;
+	void update() /*override*/;
+	void draw() /*override*/;
 };
 

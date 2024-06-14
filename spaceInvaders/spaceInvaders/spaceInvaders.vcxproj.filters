@@ -89,9 +89,6 @@
     <ClInclude Include="Headers\EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Info.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>

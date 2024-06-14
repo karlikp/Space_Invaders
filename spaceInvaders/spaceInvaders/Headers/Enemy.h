@@ -21,13 +21,14 @@ public:
 	sf::Texture enemyBulletTexture;
 	sf::Texture enemyTexture;
 
+	Enemy();
 	Enemy(float x, float y);
 	virtual ~Enemy() = default;
 
 	// Wirtualna metoda do nadpisania w klasach pochodnych
 	virtual void update() = 0;
 	virtual void shoot() = 0;
-	virtual void rendering() = 0;
+	virtual void draw() = 0;
 
 	bool bulletCollision();
 	int getDirection();

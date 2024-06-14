@@ -3,11 +3,11 @@
 Enemy3::Enemy3(float x, float y)
     : Enemy(x, y) {
 
-	enemyBulletTexture.loadFromFile("Resources/enemyBullet1.png");
-	enemyTexture.loadFromFile("Resources/Enemy3.png");
+	entityBulletTexture.loadFromFile("Resources/enemyBullet3.png");
+	entityTexture.loadFromFile("Resources/Enemy3.png");
 
-	enemyBulletSprite.setTexture(enemyBulletTexture);
-	enemySprite.setTexture(enemyTexture);
+	entityBulletSprite.setTexture(entityBulletTexture);
+	entitySprite.setTexture(entityTexture);
 }
 
 void Enemy3::update()
@@ -18,6 +18,6 @@ void Enemy3::shoot()
 {//TO DO
 }
 
-void Enemy3::rendering()
+void Enemy3::draw()
 {//TO DO
 }

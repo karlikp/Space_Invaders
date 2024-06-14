@@ -1,84 +1,32 @@
 #include "Headers/Game.h"
-#include "Headers/Player.h"
-#include "Headers/EntityManager.h"
+
 
 sf::RenderWindow Game::window;
 
-void Game::initVariables()
+void Game::initGame()
 {
-    entityManager = new EntityManager;
+    std::unique_ptr<EntityManager> entityManager(new EntityManager(&window));
     videoMode = sf::VideoMode::getDesktopMode();
 
-    // Game logic
-    endGame = false;
-    points = 0;
-    health = 10;
-}
-
-void Game::initWindow()
-{
     window.create(videoMode, "Space Invaders", sf::Style::Fullscreen);
     window.setFramerateLimit(60);
 }
 
-void Game::initGameGround()
-{
-    // Calculate width and height where proportions are 2:1
-    unsigned int screenWidth = std::min(videoMode.height * 2, videoMode.width);
-    unsigned int screenHeight = screenWidth / 2;
-
-    // Read texture
-    if (!backgroundTexture.loadFromFile("Resources/Background.png"))
-        std::cerr << "Failed to load image 'Resources/Background.png'" << std::endl;
-
-    backgroundSprite.setTexture(backgroundTexture);
-
-    float scaleX = static_cast<float>(window.getSize().x) / backgroundTexture.getSize().x;
-    float scaleY = static_cast<float>(window.getSize().y) / backgroundTexture.getSize().y;
-    float scale = std::min(scaleX, scaleY);
-    backgroundSprite.setScale(scale, scale);
-
-    sf::FloatRect spriteBounds = backgroundSprite.getGlobalBounds();
-    backgroundSprite.setPosition(
-        (window.getSize().x - spriteBounds.width) / 2.0f,
-        (window.getSize().y - spriteBounds.height) / 2.0f);
-}
-
-void Game::initPlayer()
-{
-    Player player;
-}
-
-void Game::initEnemies()
-{
-    EntityManager enemyManager; // Enemies initialized in constructor
-}
-
-void Game::initObstacles()
-{
-    // TODO
-}
-
-void Game::initUFO()
-{
-    // TODO
-}
-
 Game::Game()
-{
-    initVariables();
-    initWindow();
-    initGameGround();
-    initPlayer();
-    initEnemies();
-    initObstacles();
-    initUFO();
+{ 
+    //EntityManager create every object in constuctor
+    initGame();
+
+    entityManager -> initEnemies();          //adding to enemies vector             
+    entityManager -> initPlayer();           //another entity adding to entity vector
+    entityManager -> initObstacle();
+    entityManager -> initUFO();
 }
 
 Game::~Game()
 {
-    delete entityManager;
-    entityManager = NULL;
+    //delete entityManager;
+    //entityManager = NULL;
 }
 
 const bool Game::getWindowIsOpen() const
@@ -108,53 +56,28 @@ void Game::interruptEvents()
     }
 }
 
-void Game::updateEnemies()
-{
-   entityManager
-}
-
 void Game::update()
 {
     interruptEvents();
 
     if (!endGame)
     {
-        updateEnemies();
+       //równoleg³e aktualizowanie
     }
 
     // End game condition
-    if (health <= 0)
-        endGame = true;
 }
 
-void Game::renderGameGround()
-{
-    window.draw(backgroundSprite);
-}
 
-void Game::renderEnemies()
+void Game::draw()
 {
-    for (auto& enemy : enemies)
-    {
-        window.draw(enemy);
-    }
-}
-
-void Game::render()
-{
-    /*
-    return
-        - clear old frame
-        - render objects
-        - display frame in window
-
-        Renders the game objects
-    */
+ 
     window.clear();
 
-    // Draw game objects
-    renderGameGround();
-    renderEnemies();
+    window.draw(backgroundSprite);
+
+    entityManager->drawEnemies();
+    entityManager->drawEntities();
 
     window.display();
 }

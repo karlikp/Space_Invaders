@@ -1,9 +1,13 @@
 #pragma once
 
-#include "Game.h"
-#include "EntityManager.h"
+//#include "Game.h"
 
 #include <vector>
+
+#include <SFML/Graphics.hpp> 
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Network.hpp>
 
 
 class Entity
@@ -13,8 +17,12 @@ class Entity
 
 public:
 
-	//float posX;
-	//float posY;
+	sf::Sprite entityBulletSprite;
+	sf::Sprite entitySprite;
+
+	sf::Texture entityBulletTexture;
+	sf::Texture entityTexture;
+
 	float stepX;
 	float stepY;
 
@@ -28,7 +36,7 @@ public:
 
 	~Entity() = default;
 	virtual void update() = 0;
-	virtual void rendering() = 0;
+	virtual void draw() = 0;
 
 	short getCurrentX();
 	short getCurrentY();
@@ -36,6 +44,20 @@ public:
 	short getStepY();
 
 	friend class EntityManager;
+};
+
+struct Bullet : public Entity
+{
+
+
+	Bullet() = default;
+};
+
+struct Powerup : public Entity
+{
+
+
+	Powerup() = default;
 };
 
 

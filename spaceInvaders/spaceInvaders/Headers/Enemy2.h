@@ -10,8 +10,8 @@ public:
 	Enemy2(float x, float y);
 	~Enemy2() = default;
 
-	void update() override;
-	void shoot() override;
-	void rendering() override;
+	void update() /*override*/;
+	void shoot() /*override*/;
+	void draw() /*override*/;
 };
 

@@ -29,7 +29,7 @@ int main()
 	{
 		game.update();
 
-		game.render();
+		game.draw();
 
 	}
 	

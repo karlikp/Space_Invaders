@@ -2,12 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 
-#include"Entity.h"
-#include"structs.h"
+#include "Entity.h"
 
 #include <string>
 
-class Player : Entity
+class Player : public Entity
 {
 	unsigned points;
 	bool isDead;
@@ -26,11 +25,12 @@ class Player : Entity
 
 public:
 
-	Player();
+	Player(sf::RenderWindow* window);
+	Player(float x, float y);
 	~Player() = default;
 
-	void update() override;
-	void rendering() override;
+	void update() /*override*/;
+	void draw() /*override*/;
 
 	//void reset();
 	void moveInputs();

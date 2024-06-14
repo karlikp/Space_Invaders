@@ -3,11 +3,11 @@
 Enemy2::Enemy2(float x, float y)
     : Enemy(x, y) {
 
-	enemyBulletTexture.loadFromFile("Resources/enemyBullet1.png");
-	enemyTexture.loadFromFile("Resources/Enemy2.png");
+	entityBulletTexture.loadFromFile("Resources/enemyBullet2.png");
+	entityTexture.loadFromFile("Resources/Enemy2.png");
 
-	enemyBulletSprite.setTexture(enemyBulletTexture);
-	enemySprite.setTexture(enemyTexture);
+	entityBulletSprite.setTexture(entityBulletTexture);
+	entitySprite.setTexture(entityTexture);
 }
 
 void Enemy2::update()
@@ -18,6 +18,6 @@ void Enemy2::shoot()
 {//TO DO
 }
 
-void Enemy2::rendering()
+void Enemy2::draw()
 {//TO DO
 }

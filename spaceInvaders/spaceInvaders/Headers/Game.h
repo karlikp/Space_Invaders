@@ -8,6 +8,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
+#include "EntityManager.h"
+
 const short BASIC_SIZE = 50;
 
 class Game
@@ -16,30 +18,18 @@ class Game
     unsigned int screenWidth;
     unsigned int screenHeight;
 
-    
-
     //Game logic
     bool endGame;
-    unsigned points;
-    short health;
-    float enemySpawnTimer;
-    float enemySpawnTimerMax;
     bool mouseHeld;
 
     //Private function
-    void initVariables();
-    void initWindow();
-    void initGameGround();
-    void initPlayer();
-    void initEnemies();
-    void initObstacles();
-    void initUFO();
+    void initGame();
 
 public:
 
     //Window
     static sf::RenderWindow window;
-    //static sf::RenderWindow* prtWindow;
+ 
     sf::Sprite backgroundSprite;
     sf::Texture backgroundTexture;
     sf::FloatRect textureBounds;
@@ -53,6 +43,7 @@ public:
     //Game objects
     
     EntityManager* entityManager;
+    //Entity* entity;
 
     Game();
     ~Game();
@@ -61,15 +52,10 @@ public:
     const bool getWindowIsOpen() const;
     const bool getEndGame() const;
 
-    //function
-    void spawnEnemy();
     void interruptEvents();
-    void updateEnemies();
-    void update();
 
-    void renderGameGround();
-    void renderEnemies();
-    void render();
+    void update();
+    void draw();
 
     friend class Entity;
 };

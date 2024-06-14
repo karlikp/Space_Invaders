@@ -1,8 +1,20 @@
 #include "Headers/Player.h"
 
-Player::Player()
+
+Player::Player(sf::RenderWindow* window)
 {
-	posX = (0.5 * (*window).getSize().x);
+	bulletTexture.loadFromFile("Resources/playerBullet1.png");
+	shipTexture.loadFromFile("Resources/playerShip1_blue.png");
+
+	bulletSprite.setTexture(bulletTexture);
+	shipSprite.setTexture(shipTexture);
+
+	//Zeskalowaæ sprite oraz ustawiæ obiekt w odpowiednim miejscu
+}
+
+Player::Player(float x, float y) : Entity(x, y) {
+
+	
 
 	bulletTexture.loadFromFile("Resources/playerBullet1.png");
 	shipTexture.loadFromFile("Resources/playerShip1_blue.png");
@@ -14,15 +26,12 @@ Player::Player()
 
 void Player::update()
 {
-	
+	//TO DO	
 }
 
-void Player::rendering()
+void Player::draw()
 {
-	if (not isDead) {
-		shipSprite.setPosition(posX, posY);
-
-	}
+	//TO DO
 }
 
 //void Player::reset()
