@@ -1,6 +1,6 @@
 #include "Headers/Enemy3.h"
 
-Enemy3::Enemy3(float x, float y)
+Enemy3::Enemy3(float x, float y, float scale)
     : Enemy(x, y) {
 
 	entityBulletTexture.loadFromFile("Resources/enemyBullet3.png");
@@ -8,10 +8,12 @@ Enemy3::Enemy3(float x, float y)
 
 	entityBulletSprite.setTexture(entityBulletTexture);
 	entitySprite.setTexture(entityTexture);
+	entitySprite.setScale(scale, scale);
 }
 
 void Enemy3::update()
-{//TO DO
+{
+	this->entitySprite.setPosition(this->position);
 }
 
 void Enemy3::shoot()

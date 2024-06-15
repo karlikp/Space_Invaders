@@ -182,6 +182,7 @@
     <ClInclude Include="Headers\Entity.h" />
     <ClInclude Include="Headers\functions.h" />
     <ClInclude Include="Headers\Game.h" />
+    <ClInclude Include="Headers\Global.h" />
     <ClInclude Include="Headers\Interface.h" />
     <ClInclude Include="Headers\Obstacle.h" />
     <ClInclude Include="Headers\Player.h" />

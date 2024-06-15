@@ -34,7 +34,7 @@ public:
 	// Konstruktor kopiuj¹cy
 	Entity(const Entity& other) : position(other.position){}
 
-	~Entity() = default;
+	virtual ~Entity() = default;
 	virtual void update() = 0;
 	virtual void draw() = 0;
 

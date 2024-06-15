@@ -15,11 +15,11 @@ class Enemy : public Entity
 
 public:
 
-	sf::Sprite enemyBulletSprite;
+	/*sf::Sprite enemyBulletSprite;
 	sf::Sprite enemySprite;
 
 	sf::Texture enemyBulletTexture;
-	sf::Texture enemyTexture;
+	sf::Texture enemyTexture;*/
 
 	Enemy();
 	Enemy(float x, float y);

@@ -13,13 +13,9 @@ class EntityManager
 	float widthWindow, highWindow;
 
 	std::uniform_int_distribution <unsigned short> shootPossibility;
-
 	
-	//std::vector<std::unique_ptr<Enemy>> enemies;
-	std::vector<std::shared_ptr<Entity>> entities;
-
-	std::list<Enemy*> enemies;
-	//std::list<Entity*> entities;
+	std::vector<std::unique_ptr<Entity>> entities;
+	std::vector<std::unique_ptr<Enemy>> enemies;
 
 	std::vector<Bullet> enemyBullets;
 
@@ -31,17 +27,14 @@ class EntityManager
 public:
 
 	EntityManager(sf::RenderWindow* windowI);
-
+	EntityManager() = default;
 	~EntityManager() = default;
 
-	/*void addEnemy(std::shared_ptr<Enemy> enemy);*/
-
-	void initEnemies();
-	void initPlayer();
-	void initObstacle();
-	void initUFO();
+	void addEnemy(std::unique_ptr<Enemy> enemy);
+	void addEntity(std::unique_ptr<Entity> entity);
 
 	void updateEnemies();
+	void updateEntities();
 
 	void drawEnemies();
 	void drawEntities();

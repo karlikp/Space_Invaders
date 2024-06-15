@@ -11,7 +11,7 @@ class UFO : public Entity
 public:
 
 	UFO() = default;
-	UFO(float x, float y);
+	UFO(float x, float y, float scale);
 	~UFO() = default;
 	void update() /*override*/;
 	void draw() /*override*/;

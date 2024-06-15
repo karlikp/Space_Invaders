@@ -26,7 +26,7 @@ class Player : public Entity
 public:
 
 	Player(sf::RenderWindow* window);
-	Player(float x, float y);
+	Player(float x, float y, float scale);
 	~Player() = default;
 
 	void update() /*override*/;

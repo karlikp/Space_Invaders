@@ -10,7 +10,8 @@ Obstacle::Obstacle(float x, float y, float scale)
 }
 
 void Obstacle::update()
-{//TO DO
+{
+	this->entitySprite.setPosition(this->position);
 }
 
 void Obstacle::draw()

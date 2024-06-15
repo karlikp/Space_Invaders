@@ -1,9 +1,5 @@
 #include "Headers/Entity.h"
 
-
-
-
-
 Entity::Entity() {
 };
 

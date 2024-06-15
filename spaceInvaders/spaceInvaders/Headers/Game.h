@@ -15,8 +15,7 @@ const short BASIC_SIZE = 50;
 class Game
 {
     //Variables
-    unsigned int screenWidth;
-    unsigned int screenHeight;
+    
 
     //Game logic
     bool endGame;
@@ -27,6 +26,8 @@ class Game
 
 public:
 
+    static float screenWidth;
+    static float screenHeight;
     //Window
     static sf::RenderWindow window;
  
@@ -36,26 +37,30 @@ public:
     sf::VideoMode videoMode;
     sf::Event ev;
 
-    //Mouse position
-    sf::Vector2i mousePosWindow;
-    sf::Vector2f mousePosView;
+    //Initialization objects
+    void initBackground();
+    void initEnemies();
+    void initPlayer();
+    void initObstacle();
+    void initUFO();
 
-    //Game objects
+    void update();
+    void draw();
     
-    EntityManager* entityManager;
+    EntityManager* manager;
     //Entity* entity;
 
     Game();
     ~Game();
 
     //Accessors
+    static std::pair<float, float> getWindowSize();
     const bool getWindowIsOpen() const;
     const bool getEndGame() const;
 
     void interruptEvents();
 
-    void update();
-    void draw();
+    
 
     friend class Entity;
 };
