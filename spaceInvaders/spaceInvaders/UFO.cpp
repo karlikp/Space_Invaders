@@ -1,15 +1,18 @@
 #include "Headers/UFO.h"
+#include "Headers/Global.h"
 
-UFO::UFO(float x, float y, float scale) : Entity(x, y) {
+UFO::UFO(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
+	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
 
-	entityTexture.loadFromFile("Resources/UFO.png");
-	entitySprite.setTexture(entityTexture);
-	entitySprite.setScale(scale, scale);
+	float scale = (UFO_HEIGHT_RATIO * iScreenSize.y) / UFO_DEFAULT_HEIGHT;
+
+	setEntitySprite("Resources/UFO.png");
+	setEntityScale(scale);
 }
 
 void UFO::update()
 {
-	this->entitySprite.setPosition(this->position);
+	setEntityPosition();
 }
 
 void UFO::draw()

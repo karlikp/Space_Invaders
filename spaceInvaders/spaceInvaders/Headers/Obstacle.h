@@ -6,7 +6,7 @@ class Obstacle : public Entity
 {
 public:
 	Obstacle() = default;
-	Obstacle(float x, float y, float scale);
+	Obstacle(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
 	~Obstacle() = default;
 
 	void update() /*override*/;

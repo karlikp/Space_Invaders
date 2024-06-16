@@ -4,26 +4,25 @@
 
 #include "Enemy.h"
 #include "Entity.h"
+#include "Global.h"
 
 #include <list>
 #include <random>
 
 class EntityManager
 {
-	float widthWindow, highWindow;
+	//float widthWindow, highWindow;
 
 	std::uniform_int_distribution <unsigned short> shootPossibility;
 	
-	std::vector<std::unique_ptr<Entity>> entities;
-	std::vector<std::unique_ptr<Enemy>> enemies;
+	static std::vector<std::unique_ptr<Entity>> entities;
+	static std::vector<std::unique_ptr<Enemy>> enemies;
 
-	std::vector<Bullet> enemyBullets;
+	static std::vector<std::unique_ptr<Bullet>> enemyBullets;
+	static std::vector<std::unique_ptr<Bullet>> playerBullets;
 
 	static sf::RenderWindow* window;
 
-	sf::Sprite enemyBulletSprite;
-
-	sf::Texture enemyBulletTexture;
 public:
 
 	EntityManager(sf::RenderWindow* windowI);
@@ -32,6 +31,7 @@ public:
 
 	void addEnemy(std::unique_ptr<Enemy> enemy);
 	void addEntity(std::unique_ptr<Entity> entity);
+	static void addPlayerBullet(std::unique_ptr<Bullet> bullet);
 
 	void updateEnemies();
 	void updateEntities();
@@ -39,17 +39,9 @@ public:
 	void drawEnemies();
 	void drawEntities();
 
-	bool catchedPlayer(short playerY);
+	std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();
 
-	void draw(sf::RenderWindow& window);
-
-	void reset(short level);
-
-	void update(std::mt19937_64& randomFunction);
-
-	//std::vector<Bullet>& getEnemyBullets();
-
-	//std::vector<Enemy>& getEnemies();
+	std::vector<Enemy>& getEnemies();
 };
 
 

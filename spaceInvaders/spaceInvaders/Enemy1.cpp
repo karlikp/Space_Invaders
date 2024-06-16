@@ -1,28 +1,21 @@
 #include "Headers/Enemy1.h"
+#include "Headers/Global.h"
 
-Enemy1::Enemy1(){
-	/*enemyBulletTexture.loadFromFile("Resources/enemyBullet1.png");
-	enemyTexture.loadFromFile("Resources/Enemy1.png");
+Enemy1::Enemy1(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
+	: Enemy(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
 
-	enemyBulletSprite.setTexture(entityBulletTexture);
-	enemySprite.setTexture(entityTexture);*/
-}
+	float enemySize = ENEMY_SIZE_RATIO * iScreenSize.y;
+	float scale = enemySize / ENEMY_DEFAULT_HEIGHT;
 
-Enemy1::Enemy1(float x, float y, float scale)
-    : Enemy(x, y) {
-
-	entityBulletTexture.loadFromFile("Resources/enemyBullet1.png");
-	entityTexture.loadFromFile("Resources/Enemy1.png");
-
-	entityBulletSprite.setTexture(entityBulletTexture);
-	entitySprite.setTexture(entityTexture);
-	entitySprite.setScale(scale, scale);
+	setEntitySprite("Resources/Enemy1.png");
+	setEntityBulletSprite("Resources/enemyBullet1.png");
+	setEntityScale(scale);
 
 }
 
 void Enemy1::update()
 {
-	this->entitySprite.setPosition(this->position);
+	setEntityPosition();
 }
 void Enemy1::shoot()
 {//TO DO

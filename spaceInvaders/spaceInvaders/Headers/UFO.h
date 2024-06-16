@@ -10,8 +10,7 @@ class UFO : public Entity
 
 public:
 
-	UFO() = default;
-	UFO(float x, float y, float scale);
+	UFO(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
 	~UFO() = default;
 	void update() /*override*/;
 	void draw() /*override*/;

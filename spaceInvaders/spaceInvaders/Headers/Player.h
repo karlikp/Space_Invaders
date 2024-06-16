@@ -3,40 +3,33 @@
 #include <SFML/Graphics.hpp>
 
 #include "Entity.h"
+#include "Global.h"
 
 #include <string>
 
 class Player : public Entity
-{
-	unsigned points;
-	bool isDead;
-	unsigned short current_damage;
-	unsigned short reload_timer;
-	unsigned short powerup_timer;
+{	
+	int currentDamage, reloadTimer, powerupTimer, activePower;
 	std::string name;
+	unsigned points;
 
-	std::vector<Bullet> bullets;
 
-	sf::Sprite bulletSprite;
-	sf::Sprite shipSprite;
 
-	sf::Texture bulletTexture;
-	sf::Texture shipTexture;
 
 public:
 
-	Player(sf::RenderWindow* window);
-	Player(float x, float y, float scale);
+	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
 	~Player() = default;
 
 	void update() /*override*/;
 	void draw() /*override*/;
 
+	sf::IntRect getHitbox();
 	//void reset();
-	void moveInputs();
+	/*void moveInputs();
 	void updateLives();
 	void updatePoints();
 	void renderPlayer();
-	bool bulletCollision();
+	bool bulletCollision();*/
 };
 

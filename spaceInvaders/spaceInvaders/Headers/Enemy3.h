@@ -7,7 +7,7 @@ class Enemy3 : public Enemy
 {
 public:
 
-	Enemy3(float x, float y, float scale);
+	Enemy3(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
 	~Enemy3() = default;
 
 	void update() /*override*/;

@@ -13,22 +13,22 @@
 #include "Headers/Player.h"
 #include "Headers/Obstacle.h"
 #include "Headers/UFO.h"
+#include "Headers/Global.h"
+
 
 
 sf::RenderWindow* EntityManager::window = nullptr;
+std::vector<std::unique_ptr<Entity>> EntityManager::entities;
+std::vector<std::unique_ptr<Enemy>> EntityManager::enemies;
+std::vector<std::unique_ptr<Bullet>> EntityManager::enemyBullets;
+std::vector<std::unique_ptr<Bullet>> EntityManager::playerBullets;
 
 EntityManager::EntityManager(sf::RenderWindow* windowI)
 {
     window = windowI;
-    widthWindow = (*window).getSize().x;
-    highWindow = (*window).getSize().y;
+    
 
 }
-
-//void EntityManager::addEnemy(std::shared_ptr<Enemy> enemy)
-//{
-//    enemies.push_back(enemy);
-//}
 
 void EntityManager::addEnemy(std::unique_ptr<Enemy> enemy)
 {
@@ -38,6 +38,11 @@ void EntityManager::addEnemy(std::unique_ptr<Enemy> enemy)
 void EntityManager::addEntity(std::unique_ptr<Entity> entity)
 {
     entities.push_back(std::move(entity));
+}
+
+void EntityManager::addPlayerBullet(std::unique_ptr<Bullet> bullet)
+{
+    playerBullets.push_back(std::move(bullet));
 }
 
 void EntityManager::updateEnemies()
@@ -68,4 +73,10 @@ void EntityManager::drawEntities()
     for (const auto& entity : entities) {
         (*window).draw(entity->entitySprite);
     }
+}
+
+//Unique pointer have to assign by reference
+std::vector<std::unique_ptr<Bullet>>& EntityManager::getEnemyBullets()
+{
+    return enemyBullets;
 }

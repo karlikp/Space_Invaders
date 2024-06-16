@@ -14,9 +14,9 @@ const short BASIC_SIZE = 50;
 
 class Game
 {
-    //Variables
-    
 
+    sf::Vector2f screenSize;
+   
     //Game logic
     bool endGame;
     bool mouseHeld;
@@ -26,8 +26,7 @@ class Game
 
 public:
 
-    static float screenWidth;
-    static float screenHeight;
+    
     //Window
     static sf::RenderWindow window;
  
@@ -54,9 +53,11 @@ public:
     ~Game();
 
     //Accessors
-    static std::pair<float, float> getWindowSize();
     const bool getWindowIsOpen() const;
     const bool getEndGame() const;
+   /* static float& getScreenWidth();
+    static float& getScreenHeight();*/
+    static sf::RenderWindow& getWindow();
 
     void interruptEvents();
 

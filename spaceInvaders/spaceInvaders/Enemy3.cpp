@@ -1,19 +1,20 @@
 #include "Headers/Enemy3.h"
+#include "Headers/Global.h"
 
-Enemy3::Enemy3(float x, float y, float scale)
-    : Enemy(x, y) {
+Enemy3::Enemy3(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
+	: Enemy(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
 
-	entityBulletTexture.loadFromFile("Resources/enemyBullet3.png");
-	entityTexture.loadFromFile("Resources/Enemy3.png");
+	float enemySize = ENEMY_SIZE_RATIO * iScreenSize.y;
+	float scale = enemySize / ENEMY_DEFAULT_HEIGHT;
 
-	entityBulletSprite.setTexture(entityBulletTexture);
-	entitySprite.setTexture(entityTexture);
-	entitySprite.setScale(scale, scale);
+	setEntitySprite("Resources/Enemy3.png");
+	setEntityBulletSprite("Resources/enemyBullet3.png");
+	setEntityScale(scale);
 }
 
 void Enemy3::update()
 {
-	this->entitySprite.setPosition(this->position);
+	setEntityPosition();
 }
 
 void Enemy3::shoot()

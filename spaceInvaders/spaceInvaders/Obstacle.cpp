@@ -1,17 +1,19 @@
 #include "Headers/Obstacle.h"
 #include "Headers/Entity.h"
+#include "Headers/Global.h"
 
-Obstacle::Obstacle(float x, float y, float scale)
-	: Entity(x, y) {
+Obstacle::Obstacle(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
+	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
 
-	entityTexture.loadFromFile("Resources/Obstacle.png");
-	entitySprite.setTexture(entityTexture);
-	entitySprite.setScale(scale, scale);
+	float scale = OBSTACLE_WIDTH_RATIO * iScreenSize.y / OBSTACLE_DEFAULT_WIDTH;
+
+	setEntitySprite("Resources/Obstacle.png");
+	setEntityScale(scale);
 }
 
 void Obstacle::update()
 {
-	this->entitySprite.setPosition(this->position);
+	setEntityPosition();
 }
 
 void Obstacle::draw()
