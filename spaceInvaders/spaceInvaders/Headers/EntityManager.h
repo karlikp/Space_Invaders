@@ -39,7 +39,7 @@ public:
 	void drawEnemies();
 	void drawEntities();
 
-	std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();
+	static std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();
 
 	std::vector<Enemy>& getEnemies();
 };

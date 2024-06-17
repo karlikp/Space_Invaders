@@ -19,7 +19,7 @@ class Entity
 	float stepX;
 	float stepY;
 	float scale;
-	bool live;
+	bool isDead;
 
 	sf::Sprite entityBulletSprite;
 	sf::Sprite entitySprite;
@@ -43,14 +43,14 @@ public:
 	float getStepX();
 	float getStepY();
 	float getScale();
-	bool getLive();
+	bool getIsDead();
 	sf::Sprite getEntitySprite();
 	sf::Sprite getEntityBulletSprite();
 
 	//Setters
 	void setX(float iPosX);
 	void setY(float iPosX);
-	void setLive(bool newStatus);
+	void setIsDead(bool newStatus);
 	void setEntitySprite(std::string imageSource);
 	void setEntityBulletSprite(std::string imageSource);
 	void setEntityScale(float scale);

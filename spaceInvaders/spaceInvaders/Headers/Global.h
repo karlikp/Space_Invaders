@@ -18,6 +18,7 @@ constexpr float OBSTACLE_WIDTH_RATIO = 0.15;
 constexpr float OBSTACLE_OFFSET_RATIO = 0.225;
 constexpr float UFO_HEIGHT_RATIO = 0.075;
 constexpr float HITBOX_MARGIN_RATIO = 0.01;
+constexpr float SMALL_HITBOX_MARGIN_RATIO = 0.005;
 
 
 constexpr short int FAST_RELOAD_TIME = 2;
@@ -46,9 +47,31 @@ struct Bullet : public Entity
 
 	~Bullet() = default;
 
-	void update() {};
+	void update() {
+
+			if (getIsDead() == false) {
+
+				setX(getStepX());
+				setY(getStepY());
+		
+
+			if (getX() <= 0 || getY() <= 0 ||
+				getX() >= getScreenSize().x || getY() >= getScreenSize().y) {
+
+				setIsDead(true);
+			}
+		}
+	};
 
 	void draw() {};
+
+	sf::IntRect getHitbox(){
+		return sf::IntRect(
+			getX() + SMALL_HITBOX_MARGIN_RATIO,
+			getY() + SMALL_HITBOX_MARGIN_RATIO,
+			(BULLET_RATIO - 2*SMALL_HITBOX_MARGIN_RATIO) * getScreenSize().y,
+			(BULLET_RATIO - 2*SMALL_HITBOX_MARGIN_RATIO) * getScreenSize().y);
+	}
 
 };
 

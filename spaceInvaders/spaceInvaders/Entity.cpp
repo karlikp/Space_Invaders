@@ -6,7 +6,7 @@ Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	stepY(iStepY),
 	screenSize(iScreenSize)
 {
-	live = true;
+	isDead = false;
 }
 
 Entity::Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite, sf::Vector2f iScreenSize) :
@@ -15,7 +15,7 @@ Entity::Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite,
 	entityBulletSprite(iBulletSprite),
 	screenSize(iScreenSize)
 {
-	live = true;
+	isDead = false;
 }
 
 sf::Vector2f Entity::getScreenSize()
@@ -43,8 +43,8 @@ float Entity::getStepY(){
 	return stepY;
 }
 
-bool Entity::getLive() {
-	return live;
+bool Entity::getIsDead() {
+	return isDead;
 }
 
 sf::Sprite Entity::getEntitySprite() {
@@ -63,8 +63,8 @@ void Entity::setY(float iPosY) {
 	position.y = iPosY;
 }
 
-void Entity::setLive(bool status) {
-	live = status;
+void Entity::setIsDead(bool status) {
+	isDead = status;
 }
 
 void Entity::setEntitySprite(std::string imageSource) {

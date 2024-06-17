@@ -18,3 +18,8 @@ void UFO::update()
 void UFO::draw()
 {//TO DO
 }
+
+short int UFO::checkPowerupReach(sf::IntRect& i_player_hitbox)
+{
+	return 0;
+}

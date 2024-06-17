@@ -11,7 +11,7 @@ class Player : public Entity
 {	
 	int currentDamage, reloadTimer, powerupTimer, activePower;
 	std::string name;
-	unsigned points;
+	unsigned health, points;
 
 
 

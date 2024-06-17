@@ -1,4 +1,5 @@
 #include "Headers/Player.h"
+#include "Headers/UFO.h"
 #include "Headers/Global.h"
 #include "Headers/Game.h"
 
@@ -12,6 +13,7 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	setEntityBulletSprite("Resources/playerBullet1.png");
 	setEntityScale(scale);
 
+	health = 3;
 	currentDamage = 1;
 	reloadTimer = RELOAD_TIME;
 	activePower = NORMAL_STATE;
@@ -20,7 +22,7 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 
 void Player::update()
 {
-	if (getLive() == 1) {
+	if (getIsDead() == false) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			setX(std::max<int>(getX() - getStepX(), GAP_RATIO * getScreenSize().y/*screenHeight*/));
@@ -48,14 +50,14 @@ void Player::update()
 			EntityManager::addPlayerBullet
 			(std::make_unique<Bullet>(getX(), getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
 
-			float bulletScale = (BULLET_RATIO * getScreenSize().y) / BULLET_DEFAULT_HEIGHT;
+			float bulletOffset = (BULLET_RATIO * getScreenSize().y) / BULLET_DEFAULT_HEIGHT;
 
 			if (activePower = TRIPLE_SHOOT)
 			{
 				EntityManager::addPlayerBullet
-				(std::make_unique<Bullet>(getX() - bulletScale, getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
+				(std::make_unique<Bullet>(getX() - bulletOffset, getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
 				EntityManager::addPlayerBullet
-				(std::make_unique<Bullet>(getX() + bulletScale, getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
+				(std::make_unique<Bullet>(getX() + bulletOffset, getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
 			}
 		}
 	}
@@ -64,28 +66,21 @@ void Player::update()
 		reloadTimer--;
 	}
 	//Check enemy hit
-	//auto enemyBullets = EntityManager::getEnemyBullets();
+	auto enemyBullets = EntityManager::getEnemyBullets();
 
-	/*for (const auto& enemyBullet : enemyBullets)
+	for (auto& const enemy_bullet : enemyBullets)
 	{
-		if (1 == get_hitbox().intersects(enemy_bullet.get_hitbox()))
+		if (getHitbox().intersects(enemy_bullet->getHitbox()))
 		{
-			if (1 == current_power)
-			{
-				current_power = 0;
-
-				shield_animation_over = 0;
-			}
-			else
-			{
-				dead = 1;
-			}
-
-			enemy_bullet.dead = 1;
-
+			health--;
+		}
+		if (health == 0) {
+			setIsDead(true);
 			break;
 		}
-	}*/
+	}
+
+	activePower = UFO::checkPowerupReach(getHitbox());
 
 	setEntityPosition();
 }
@@ -98,9 +93,10 @@ void Player::draw()
 sf::IntRect Player::getHitbox()
 {
 	return sf::IntRect(
-		getX(), getY(), 
-		(PLAYER_SIZE_RATIO - HITBOX_MARGIN_RATIO) * getScreenSize().y,
-		(PLAYER_SIZE_RATIO - HITBOX_MARGIN_RATIO) * getScreenSize().y);
+		getX() + HITBOX_MARGIN_RATIO,
+		getY() + HITBOX_MARGIN_RATIO,
+		(PLAYER_SIZE_RATIO - 2*HITBOX_MARGIN_RATIO) * getScreenSize().y,
+		(PLAYER_SIZE_RATIO - 2*HITBOX_MARGIN_RATIO) * getScreenSize().y);
 }
 
 //void Player::reset()
