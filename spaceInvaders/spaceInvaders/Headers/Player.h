@@ -4,12 +4,14 @@
 
 #include "Entity.h"
 #include "Global.h"
+//#include "EntityManager.h"
 
 #include <string>
 
 class Player : public Entity
 {	
-	int currentDamage, reloadTimer, powerupTimer, activePower;
+	int currentDamage, reloadTimer, powerupTimer, activePower,
+		powerupType;
 	std::string name;
 	unsigned health, points;
 
@@ -19,6 +21,7 @@ class Player : public Entity
 public:
 
 	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
+	Player(float iPosX, float iPosY, float iStepX, float iStepY, EntityManager* manager);
 	~Player() = default;
 
 	void update() /*override*/;

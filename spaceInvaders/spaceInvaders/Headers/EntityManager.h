@@ -35,17 +35,22 @@ public:
 	void addEnemy(std::unique_ptr<Enemy> enemy);
 	void addEntity(std::unique_ptr<Entity> entity);
 	static void addPlayerBullet(std::unique_ptr<Bullet> bullet);
+	static void addPowerup(std::unique_ptr<Powerup> powerup);
 
 	void updateEnemies();
 	void updateEntities();
+	void updatePlayerBullets();
 
 	void drawEnemies();
 	void drawEntities();
+	void drawPlayerBullets();
 
 	static std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();
+	static std::vector<std::unique_ptr<Bullet>>& getPlayerBullets();
 	static std::vector<std::unique_ptr<Powerup>>& getPowerups();
 
 	std::vector<Enemy>& getEnemies();
+	sf::RenderWindow* getWindow();
 };
 
 

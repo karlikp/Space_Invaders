@@ -20,19 +20,42 @@ void UFO::draw()
 {//TO DO
 }
 
-short int UFO::checkPowerupReach(sf::IntRect& i_player_hitbox)
+float UFO::checkPowerupReach(sf::IntRect* i_player_hitbox)
 {
-	auto iPowerups = EntityManager::getPowerups();
-	for (Powerup& const powerup : iPowerups )
-	{
-		if (0 == powerup.dead && 1 == powerup.get_hitbox().intersects(i_player_hitbox))
-		{
-			powerup.dead = 1;
-
-			//Plus 1, because 0 means we didn't pick up any powerups.
-			return 1 + powerup.type;
-		}
-	}
+    for (auto& const powerup : EntityManager::getPowerups()) //I tried use iterators and delete dead powerups but it generate errors
+    {
+        auto playerHitbox = *i_player_hitbox;
+        if (powerup->getIsDead() == false && powerup->getHitbox().intersects(playerHitbox))
+        {
+            powerup->setIsDead(true);
+            
+            return powerup->randomPowerup();
+        }
+    }
 
 	return 0;
+}
+
+bool UFO::checkBulletCollision(sf::IntRect* i_player_hitbox)
+{
+		auto playerHitbox = *i_player_hitbox;
+		if (1 == getHitbox().intersects(playerHitbox))
+		{
+		
+			EntityManager::addPowerup();
+
+			return 1;
+		}
+	
+
+	return 0;
+}
+
+sf::IntRect UFO::getHitbox()
+{
+	return sf::IntRect(
+		getX() + HITBOX_MARGIN_RATIO,
+		getY() + HITBOX_MARGIN_RATIO,
+		(UFO_HEIGHT_RATIO - 2 * HITBOX_MARGIN_RATIO) * getScreenSize().y,
+		(UFO_HEIGHT_RATIO - 2 * HITBOX_MARGIN_RATIO) * getScreenSize().y);
 }

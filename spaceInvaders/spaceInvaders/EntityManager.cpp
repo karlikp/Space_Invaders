@@ -46,6 +46,11 @@ void EntityManager::addPlayerBullet(std::unique_ptr<Bullet> bullet)
     playerBullets.push_back(std::move(bullet));
 }
 
+void EntityManager::addPowerup(std::unique_ptr<Powerup> powerup)
+{
+    powerups.push_back(std::move(powerup));
+}
+
 void EntityManager::updateEnemies()
 {
     //set position
@@ -59,6 +64,13 @@ void EntityManager::updateEntities()
     //set position
     for (const auto& entity : entities) {
         entity->update();
+    }
+}
+
+void EntityManager::updatePlayerBullets()
+{
+    for (const auto& bullet : playerBullets) {
+        bullet->update();
     }
 }
 
@@ -76,13 +88,30 @@ void EntityManager::drawEntities()
     }
 }
 
+void EntityManager::drawPlayerBullets()
+{
+    for (const auto& bullet : playerBullets) {
+        (*window).draw(bullet->entityBulletSprite);
+    }
+}
+
 //Unique pointer have to assign by reference
 std::vector<std::unique_ptr<Bullet>>& EntityManager::getEnemyBullets()
 {
     return enemyBullets;
 }
 
+std::vector<std::unique_ptr<Bullet>>& EntityManager::getPlayerBullets()
+{
+    return playerBullets;
+}
+
 std::vector<std::unique_ptr<Powerup>>& EntityManager::getPowerups()
 {
     return powerups;
+}
+
+sf::RenderWindow* EntityManager::getWindow()
+{
+    return window;
 }

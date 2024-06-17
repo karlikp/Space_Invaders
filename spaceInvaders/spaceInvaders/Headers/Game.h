@@ -55,8 +55,7 @@ public:
     //Accessors
     const bool getWindowIsOpen() const;
     const bool getEndGame() const;
-   /* static float& getScreenWidth();
-    static float& getScreenHeight();*/
+  
     static sf::RenderWindow& getWindow();
 
     void interruptEvents();

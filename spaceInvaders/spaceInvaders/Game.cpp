@@ -188,6 +188,7 @@ void Game::update()
     {
         manager->updateEnemies();
         manager->updateEntities();
+        manager->updatePlayerBullets();
     }
 
     // End game condition
@@ -203,6 +204,7 @@ void Game::draw()
 
     manager->drawEnemies(); 
     manager->drawEntities();
+    manager->drawPlayerBullets();
 
     window.display();
 }

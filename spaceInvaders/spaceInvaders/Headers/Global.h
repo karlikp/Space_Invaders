@@ -1,5 +1,8 @@
 #pragma once
 
+#include<iostream>
+#include <random>
+
 constexpr short ENEMY_DEFAULT_HEIGHT = 100;
 constexpr short PLAYER_DEFAULT_HEIGHT = 100;
 constexpr short OBSTACLE_DEFAULT_WIDTH = 300;
@@ -9,6 +12,7 @@ constexpr short BULLET_DEFAULT_HEIGHT = 37;
 //I set the elements based on the proportions in relation to the screen height
 // P = PROPORTIONS:
 constexpr float GAP_RATIO = 0.025; //between enemies, enemy to screen border
+constexpr float POWERUP_RATIO = 0.03;
 constexpr float BULLET_RATIO = 0.02;
 constexpr float ENEMY_SIZE_RATIO = 0.05;
 constexpr float ENEMY_OFFSET_RATIO = 0.075;
@@ -20,9 +24,14 @@ constexpr float UFO_HEIGHT_RATIO = 0.075;
 constexpr float HITBOX_MARGIN_RATIO = 0.01;
 constexpr float SMALL_HITBOX_MARGIN_RATIO = 0.005;
 
+constexpr short ENEMY_SHOOT_CHANCE = 4096;
+constexpr short ENEMY_SHOOT_CHANCE_INCREASE = 64;
+constexpr short ENEMY_SHOOT_CHANCE_MIN = 1024;
+constexpr short POWERUP_DURATION = 512;
+
 
 constexpr short int FAST_RELOAD_TIME = 2;
-constexpr short int RELOAD_TIME = 4;
+constexpr short int RELOAD_TIME = 128;
 
 constexpr short int NORMAL_STATE = 0;
 constexpr short int FASTER_RELOAD = 1;
@@ -37,51 +46,3 @@ constexpr float INVADER_MOVE_SPEED_Y = 2;
 constexpr float MOTIONLESS_X = 0;
 constexpr float MOTIONLESS_Y = 0;
 
-struct Bullet : public Entity
-{
-	Bullet(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite, sf::Vector2f iScreenSize) : Entity(iPosX, iPosY, iStepY, iBulletSprite, iScreenSize) {
-		
-		float scale = (BULLET_RATIO * getScreenSize().y) / BULLET_DEFAULT_HEIGHT;
-		setEntityScale(scale);
-	}
-
-	~Bullet() = default;
-
-	void update() {
-
-			if (getIsDead() == false) {
-
-				setX(getStepX());
-				setY(getStepY());
-		
-
-			if (getX() <= 0 || getY() <= 0 ||
-				getX() >= getScreenSize().x || getY() >= getScreenSize().y) {
-
-				setIsDead(true);
-			}
-		}
-	};
-
-	void draw() {};
-
-	sf::IntRect getHitbox(){
-		return sf::IntRect(
-			getX() + SMALL_HITBOX_MARGIN_RATIO,
-			getY() + SMALL_HITBOX_MARGIN_RATIO,
-			(BULLET_RATIO - 2*SMALL_HITBOX_MARGIN_RATIO) * getScreenSize().y,
-			(BULLET_RATIO - 2*SMALL_HITBOX_MARGIN_RATIO) * getScreenSize().y);
-	}
-
-};
-
-struct Powerup : public Entity
-{
-	Powerup(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize) : Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {}
-	~Powerup() = default;
-
-	void update() {};
-
-	void draw() {};
-
-};

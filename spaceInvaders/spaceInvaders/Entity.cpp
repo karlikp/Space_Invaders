@@ -1,4 +1,5 @@
 #include "Headers/Entity.h"
+#include "Headers/Global.h"
 
 Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize) :
 	position(iPosX, iPosY),
@@ -6,6 +7,18 @@ Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	stepY(iStepY),
 	screenSize(iScreenSize)
 {
+	isDead = false;
+}
+
+Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iBulletSprite, float iRatio) :
+	position(0, iPosY),
+	stepX(iStepX),
+	stepY(iStepY),
+	screenSize(iScreenSize),
+	entityBulletSprite(iBulletSprite),
+	ratio(iRatio)
+{
+	position.x = iPosX + ((iRatio - (BULLET_RATIO/2) ) * iScreenSize.y) / 2;
 	isDead = false;
 }
 
@@ -55,6 +68,10 @@ sf::Sprite Entity::getEntityBulletSprite() {
 	return entityBulletSprite;
 }
 
+//EntityManager* Entity::getManager() {
+//	return manager;
+//}
+
 void Entity::setX(float iPosX) {
 	position.x = iPosX;
 }
@@ -76,7 +93,7 @@ void Entity::setEntitySprite(std::string imageSource) {
 void Entity::setEntityBulletSprite(std::string imageSource) {
 
 	entityBulletTexture.loadFromFile(imageSource);
-	entityBulletSprite.setTexture(entityTexture);
+	entityBulletSprite.setTexture(entityBulletTexture);
 }
 
 void Entity::setEntityScale(float scale) {
@@ -85,4 +102,9 @@ void Entity::setEntityScale(float scale) {
 
 void Entity::setEntityPosition() {
 	entitySprite.setPosition(position);
+}
+
+void Entity::setBulletPosition()
+{
+	entityBulletSprite.setPosition(position);
 }

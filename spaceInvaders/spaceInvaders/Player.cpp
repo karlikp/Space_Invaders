@@ -18,10 +18,30 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	reloadTimer = RELOAD_TIME;
 	activePower = NORMAL_STATE;
 	powerupTimer = 0;
+	powerupType = 0;
 }
+
+/*Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, EntityManager* manager)
+	: Entity(iPosX, iPosY, iStepX, iStepY, manager) {
+
+	float scale = (0.075 * manager->getWindow()->getSize().y) / PLAYER_DEFAULT_HEIGHT;
+
+	setEntitySprite("Resources/playerShip1_blue.png");
+	setEntityBulletSprite("Resources/playerBullet1.png");
+	setEntityScale(scale);
+
+	health = 3;
+	currentDamage = 1;
+	reloadTimer = RELOAD_TIME;
+	activePower = NORMAL_STATE;
+	powerupTimer = 0;
+	powerupType = 0;
+
+}*/
 
 void Player::update()
 {
+
 	if (getIsDead() == false) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
@@ -35,30 +55,29 @@ void Player::update()
 
 	if (reloadTimer == 0)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		
+		if (activePower == FASTER_RELOAD)
 		{
-			if (activePower == FASTER_RELOAD)
-			{
-				reloadTimer = FAST_RELOAD_TIME;
-			}
-			else
-			{
-				reloadTimer = RELOAD_TIME;
-			}
+			reloadTimer = FAST_RELOAD_TIME;
+		}
+		else
+		{
+			reloadTimer = RELOAD_TIME;
+		}
 			
+		EntityManager::addPlayerBullet
+		(std::make_unique<Bullet>(getX(), getY(), MOTIONLESS_X, BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
 
+
+		float bulletOffset = (BULLET_RATIO * getScreenSize().y) / BULLET_DEFAULT_HEIGHT;
+
+		if (activePower == TRIPLE_SHOOT)
+		{
 			EntityManager::addPlayerBullet
-			(std::make_unique<Bullet>(getX(), getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
-
-			float bulletOffset = (BULLET_RATIO * getScreenSize().y) / BULLET_DEFAULT_HEIGHT;
-
-			if (activePower = TRIPLE_SHOOT)
-			{
-				EntityManager::addPlayerBullet
-				(std::make_unique<Bullet>(getX() - bulletOffset, getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
-				EntityManager::addPlayerBullet
-				(std::make_unique<Bullet>(getX() + bulletOffset, getY(), BULLET_SPEED_Y, getEntityBulletSprite(), getScreenSize()));
-			}
+			(std::make_unique<Bullet>(getX() - bulletOffset, getY(), MOTIONLESS_X, BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
+			EntityManager::addPlayerBullet
+			(std::make_unique<Bullet>(getX() + bulletOffset, getY(), MOTIONLESS_X, BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
+			
 		}
 	}
 	else
@@ -66,9 +85,9 @@ void Player::update()
 		reloadTimer--;
 	}
 	//Check enemy hit
-	auto enemyBullets = EntityManager::getEnemyBullets();
+	//auto enemyBullets = EntityManager::getEnemyBullets();
 
-	for (auto& const enemy_bullet : enemyBullets)
+	for (auto& const enemy_bullet : EntityManager::getEnemyBullets())
 	{
 		if (getHitbox().intersects(enemy_bullet->getHitbox()))
 		{
@@ -79,15 +98,41 @@ void Player::update()
 			break;
 		}
 	}
+	auto getHitboxPtr = getHitbox();
+	powerupType = UFO::checkPowerupReach(&getHitboxPtr);
 
-	activePower = UFO::checkPowerupReach(getHitbox());
+	if (powerupType > 0)
+	{
+		activePower = powerupType;
+		powerupTimer = POWERUP_DURATION;
+	}
+
+	if (0 == powerupTimer)
+	{
+		activePower = 0;
+	}
+	else
+	{
+		powerupTimer--;
+	}
+	//Hit UFO
+	for (auto& const bullet : EntityManager::getPlayerBullets())
+	{
+		if (getIsDead() == false)
+		{
+			if (UFO::checkBulletColision(i_random_engine, bullet.get_hitbox()))
+			{
+				bullet.dead = 1;
+			}
+		}
+	}
 
 	setEntityPosition();
 }
 
 void Player::draw()
 {
-	//TO DO
+	
 }
 
 sf::IntRect Player::getHitbox() 
