@@ -22,6 +22,7 @@ std::vector<std::unique_ptr<Entity>> EntityManager::entities;
 std::vector<std::unique_ptr<Enemy>> EntityManager::enemies;
 std::vector<std::unique_ptr<Bullet>> EntityManager::enemyBullets;
 std::vector<std::unique_ptr<Bullet>> EntityManager::playerBullets;
+std::vector<std::unique_ptr<Powerup>> EntityManager::powerups;
 
 EntityManager::EntityManager(sf::RenderWindow* windowI)
 {
@@ -79,4 +80,9 @@ void EntityManager::drawEntities()
 std::vector<std::unique_ptr<Bullet>>& EntityManager::getEnemyBullets()
 {
     return enemyBullets;
+}
+
+std::vector<std::unique_ptr<Powerup>>& EntityManager::getPowerups()
+{
+    return powerups;
 }

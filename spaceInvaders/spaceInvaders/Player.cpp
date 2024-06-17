@@ -90,9 +90,9 @@ void Player::draw()
 	//TO DO
 }
 
-sf::IntRect Player::getHitbox()
+sf::IntRect Player::getHitbox() 
 {
-	return sf::IntRect(
+	return sf::IntRect(	
 		getX() + HITBOX_MARGIN_RATIO,
 		getY() + HITBOX_MARGIN_RATIO,
 		(PLAYER_SIZE_RATIO - 2*HITBOX_MARGIN_RATIO) * getScreenSize().y,

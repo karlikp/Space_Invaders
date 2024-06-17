@@ -24,7 +24,7 @@ public:
 	void update() /*override*/;
 	void draw() /*override*/;
 
-	sf::IntRect getHitbox();
+	sf::IntRect getHitbox() ;
 	//void reset();
 	/*void moveInputs();
 	void updateLives();

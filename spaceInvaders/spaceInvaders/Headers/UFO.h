@@ -15,7 +15,7 @@ public:
 	void update() /*override*/;
 	void draw() /*override*/;
 
-	static short int checkPowerupReach(sf::IntRect& i_player_hitbox);
+	static short int checkPowerupReach(sf::IntRect i_player_hitbox);
 	bool randomArrived();
 	int randomPowerup();
 	bool bulletCollision();

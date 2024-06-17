@@ -21,6 +21,9 @@ class EntityManager
 	static std::vector<std::unique_ptr<Bullet>> enemyBullets;
 	static std::vector<std::unique_ptr<Bullet>> playerBullets;
 
+	static std::vector<std::unique_ptr<Powerup>> powerups;
+
+
 	static sf::RenderWindow* window;
 
 public:
@@ -40,6 +43,7 @@ public:
 	void drawEntities();
 
 	static std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();
+	static std::vector<std::unique_ptr<Powerup>>& getPowerups();
 
 	std::vector<Enemy>& getEnemies();
 };
