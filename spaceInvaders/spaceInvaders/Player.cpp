@@ -4,7 +4,7 @@
 #include "Headers/Game.h"
 
 
-Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
+Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>* iUfo)
 	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
 
 	float scale = (0.075 * iScreenSize.y) / PLAYER_DEFAULT_HEIGHT;
@@ -13,6 +13,7 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	setEntityBulletSprite("Resources/playerBullet1.png");
 	setEntityScale(scale);
 
+	ufo = iUfo;
 	health = 3;
 	currentDamage = 1;
 	reloadTimer = RELOAD_TIME;
@@ -20,24 +21,6 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	powerupTimer = 0;
 	powerupType = 0;
 }
-
-/*Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, EntityManager* manager)
-	: Entity(iPosX, iPosY, iStepX, iStepY, manager) {
-
-	float scale = (0.075 * manager->getWindow()->getSize().y) / PLAYER_DEFAULT_HEIGHT;
-
-	setEntitySprite("Resources/playerShip1_blue.png");
-	setEntityBulletSprite("Resources/playerBullet1.png");
-	setEntityScale(scale);
-
-	health = 3;
-	currentDamage = 1;
-	reloadTimer = RELOAD_TIME;
-	activePower = NORMAL_STATE;
-	powerupTimer = 0;
-	powerupType = 0;
-
-}*/
 
 void Player::update()
 {
@@ -98,8 +81,12 @@ void Player::update()
 			break;
 		}
 	}
+
+
+	
 	auto getHitboxPtr = getHitbox();
-	powerupType = UFO::checkPowerupReach(&getHitboxPtr);
+
+	powerupType = (*ufo)->UFO::checkPowerupReach(&getHitboxPtr);
 
 	if (powerupType > 0)
 	{
@@ -115,14 +102,29 @@ void Player::update()
 	{
 		powerupTimer--;
 	}
-	//Hit UFO
+	//Hit UFO !TO DO!
 	for (auto& const bullet : EntityManager::getPlayerBullets())
 	{
 		if (getIsDead() == false)
-		{
-			if (UFO::checkBulletColision(i_random_engine, bullet.get_hitbox()))
+		{		
+			 auto bulletHitbox = bullet->getHitbox();
+
+			if ((*ufo)->checkBulletColision(&bulletHitbox))
 			{
-				bullet.dead = 1;
+				bullet->setIsDead(true);
+			}
+		}
+	}
+
+	for (auto& const enemy : EntityManager::getEnemies())
+	{
+		for (auto& const bullet : EntityManager::getPlayerBullets())
+		{
+			if (bullet->getIsDead() == 0 && enemy->getHealth() > 0 && enemy->getHitbox().intersects(bullet->getHitbox()))
+			{
+				bullet->setIsDead(true);
+				enemy->setIsDead(true);
+				break;
 			}
 		}
 	}

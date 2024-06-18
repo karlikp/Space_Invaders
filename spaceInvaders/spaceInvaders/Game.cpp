@@ -10,12 +10,11 @@
 
 
 sf::RenderWindow Game::window;
-//float Game::screenHeight;
-//float Game::screenWidth;
 
 void Game::initGame()
 {
     manager = new EntityManager(&window);
+    ufo = NULL;
     videoMode = sf::VideoMode::getDesktopMode();
 
     window.create(videoMode, "Space Invaders", sf::Style::Fullscreen);
@@ -52,11 +51,6 @@ void Game::initEnemies()
     float offsetY = ENEMY_OFFSET_RATIO * screenSize.y;
     float enemySize = ENEMY_SIZE_RATIO * screenSize.y;
 
-    
-
-
-
-
     //  Tworzenie wierszy przeciwników
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 14; ++j) {
@@ -79,7 +73,7 @@ void Game::initPlayer()
     float posX = (screenSize.x - newShipSize) / 2;
     float posY = screenSize.y - (0.1 * screenSize.y);
 
-    manager->addEntity(std::make_unique<Player>(posX, posY, PLAYER_MOVE_SPEED, MOTIONLESS_Y, screenSize));
+    manager->addEntity(std::make_unique<Player>(posX, posY, PLAYER_MOVE_SPEED, MOTIONLESS_Y, screenSize, &ufo));
 }
 
 void Game::initObstacle()
@@ -124,8 +118,9 @@ void Game::initUFO()
 {
     float tempPosX = screenSize.x - 150;
     float posY = 0.1 * screenSize.y;
-
-    manager->addEntity(std::make_unique<UFO>(tempPosX, posY, INVADER_MOVE_SPEED_X, MOTIONLESS_Y, screenSize));
+    ufo = std::make_unique<UFO>(tempPosX, posY, INVADER_MOVE_SPEED_X, MOTIONLESS_Y, screenSize);
+    
+    manager->addEntity(std::move(ufo));
 }
 
 Game::Game()

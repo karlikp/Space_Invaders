@@ -8,9 +8,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
-#include"Global.h"
-
-
+#include "Global.h"
+ 
 class Entity
 {
 	//encapsulation
@@ -31,6 +30,7 @@ class Entity
 public:
 	
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
+	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<Entity> ufo);
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iBulletSprite, float iRatio);
 	Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite, sf::Vector2f iScreenSize);
 	virtual ~Entity() = default;

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include <SFML/Graphics.hpp> 
 #include <SFML/Window.hpp>
@@ -9,7 +10,7 @@
 #include <SFML/Network.hpp>
 
 #include "EntityManager.h"
-
+#include "UFO.h"
 const short BASIC_SIZE = 50;
 
 class Game
@@ -47,6 +48,7 @@ public:
     void draw();
     
     EntityManager* manager;
+    std::unique_ptr<UFO> ufo;
     //Entity* entity;
 
     Game();

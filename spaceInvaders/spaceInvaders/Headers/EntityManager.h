@@ -45,11 +45,12 @@ public:
 	void drawEntities();
 	void drawPlayerBullets();
 
+	static std::vector<std::unique_ptr<Enemy>>& getEnemies();
 	static std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();
 	static std::vector<std::unique_ptr<Bullet>>& getPlayerBullets();
 	static std::vector<std::unique_ptr<Powerup>>& getPowerups();
 
-	std::vector<Enemy>& getEnemies();
+
 	sf::RenderWindow* getWindow();
 };
 

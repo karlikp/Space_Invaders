@@ -72,6 +72,13 @@ void EntityManager::updatePlayerBullets()
     for (const auto& bullet : playerBullets) {
         bullet->update();
     }
+
+    playerBullets.erase(
+        std::remove_if(playerBullets.begin(), playerBullets.end(),
+            [](const std::unique_ptr<Bullet>& bullet) {
+                return bullet->getIsDead();
+            }),
+        playerBullets.end());
 }
 
 void EntityManager::drawEnemies()
@@ -93,6 +100,11 @@ void EntityManager::drawPlayerBullets()
     for (const auto& bullet : playerBullets) {
         (*window).draw(bullet->entityBulletSprite);
     }
+}
+
+std::vector<std::unique_ptr<Enemy>>& EntityManager::getEnemies()
+{
+    return enemies;
 }
 
 //Unique pointer have to assign by reference

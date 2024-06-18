@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 #include "Global.h"
-//#include "EntityManager.h"
+#include "UFO.h"
 
 #include <string>
 
@@ -15,19 +15,22 @@ class Player : public Entity
 	std::string name;
 	unsigned health, points;
 
+	std::unique_ptr<UFO>* ufo;
+
+
 
 
 
 public:
 
-	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
+	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>* ufo);
 	Player(float iPosX, float iPosY, float iStepX, float iStepY, EntityManager* manager);
 	~Player() = default;
 
 	void update() /*override*/;
 	void draw() /*override*/;
 
-	sf::IntRect getHitbox() ;
+	sf::IntRect getHitbox();
 	//void reset();
 	/*void moveInputs();
 	void updateLives();

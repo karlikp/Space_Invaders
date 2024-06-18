@@ -2,7 +2,7 @@
 #include "Headers/Global.h"
 
 Enemy3::Enemy3(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
-	: Enemy(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
+	: Enemy(iPosX, iPosY, iStepX, iStepY, iScreenSize, LOT_OF_HEALTH) {
 
 	float enemySize = ENEMY_SIZE_RATIO * iScreenSize.y;
 	float scale = enemySize / ENEMY_DEFAULT_HEIGHT;
