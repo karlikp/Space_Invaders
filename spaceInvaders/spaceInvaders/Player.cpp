@@ -69,13 +69,13 @@ void Player::update()
 		reloadTimer--;
 	}
 	//Check enemy hit
-	//auto enemyBullets = EntityManager::getEnemyBullets();
-
-	for (auto& const enemy_bullet : EntityManager::getEnemyBullets())
+	
+	for (auto& const enemyBullet : EntityManager::getEnemyBullets())
 	{
-		if (getHitbox().intersects(enemy_bullet->getHitbox()))
+		if (getHitbox().intersects(enemyBullet->getHitbox()))
 		{
 			health--;
+			enemyBullet->setIsDead(true);
 		}
 		if (health == 0) {
 			setIsDead(true);
@@ -103,7 +103,7 @@ void Player::update()
 	{
 		powerupTimer--;
 	}
-	//Hit UFO !TO DO!
+	//Hit UFO 
 	for (auto& const bullet : EntityManager::getPlayerBullets())
 	{
 		if (getIsDead() == false)
@@ -125,6 +125,10 @@ void Player::update()
 	{
 		for (auto& const bullet : EntityManager::getPlayerBullets())
 		{
+			if (bullet->getIsDead() == 0 && enemy->getHealth() > 0 && enemy->getHitbox().intersects(getHitbox()))
+			{
+				setIsDead(true);
+			}
 			if (bullet->getIsDead() == 0 && enemy->getHealth() > 0 && enemy->getHitbox().intersects(bullet->getHitbox()))
 			{
 				bullet->setIsDead(true);
@@ -142,11 +146,6 @@ void Player::update()
 	setEntityPosition();
 }
 
-void Player::draw()
-{
-	
-}
-
 sf::IntRect Player::getHitbox() 
 {
 	return sf::IntRect(	
@@ -156,6 +155,3 @@ sf::IntRect Player::getHitbox()
 		(PLAYER_SIZE_RATIO - 2*HITBOX_MARGIN_RATIO) * getScreenSize().y);
 }
 
-//void Player::reset()
-//{//TO DO
-//}

@@ -147,7 +147,7 @@ Game::Game()
 Game::~Game()
 {
     delete manager;
-    //entityManager = NULL;
+    manager = NULL;
 }
 
 
@@ -192,6 +192,7 @@ void Game::update()
         manager->updateEnemies();
         manager->updateEntities();
         manager->updatePlayerBullets();
+        manager->updateEnemyBullets();
     }
 
     // End game condition
@@ -208,6 +209,7 @@ void Game::draw()
     manager->drawEnemies(); 
     manager->drawEntities();
     manager->drawPlayerBullets();
+    manager->drawEnemyBullets();
 
     window.display();
 }

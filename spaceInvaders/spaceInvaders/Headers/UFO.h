@@ -12,8 +12,8 @@ public:
 
 	UFO(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
 	~UFO() = default;
-	void update() /*override*/;
-	void draw() /*override*/;
+	void update() override;
+
 
 	float checkPowerupReach(sf::IntRect* i_player_hitbox);
 	bool checkBulletColision(sf::IntRect* i_player_hitbox);

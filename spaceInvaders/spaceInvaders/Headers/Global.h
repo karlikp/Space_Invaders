@@ -31,7 +31,8 @@ constexpr short ENEMY_SHOOT_CHANCE_MIN = 1024;
 constexpr short POWERUP_DURATION = 512;
 
 constexpr short RIGHT_MOVE = 1;
-constexpr short LEFT_MOVE = 2;
+constexpr short LEFT_MOVE = -1;
+constexpr short DOWN_MOVE = 0;
 
 constexpr short LITTLE_HEALTH = 1;
 constexpr short LOT_OF_HEALTH = 2;

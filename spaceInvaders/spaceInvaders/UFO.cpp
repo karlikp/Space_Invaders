@@ -16,10 +16,6 @@ void UFO::update()
 	setEntityPosition();
 }
 
-void UFO::draw()
-{//TO DO
-}
-
 float UFO::checkPowerupReach(sf::IntRect* i_player_hitbox)
 {
     for (auto& const powerup : EntityManager::getPowerups()) //I tried use iterators and delete dead powerups but it generate errors

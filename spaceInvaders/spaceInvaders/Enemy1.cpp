@@ -9,26 +9,19 @@ Enemy1::Enemy1(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	float enemySize = ENEMY_SIZE_RATIO * iScreenSize.y;
 	float scale = enemySize / ENEMY_DEFAULT_HEIGHT;
 
-	//setShootPossibility(0.05);
+	setShootPossibility(0.0009);
 	setEntitySprite("Resources/Enemy1.png");
 	setEntityBulletSprite("Resources/enemyBullet1.png");
 	setEntityScale(scale);
 
 }
 
-void Enemy1::update()
-{
-	setEntityPosition();
-}
 void Enemy1::shoot()
 {
 	EntityManager::addEnemyBullet
-	(std::make_unique<Bullet>(getX(), getY(), MOTIONLESS_X, BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), ENEMY_SIZE_RATIO));
+	(std::make_unique<Bullet>(getX(), getY(), MOTIONLESS_X, -BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), ENEMY_SIZE_RATIO));
 }
 
-void Enemy1::draw()
-{//TO DO
-}
 int Enemy1::getPoints()
 {
 	return points;

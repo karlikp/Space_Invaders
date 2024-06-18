@@ -24,9 +24,7 @@ class Entity
 	int ratio;
 	bool isDead;
 
-	//std::random_device rd;
-	//std::mt19937_64* randomEnginePtr;
-	//std::bernoulli_distribution shootPossibility;
+	std::bernoulli_distribution shootPossibility;
 
 	sf::Sprite entityBulletSprite;
 	sf::Sprite entitySprite;
@@ -35,14 +33,14 @@ class Entity
 
 public:
 	
+	
+
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
 	//Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<Entity> ufo);
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iBulletSprite, float iRatio);
 	Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite, sf::Vector2f iScreenSize);
 	virtual ~Entity() = default;
-
 	virtual void update() = 0;
-	virtual void draw() = 0;
 
 	//Getters
 	sf::Vector2f getPosition();
@@ -55,8 +53,9 @@ public:
 	bool getIsDead();
 	sf::Sprite getEntitySprite();
 	sf::Sprite getEntityBulletSprite();
-	//std::bernoulli_distribution getShootPossibility();
-	//std::mt19937_64* getRandomEnginePtr();
+	std::bernoulli_distribution getShootPossibility();
+
+	
 
 	//Setters
 	void setX(float iPosX);
@@ -67,7 +66,7 @@ public:
 	void setEntityScale(float scale);
 	void setEntityPosition();
 	void setBulletPosition();
-	//void setShootPossibility(float possibility);
+	void setShootPossibility(float possibility);
 
 	friend class EntityManager;
 };
@@ -89,6 +88,7 @@ struct Bullet : public Entity
 		if (getIsDead() == false) {
 
 			setY(getY() - getStepY());
+			setX(getX() - getStepX());
 			std::cout << getY() << "Y\n";
 			std::cout << getX() << "X\n";
 
@@ -101,9 +101,6 @@ struct Bullet : public Entity
 		}
 
 		setBulletPosition();
-	};
-
-	void draw() override {
 	};
 
 	sf::IntRect getHitbox() {
@@ -128,8 +125,6 @@ struct Powerup : public Entity
 	~Powerup() = default;
 
 	void update() {};
-
-	void draw() {};
 
 	int randomPowerup() {
 

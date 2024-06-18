@@ -27,8 +27,6 @@ std::vector<std::unique_ptr<Powerup>> EntityManager::powerups;
 EntityManager::EntityManager(sf::RenderWindow* windowI)
 {
     window = windowI;
-    
-
 }
 
 void EntityManager::addEnemy(std::unique_ptr<Enemy> enemy)
@@ -77,6 +75,13 @@ void EntityManager::updateEntities()
     for (const auto& entity : entities) {
         entity->update();
     }
+
+    entities.erase(
+        std::remove_if(entities.begin(), entities.end(),
+            [](const std::unique_ptr<Entity>& bullet) {
+                return bullet->getIsDead();
+            }),
+        entities.end());
 }
 
 void EntityManager::updatePlayerBullets()
@@ -93,11 +98,26 @@ void EntityManager::updatePlayerBullets()
         playerBullets.end());
 }
 
+void EntityManager::updateEnemyBullets()
+{
+    for (const auto& bullet : enemyBullets) {
+        bullet->update();
+    }
+
+    enemyBullets.erase(
+        std::remove_if(enemyBullets.begin(), enemyBullets.end(),
+            [](const std::unique_ptr<Bullet>& bullet) {
+                return bullet->getIsDead();
+            }),
+        enemyBullets.end());
+}
+
 void EntityManager::drawEnemies()
 {
     for (const auto& enemy : enemies) {
         (*window).draw(enemy->entitySprite);
     }
+
 }
 
 void EntityManager::drawEntities()
@@ -110,6 +130,13 @@ void EntityManager::drawEntities()
 void EntityManager::drawPlayerBullets()
 {
     for (const auto& bullet : playerBullets) {
+        (*window).draw(bullet->entityBulletSprite);
+    }
+}
+
+void EntityManager::drawEnemyBullets()
+{
+    for (const auto& bullet : enemyBullets) {
         (*window).draw(bullet->entityBulletSprite);
     }
 }

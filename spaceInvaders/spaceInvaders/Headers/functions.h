@@ -1,5 +1,8 @@
 #pragma once
 
-//#include "Entity.h"
-//#include "structs.h"
+#include <SFML/System.hpp>
+#include <memory>
+#include <random>
+#include "Player.h"
+#include "UFO.h"
 

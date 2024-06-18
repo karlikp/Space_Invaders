@@ -24,13 +24,12 @@ class Player : public Entity
 public:
 
 	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>** ufo);
-	Player(float iPosX, float iPosY, float iStepX, float iStepY, EntityManager* manager);
 	~Player() = default;
 
-	void update() /*override*/;
-	void draw() /*override*/;
+	void update() override;
 
 	sf::IntRect getHitbox();
+
 	//void reset();
 	/*void moveInputs();
 	void updateLives();

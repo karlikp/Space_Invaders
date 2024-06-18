@@ -11,7 +11,6 @@
 
 class EntityManager
 {
-	//float widthWindow, highWindow;
 
 	static std::vector<std::unique_ptr<Entity>> entities;
 	static std::vector<std::unique_ptr<Enemy>> enemies;
@@ -39,10 +38,12 @@ public:
 	void updateEnemies();
 	void updateEntities();
 	void updatePlayerBullets();
+	void updateEnemyBullets();
 
 	void drawEnemies();
 	void drawEntities();
 	void drawPlayerBullets();
+	void drawEnemyBullets();
 
 	static std::vector<std::unique_ptr<Enemy>>& getEnemies();
 	static std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();

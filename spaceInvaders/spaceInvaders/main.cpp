@@ -38,10 +38,5 @@ int main()
 
 	return 0;
 
-	//EntityManager manager;
-
-	//Enemy* pEnemy = new Enemy1();
-
-	//manager.addEnemy(std::make_unique<Enemy1>());
 }
 

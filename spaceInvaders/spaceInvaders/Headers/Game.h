@@ -48,15 +48,12 @@ public:
     void draw();
     
     EntityManager* manager;
-    //Entity* entity;
 
     Game();
     ~Game();
 
-    //Accessors
     const bool getWindowIsOpen() const;
     const bool getEndGame() const;
-  
     static sf::RenderWindow& getWindow();
 
     void interruptEvents();
