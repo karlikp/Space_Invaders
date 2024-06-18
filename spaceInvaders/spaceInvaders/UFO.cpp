@@ -39,7 +39,7 @@ float UFO::checkPowerupReach(sf::IntRect* i_player_hitbox)
 bool UFO::checkBulletColision(sf::IntRect* i_player_hitbox)
 {
 		auto playerHitbox = *i_player_hitbox;
-		if (1 == getHitbox().intersects(playerHitbox))
+		if (getHitbox().intersects(playerHitbox))
 		{
 		
 			EntityManager::addPowerup(std::make_unique<Powerup>(getX(), getY(), getStepX(), getStepY(), getScreenSize()));

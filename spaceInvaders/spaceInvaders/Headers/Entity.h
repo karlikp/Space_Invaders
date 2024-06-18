@@ -2,6 +2,8 @@
 
 
 #include <vector>
+#include <chrono>
+#include <random>
 
 #include <SFML/Graphics.hpp> 
 #include <SFML/Window.hpp>
@@ -22,6 +24,10 @@ class Entity
 	int ratio;
 	bool isDead;
 
+	//std::random_device rd;
+	//std::mt19937_64* randomEnginePtr;
+	//std::bernoulli_distribution shootPossibility;
+
 	sf::Sprite entityBulletSprite;
 	sf::Sprite entitySprite;
 	sf::Texture entityBulletTexture;
@@ -30,7 +36,7 @@ class Entity
 public:
 	
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
-	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<Entity> ufo);
+	//Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<Entity> ufo);
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iBulletSprite, float iRatio);
 	Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite, sf::Vector2f iScreenSize);
 	virtual ~Entity() = default;
@@ -49,7 +55,8 @@ public:
 	bool getIsDead();
 	sf::Sprite getEntitySprite();
 	sf::Sprite getEntityBulletSprite();
-	
+	//std::bernoulli_distribution getShootPossibility();
+	//std::mt19937_64* getRandomEnginePtr();
 
 	//Setters
 	void setX(float iPosX);
@@ -60,6 +67,7 @@ public:
 	void setEntityScale(float scale);
 	void setEntityPosition();
 	void setBulletPosition();
+	//void setShootPossibility(float possibility);
 
 	friend class EntityManager;
 };

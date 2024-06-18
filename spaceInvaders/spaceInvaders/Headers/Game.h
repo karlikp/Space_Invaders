@@ -40,15 +40,14 @@ public:
     //Initialization objects
     void initBackground();
     void initEnemies();
-    void initPlayer();
+    void initPlayer(std::unique_ptr<UFO>* ufo);
     void initObstacle();
-    void initUFO();
+    std::unique_ptr<UFO>* initUFO();
 
     void update();
     void draw();
     
     EntityManager* manager;
-    std::unique_ptr<UFO> ufo;
     //Entity* entity;
 
     Game();

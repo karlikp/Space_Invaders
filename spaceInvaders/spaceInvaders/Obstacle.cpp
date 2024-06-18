@@ -19,3 +19,11 @@ void Obstacle::update()
 void Obstacle::draw()
 {//TO DO
 }
+
+sf::IntRect Obstacle::getHitbox()
+{
+	return sf::IntRect(getX() + SMALL_HITBOX_MARGIN_RATIO * getScreenSize().y,
+		getY() + SMALL_HITBOX_MARGIN_RATIO * getScreenSize().y,
+		(OBSTACLE_HEIGHT_RATIO - 2 * SMALL_HITBOX_MARGIN_RATIO) * getScreenSize().y,
+		(OBSTACLE_HEIGHT_RATIO - 2 * SMALL_HITBOX_MARGIN_RATIO) * getScreenSize().y);
+}

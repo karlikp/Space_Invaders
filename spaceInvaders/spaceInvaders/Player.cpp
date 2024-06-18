@@ -4,7 +4,7 @@
 #include "Headers/Game.h"
 
 
-Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>* iUfo)
+Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>** iUfo)
 	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
 
 	float scale = (0.075 * iScreenSize.y) / PLAYER_DEFAULT_HEIGHT;
@@ -14,6 +14,7 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	setEntityScale(scale);
 
 	ufo = iUfo;
+	points = 0;
 	health = 3;
 	currentDamage = 1;
 	reloadTimer = RELOAD_TIME;
@@ -86,7 +87,7 @@ void Player::update()
 	
 	auto getHitboxPtr = getHitbox();
 
-	powerupType = (*ufo)->UFO::checkPowerupReach(&getHitboxPtr);
+	powerupType = (**ufo)->checkPowerupReach(&getHitboxPtr);
 
 	if (powerupType > 0)
 	{
@@ -107,9 +108,13 @@ void Player::update()
 	{
 		if (getIsDead() == false)
 		{		
+			if ((*ufo) == nullptr)
+			{
+				std::cerr << "WskaŸnik UFO jest null!" << std::endl;
+			}
 			 auto bulletHitbox = bullet->getHitbox();
 
-			if ((*ufo)->checkBulletColision(&bulletHitbox))
+			if ((**ufo)->checkBulletColision(&bulletHitbox))
 			{
 				bullet->setIsDead(true);
 			}
@@ -123,7 +128,12 @@ void Player::update()
 			if (bullet->getIsDead() == 0 && enemy->getHealth() > 0 && enemy->getHitbox().intersects(bullet->getHitbox()))
 			{
 				bullet->setIsDead(true);
-				enemy->setIsDead(true);
+
+				if (enemy->killHit()) {
+
+					enemy->setIsDead(true);
+					points += enemy->getPoints();
+				}
 				break;
 			}
 		}

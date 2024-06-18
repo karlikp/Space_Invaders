@@ -13,8 +13,6 @@ class EntityManager
 {
 	//float widthWindow, highWindow;
 
-	std::uniform_int_distribution <unsigned short> shootPossibility;
-	
 	static std::vector<std::unique_ptr<Entity>> entities;
 	static std::vector<std::unique_ptr<Enemy>> enemies;
 
@@ -35,6 +33,7 @@ public:
 	void addEnemy(std::unique_ptr<Enemy> enemy);
 	void addEntity(std::unique_ptr<Entity> entity);
 	static void addPlayerBullet(std::unique_ptr<Bullet> bullet);
+	static void addEnemyBullet(std::unique_ptr<Bullet> bullet);
 	static void addPowerup(std::unique_ptr<Powerup> powerup);
 
 	void updateEnemies();

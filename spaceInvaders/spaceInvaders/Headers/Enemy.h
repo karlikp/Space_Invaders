@@ -18,17 +18,21 @@ public:
 	Enemy(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, int iHealth);
 	virtual ~Enemy() = default;
 
-	virtual void update() = 0;
+	void update();
 	virtual void shoot() = 0;
 	virtual void draw() = 0;
+	virtual int getPoints() = 0;
 
 	sf::IntRect getHitbox();
 	int getHealth();
+	bool killHit();
+
+
 	bool bulletCollision();
 	int getDirection();
 	
 	int getEnemyCounter();
 	int move();
-	void hit();
+	
 };
 

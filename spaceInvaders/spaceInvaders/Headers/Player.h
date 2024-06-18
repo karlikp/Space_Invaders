@@ -13,9 +13,9 @@ class Player : public Entity
 	int currentDamage, reloadTimer, powerupTimer, activePower,
 		powerupType;
 	std::string name;
-	unsigned health, points;
+	int health, points;
 
-	std::unique_ptr<UFO>* ufo;
+	std::unique_ptr<UFO>** ufo;
 
 
 
@@ -23,7 +23,7 @@ class Player : public Entity
 
 public:
 
-	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>* ufo);
+	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>** ufo);
 	Player(float iPosX, float iPosY, float iStepX, float iStepY, EntityManager* manager);
 	~Player() = default;
 

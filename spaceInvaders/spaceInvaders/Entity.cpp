@@ -8,6 +8,11 @@ Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	screenSize(iScreenSize)
 {
 	isDead = false;
+
+	/*std::random_device rd;
+	std::mt19937_64 random_engine(rd());
+	randomEnginePtr = &random_engine;*/
+	
 }
 
 Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iBulletSprite, float iRatio) :
@@ -20,6 +25,12 @@ Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 {
 	position.x = iPosX + ((iRatio - (BULLET_RATIO/2) ) * iScreenSize.y) / 2;
 	isDead = false;
+
+	/*std::random_device rd;
+	std::mt19937_64 random_engine(rd());
+	randomEnginePtr = &random_engine;*/
+
+
 }
 
 Entity::Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite, sf::Vector2f iScreenSize) :
@@ -29,6 +40,10 @@ Entity::Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite,
 	screenSize(iScreenSize)
 {
 	isDead = false;
+
+	/*std::random_device rd;
+	std::mt19937_64 random_engine(rd());
+	randomEnginePtr = &random_engine;*/
 }
 
 sf::Vector2f Entity::getScreenSize()
@@ -68,8 +83,12 @@ sf::Sprite Entity::getEntityBulletSprite() {
 	return entityBulletSprite;
 }
 
-//EntityManager* Entity::getManager() {
-//	return manager;
+//std::mt19937_64* Entity::getRandomEnginePtr() {
+//	return randomEnginePtr;
+//}
+//
+//std::bernoulli_distribution Entity::getShootPossibility() {
+//	return shootPossibility;
 //}
 
 void Entity::setX(float iPosX) {
@@ -108,3 +127,8 @@ void Entity::setBulletPosition()
 {
 	entityBulletSprite.setPosition(position);
 }
+
+//void Entity::setShootPossibility(float possibility)
+//{
+//	shootPossibility(possibility);
+//}

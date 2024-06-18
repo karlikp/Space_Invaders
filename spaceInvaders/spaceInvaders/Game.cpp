@@ -14,7 +14,6 @@ sf::RenderWindow Game::window;
 void Game::initGame()
 {
     manager = new EntityManager(&window);
-    ufo = NULL;
     videoMode = sf::VideoMode::getDesktopMode();
 
     window.create(videoMode, "Space Invaders", sf::Style::Fullscreen);
@@ -67,11 +66,16 @@ void Game::initEnemies()
     }
 }
 
-void Game::initPlayer()
+void Game::initPlayer(std::unique_ptr<UFO>* ufo)
 {   
     float newShipSize = PLAYER_SIZE_RATIO * screenSize.y;
     float posX = (screenSize.x - newShipSize) / 2;
     float posY = screenSize.y - (0.1 * screenSize.y);
+   
+    if (*ufo == nullptr)
+    {
+        std::cerr << "WskaŸnik UFO jest null!" << std::endl;
+    }
 
     manager->addEntity(std::make_unique<Player>(posX, posY, PLAYER_MOVE_SPEED, MOTIONLESS_Y, screenSize, &ufo));
 }
@@ -114,13 +118,18 @@ void Game::initObstacle()
     }  
 }
 
-void Game::initUFO()
+std::unique_ptr<UFO>* Game::initUFO()
 {
     float tempPosX = screenSize.x - 150;
     float posY = 0.1 * screenSize.y;
-    ufo = std::make_unique<UFO>(tempPosX, posY, INVADER_MOVE_SPEED_X, MOTIONLESS_Y, screenSize);
-    
+    std::unique_ptr<UFO> ufo = std::make_unique<UFO>(tempPosX, posY, INVADER_MOVE_SPEED_X, MOTIONLESS_Y, screenSize);
+    if (ufo == nullptr)
+    {
+        std::cerr << "WskaŸnik UFO jest null!" << std::endl;
+    }
     manager->addEntity(std::move(ufo));
+    auto ufoPtr = &ufo;
+    return ufoPtr;
 }
 
 Game::Game()
@@ -130,8 +139,7 @@ Game::Game()
     initBackground();
 
     initEnemies();//adding to enemies vector
-    initUFO();
-    initPlayer();
+    initPlayer(initUFO());
     initObstacle();
     
 }

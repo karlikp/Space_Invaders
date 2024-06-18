@@ -46,6 +46,11 @@ void EntityManager::addPlayerBullet(std::unique_ptr<Bullet> bullet)
     playerBullets.push_back(std::move(bullet));
 }
 
+void EntityManager::addEnemyBullet(std::unique_ptr<Bullet> bullet)
+{
+    enemyBullets.push_back(std::move(bullet));
+}
+
 void EntityManager::addPowerup(std::unique_ptr<Powerup> powerup)
 {
     powerups.push_back(std::move(powerup));
@@ -57,6 +62,13 @@ void EntityManager::updateEnemies()
     for (const auto& enemy : enemies) {
         enemy->update();
     }
+
+    enemies.erase(
+        std::remove_if(enemies.begin(), enemies.end(),
+            [](const std::unique_ptr<Enemy>& enemy) {
+                return enemy->getIsDead();
+            }),
+        enemies.end());
 }
 
 void EntityManager::updateEntities()
