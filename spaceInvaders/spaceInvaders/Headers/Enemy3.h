@@ -13,6 +13,9 @@ public:
 	~Enemy3() = default;
 
 	void shoot() override;
+	void move() override;
+	void firstPath();
+	void secondPath();
 	int getPoints() override;
 };
 

@@ -43,6 +43,7 @@ Game::~Game()
 
 void Game::initGame()
 {
+    victory = false;
     manager = new EntityManager(&window);
     videoMode = sf::VideoMode::getDesktopMode();
 
@@ -162,6 +163,11 @@ std::unique_ptr<UFO>* Game::initUFO()
     return ufoPtr;
 }
 
+bool Game::getPlayerIsDead()
+{
+    return Player::getIsDead();
+}
+
 const bool Game::getWindowIsOpen() const
 {
     return window.isOpen();
@@ -194,6 +200,13 @@ void Game::interruptEvents()
     }
 }
 
+void Game::endGameplay()
+{
+    endGame = true;
+    window.clear();
+    window.close();
+}
+
 void Game::update()
 {
     interruptEvents();
@@ -204,6 +217,15 @@ void Game::update()
         manager->updateEntities();
         manager->updatePlayerBullets();
         manager->updateEnemyBullets();
+
+        if (manager->getEnemies().empty()) {
+            victory = true;
+            endGameplay();
+        }
+        else if (getPlayerIsDead()) {
+            endGame = true;
+            endGameplay();
+        }
     }
 
     // End game condition

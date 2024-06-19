@@ -27,6 +27,16 @@ std::vector<std::unique_ptr<Powerup>> EntityManager::powerups;
 EntityManager::EntityManager(sf::RenderWindow* windowI)
 {
     window = windowI;
+   
+}
+
+EntityManager::~EntityManager()
+{
+    entities.clear();
+    enemies.clear();
+    enemyBullets.clear();
+    playerBullets.clear();
+    powerups.clear();
 }
 
 void EntityManager::addEnemy(std::unique_ptr<Enemy> enemy)

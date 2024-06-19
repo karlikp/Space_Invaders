@@ -9,6 +9,8 @@
 // I created the Enemy class to increase readable of my program
 class Enemy : public Entity
 {
+protected:
+
 	sf::Vector2f screenSize;
 	float initY;
 	short direction, downLevel; 
@@ -21,7 +23,7 @@ public:
 	virtual ~Enemy() = default;
 
 	void update();
-	void move();
+	virtual void move();
 	virtual void shoot() = 0;
 	virtual int getPoints() = 0;
 
@@ -29,7 +31,7 @@ public:
 	int getHealth();
 	bool killHit();
 
-
+	short getDownLevel();
 	int getDirection();
 	int getEnemyCounter();
 	

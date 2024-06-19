@@ -16,31 +16,42 @@ int main()
 {
 
 	// cztery omawiane techniki,
-	// sprytniejsi przeciwnicy kr¹¿¹cy po innym torze
+	// sprytniejsi przeciwnicy kr¹¿¹cy po innym torze ok
 	// komunikat o wygranej
 	// dokoñczenie bonusów (podniesienie przeciwników)
+
+
 	Interface interface;
 	
 	interface.run();
 
-	if (interface.getClose())
+	if (interface.getExitProgram())
 		return 0;
 
 	short level = 1;
 
-	//Init Game engine (object class needed to gameplay)
-	Game game;
+	do{
 
-	//Game loop
-	while (game.getWindowIsOpen() and !game.getEndGame())
-	{
-		game.update();
+		//Game* game = new Game();
 
-		game.draw();
+		////Game loop
+		//while (game->getWindowIsOpen() and !game->getEndGame())
+		//{
+		//	game->update();
 
-	}
+		//	game->draw();
+		//}
+
+		interface.getGameInfo();
+
+		/*delete game;*/
+
+		interface.run();
+
+	} while (not interface.getExitProgram());
+
+	//interface.closeWindow();
 	
-
 	return 0;
 
 }

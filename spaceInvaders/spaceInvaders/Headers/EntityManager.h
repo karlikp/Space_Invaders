@@ -27,7 +27,7 @@ public:
 
 	EntityManager(sf::RenderWindow* windowI);
 	EntityManager() = default;
-	~EntityManager() = default;
+	~EntityManager();
 
 	void addEnemy(std::unique_ptr<Enemy> enemy);
 	void addEntity(std::unique_ptr<Entity> entity);

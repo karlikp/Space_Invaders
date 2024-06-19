@@ -12,8 +12,9 @@ class Player : public Entity
 {	
 	int currentDamage, reloadTimer, powerupTimer, activePower,
 		powerupType;
-	std::string name;
-	int health, points;
+	int health;
+	static short points;
+	static bool isDead;
 
 	std::unique_ptr<UFO>** ufo;
 
@@ -27,6 +28,10 @@ public:
 	~Player() = default;
 
 	void update() override;
+	void setIsDead(bool state);
+	
+	static bool getIsDead();
+	static short getPoints();
 
 	sf::IntRect getHitbox();
 

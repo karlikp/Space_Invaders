@@ -1,4 +1,5 @@
 #include "Headers/Interface.h"
+#include "Headers/Player.h"
 
 const float OPTION_WIDTH = 200.0f;
 const float OPTION_HEIGHT = 50.0f;
@@ -12,11 +13,12 @@ const float CELL_GAP = 10.0f;
 
 //windows initialisation 
 Interface::Interface() {
+    finishPoints = 0;
     showPatternNameMessage = false;
-    close = false;
     successCreating = false;
     readyToStart = false;
     showUniqueNameMessage = false;
+    exitProgram = false;
 
     if (!font.loadFromFile("Resources/ARIAL.ttf")) {
         std::cerr << "Failed to load font!" << std::endl;
@@ -29,72 +31,47 @@ Interface::Interface() {
     setupBackground();
 
     // Set message communication inside background
-    sf::Vector2f center(
-        window.getSize().x / 2.0f,
-        window.getSize().y / 2.0f
-    );
+    center = { window.getSize().x / 2.0f, window.getSize().y / 2.0f };
 
-    setupText(enterNameText, "Enter a unique name, which include:", 50, sf::Color::Yellow,
+    std::thread thread1(&Interface::setupText, this, std::ref(enterNameText), "Enter a unique name, which include:", 50, sf::Color::Yellow,
         center.x, center.y - 200);
-    setupText(patternText, "- one lowercase and one uppercase,\n- from 4 to 12 characters",
+    std::thread thread2(&Interface::setupText, this, std::ref(patternText), "- lowercase, uppercase and digit\n- from 4 to 12 characters",
         30, sf::Color::Yellow, center.x, center.y - 130);
-    setupRectangle(playerNameBox, sf::Vector2f(400, 60), sf::Color::White, 2, sf::Color::Black,
+    std::thread thread3([&]() {
+        this->setupRectangle(std::ref(playerNameWindow), sf::Vector2f(400, 60), sf::Color::White, 2, sf::Color::Black,
         center.x, center.y - 50);
-    setupRectangle(saveButtonWindow, sf::Vector2f(200, 60), sf::Color::White, 2,
+        });
+    std::thread thread4([&]() {
+        this->setupRectangle(std::ref(saveButton), sf::Vector2f(200, 60), sf::Color::White, 2,
         sf::Color::Black, center.x, center.y + 50);
-    setupText(saveButtonText, "Play", 40, sf::Color::Black,
+        });
+    std::thread thread5(&Interface::setupText, this, std::ref(saveButtonText), "Play", 40, sf::Color::Black,
         center.x, center.y + 60);
-    setupText(uniqueNameText, "Type in a unique player name!", 30, sf::Color::Red,
+    std::thread thread6(&Interface::setupText, this, std::ref(uniqueNameText), "Type in a unique player name!", 30, sf::Color::Red,
         center.x, center.y + 150);
-    setupText(patternNameText, "Type in name correct with pattern!", 30, sf::Color::Red,
+    std::thread thread7(&Interface::setupText, this, std::ref(patternNameText), "Type in name correct with pattern!", 30, sf::Color::Red,
         center.x, center.y + 250);
-    setupText(playerNotFoundText, "Type in name of an existing player!", 30, sf::Color::Red,
+    std::thread thread8(&Interface::setupText, this, std::ref(playerNotFoundText), "Type in name of an existing player!", 30, sf::Color::Red,
         center.x, center.y + 150);
-    setupText(instructionText, "", 30, sf::Color::Yellow, OPTION_GAP, OPTION_GAP);
-   
-    
+    std::thread thread9(&Interface::setupText, this, std::ref(instructionText), "", 30, sf::Color::Yellow, 20, 20);
 
-    //sf::RectangleShape playerNameBox(sf::Vector2f(400, 60)), saveButtonWindow(sf::Vector2f(200, 60));
-
-    //std::thread thread1(&Interface::setupText, this, std::ref(enterNameText), "Enter a unique name, which include:", 50, sf::Color::Yellow,
-    //    center.x, center.y - 200);
-    //std::thread thread2(&Interface::setupText, this, std::ref(patternText), "- one lowercase and one uppercase,\n- from 4 to 12 characters",
-    //    30, sf::Color::Yellow, center.x, center.y - 130);
-    //std::thread thread3([&]() {
-    //    this->setupRectangle(playerNameBox, sf::Vector2f(400, 60), sf::Color::White, 2, sf::Color::Black,
-    //    center.x, center.y - 50);
-    //    });
-    //std::thread thread4([&]() {
-    //    this->setupRectangle(saveButtonWindow, sf::Vector2f(200, 60), sf::Color::White, 2,
-    //    sf::Color::Black, center.x, center.y + 50);
-    //    });
-    //std::thread thread5(&Interface::setupText, this, std::ref(saveButtonText), "Play", 40, sf::Color::Black,
-    //    center.x, center.y + 60);
-    //std::thread thread6(&Interface::setupText, this, std::ref(uniqueNameText), "Type in a unique player name!", 30, sf::Color::Red,
-    //    center.x, center.y + 150);
-    //std::thread thread7(&Interface::setupText, this, std::ref(patternNameText), "Type in name correct with pattern!", 30, sf::Color::Red,
-    //    center.x, center.y + 250);
-    //std::thread thread8(&Interface::setupText, this, std::ref(playerNotFoundText), "Type in name of an existing player!", 30, sf::Color::Red,
-    //    center.x, center.y + 150);
-    //std::thread thread9(&Interface::setupText, this, std::ref(instructionText), "", 30, sf::Color::Yellow, 20, 20);
-
-    //// Wait for synch
-    //thread1.join();
-    //thread2.join();
-    //thread3.join();
-    //thread4.join();
-    //thread5.join();
-    //thread6.join();
-    //thread7.join();
-    //thread8.join();
-    //thread9.join();
+    // Wait for synch
+    thread1.join();
+    thread2.join();
+    thread3.join();
+    thread4.join();
+    thread5.join();
+    thread6.join();
+    thread7.join();
+    thread8.join();
+    thread9.join();
 
     //Exeption in set position
     playerInputNameText.setFont(font);
     playerInputNameText.setCharacterSize(40);
     playerInputNameText.setFillColor(sf::Color::Black);
     playerInputNameText.setPosition(
-        (window.getSize().x - playerNameBox.getSize().x) / 2.0f,
+        (window.getSize().x - playerNameWindow.getSize().x) / 2.0f,
         window.getSize().y / 2.0f - 40
     );
 
@@ -103,7 +80,38 @@ Interface::Interface() {
     setupBackButton();
 }
 
+void Interface::initSummaryGame()
+{
+    std::thread summaryThread1(&Interface::setupText, this, std::ref(summaryScoreText), "Victory!", 60, sf::Color::Yellow,
+        center.x, center.y - 200);
+    std::thread summaryThread2(&Interface::setupText, this, std::ref(summaryPointsText), "Points: " + Player::getPoints(),
+        30, sf::Color::Yellow, center.x, center.y - 130);
+
+    std::thread summaryThread3([&]() {
+        this->setupRectangle(std::ref(summaryBackButton), sf::Vector2f(300, 60), sf::Color::White, 2,
+        sf::Color::Black, center.x - 300, center.y + 50);
+        });
+    std::thread summaryThread4(&Interface::setupText, this, std::ref(summaryBackText), "Main menu", 40, sf::Color::Black,
+        center.x - 310, center.y + 60);
+
+    std::thread summaryThread5([&]() {
+        this->setupRectangle(std::ref(summaryExitButton), sf::Vector2f(300, 60), sf::Color::White, 2,
+        sf::Color::Black, center.x + 300, center.y + 50);
+        });
+    std::thread summaryThread6(&Interface::setupText, this, std::ref(summaryExitText), "Exit", 40, sf::Color::Black,
+        center.x + 300, center.y + 60);
+
+    summaryThread1.join();
+    summaryThread2.join();
+    summaryThread3.join();
+    summaryThread4.join();
+    summaryThread5.join();
+    summaryThread6.join();
+}
+
 void Interface::setupText(sf::Text& text, const std::string& content, int charSize, const sf::Color& color, float centerX, float posY) {
+
+    std::lock_guard<std::mutex> lock(mutex);
     text.setFont(font);
     text.setString(content);
     text.setCharacterSize(charSize);
@@ -112,6 +120,9 @@ void Interface::setupText(sf::Text& text, const std::string& content, int charSi
 }
 
 void Interface::setupRectangle(sf::RectangleShape& rectangle, const sf::Vector2f& size, const sf::Color& fillColor, float outlineThickness, const sf::Color& outlineColor, float centerX, float posY) {
+   
+    
+    std::lock_guard<std::mutex> lock(mutex); 
     rectangle.setSize(size);
     rectangle.setFillColor(fillColor);
     rectangle.setOutlineThickness(outlineThickness);
@@ -227,6 +238,34 @@ void Interface::addOption(const std::string& text, float y) {
     optionTexts.push_back(optionText);
 }
 
+void Interface::checkOptionClicked(sf::Vector2i& mousePos) {
+    for (size_t i = 0; i < optionWindows.size(); ++i) {
+        if (optionWindows[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            switch (i) {
+            case 0:
+                currentState = State::NewPlayer;
+                break;
+            case 1:
+                currentState = State::ContinuePlayer;
+                break;
+            case 2:
+                loadPlayerNames();
+                currentState = State::ScoreTable;
+                break;
+            case 3:
+                loadInstructions();
+                currentState = State::Rules;
+                break;
+            case 4:
+                currentState = State::Exit;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
 void Interface::handleEvents() {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -246,6 +285,14 @@ void Interface::handleEvents() {
         case State::Rules:
             handleRulesEvents(event);
             break;
+        case State::SummaryGame:
+            initSummaryGame();
+            handleSummaryGameEvents(event);
+            break;
+        case State::Exit:
+            handleExit();
+            break;
+
         }
     }
     
@@ -269,6 +316,9 @@ void Interface::render() {
     case State::Rules:
         renderRules();
         break;
+    case State::SummaryGame:
+        renderSummaryGame();
+        break;
     }
     window.display();
 }
@@ -276,9 +326,6 @@ void Interface::render() {
 
 void Interface::handleMainMenuEvents(sf::Event& event) {
     switch (event.type) {
-    case sf::Event::Closed:
-        window.close();
-        break;
     case sf::Event::MouseButtonPressed:
         if (event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -292,9 +339,6 @@ void Interface::handleMainMenuEvents(sf::Event& event) {
 
 void Interface::handleNewPlayerEvents(sf::Event& event) {
     switch (event.type) {
-    case sf::Event::Closed:
-        window.close();
-        break;
     case sf::Event::TextEntered:
         if (event.text.unicode == 8) { // Backspace
             if (!playerName.empty()) {
@@ -309,10 +353,12 @@ void Interface::handleNewPlayerEvents(sf::Event& event) {
     case sf::Event::MouseButtonPressed:
         if (event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            if (saveButtonWindow.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            if (saveButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 createPlayer();
+                currentState = State::SummaryGame;
             }
-            else if (isBackButtonClicked(mousePos)) 
+        
+        else if (isBackButtonClicked(mousePos)) 
                 currentState = State::MainMenu;
         }
         break;
@@ -323,9 +369,6 @@ void Interface::handleNewPlayerEvents(sf::Event& event) {
 
 void Interface::handleContinuePlayerEvents(sf::Event& event) {
     switch (event.type) {
-    case sf::Event::Closed:
-        window.close();
-        break;
     case sf::Event::TextEntered:
         if (event.text.unicode == 8) { // Backspace
             if (!playerName.empty()) {
@@ -340,9 +383,10 @@ void Interface::handleContinuePlayerEvents(sf::Event& event) {
     case sf::Event::MouseButtonPressed:
        if (event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            if (saveButtonWindow.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            if (saveButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 if (playerExists(playerName)) {
                     readyToStart = true;
+                    currentState = State::SummaryGame;
                 }
                 else {
                     showUniqueNameMessage = true;
@@ -358,70 +402,74 @@ void Interface::handleContinuePlayerEvents(sf::Event& event) {
 }
 
 void Interface::handleScoreTableEvents(sf::Event& event) {
-   
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        if (backButtonWindow.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-            currentState = State::MainMenu;
+    switch (event.type) {
+    case sf::Event::MouseButtonPressed:
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            if (backButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                currentState = State::MainMenu;
+            }
         }
     }
 
 }
 
-void Interface::handleRulesEvents(sf::Event& event)
-{
-    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        if (isBackButtonClicked(mousePos)) {
-            currentState = State::MainMenu;
+void Interface::handleRulesEvents(sf::Event& event) {
+    switch (event.type) {
+    case sf::Event::MouseButtonPressed:
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            if (isBackButtonClicked(mousePos)) {
+                currentState = State::MainMenu;
+            }
         }
-    }
-    else if (event.type == sf::Event::MouseWheelScrolled) {
+    case sf::Event::MouseWheelScrolled:
         if (event.mouseWheelScroll.delta > 0) {
             // Scroll up
-            scrollOffset += 10; 
+            scrollOffset += 10;
         }
         else if (event.mouseWheelScroll.delta < 0) {
             // Scroll down
-            scrollOffset -= 10; 
+            scrollOffset -= 10;
         }
-
         // Limiting scrolling to area of text
         scrollOffset = std::max(scrollOffset, -instructionText.getGlobalBounds().height + window.getSize().y - 200);
         scrollOffset = std::min(scrollOffset, 0.0f);
     }
 }
 
+void Interface::handleSummaryGameEvents(sf::Event& event)
+{
+    switch (event.type) {
+    case sf::Event::MouseButtonPressed:
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-void Interface::checkOptionClicked(sf::Vector2i& mousePos) {
-    for (size_t i = 0; i < optionWindows.size(); ++i) {
-        if (optionWindows[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-            switch (i) {
-            case 0:
-                currentState = State::NewPlayer;
-                break;
-            case 1:
-                currentState = State::ContinuePlayer;
-                break;
-            case 2:
-                loadPlayerNames();
-                currentState = State::ScoreTable;
-                break;
-            case 3:
-                loadInstructions();
-                currentState = State::Rules;
-                break;
-            case 4:
-                window.close();
-                close = true;
-                break;
-            default:
-                break;
-            }
+            if (summaryExitButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+                currentState = State::Exit;
+
+            else if (summaryBackButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+                currentState = State::MainMenu;
         }
     }
 }
 
+void Interface::handleExit()
+{
+    window.close();
+    exitProgram = true;
+}
+
+void Interface::renderSummaryGame()
+{
+    window.draw(backgroundSprite);
+    window.draw(summaryScoreText);
+    window.draw(summaryPointsText);
+    window.draw(summaryBackButton);
+    window.draw(summaryBackText);
+    window.draw(summaryExitButton);
+    window.draw(summaryExitText);
+}
 
 void Interface::renderMainMenu() {
     window.draw(backgroundSprite);
@@ -435,9 +483,9 @@ void Interface::renderNewPlayer() {
     window.draw(backgroundSprite);
     window.draw(enterNameText);
     window.draw(patternText);
-    window.draw(playerNameBox);
+    window.draw(playerNameWindow);
     window.draw(playerInputNameText);
-    window.draw(saveButtonWindow);
+    window.draw(saveButton);
     window.draw(saveButtonText);
 
     if (showUniqueNameMessage)
@@ -445,22 +493,22 @@ void Interface::renderNewPlayer() {
     if (showPatternNameMessage)
         window.draw(patternNameText);
 
-    window.draw(backButtonWindow); 
+    window.draw(backButton); 
     window.draw(backButtonText);
 }
 
 void Interface::renderContinuePlayer() {
     window.draw(backgroundSprite);
     window.draw(enterNameText);
-    window.draw(playerNameBox);
+    window.draw(playerNameWindow);
     window.draw(playerInputNameText);
-    window.draw(saveButtonWindow);
+    window.draw(saveButton);
     window.draw(saveButtonText);
 
     if (showUniqueNameMessage)
         window.draw(playerNotFoundText);
 
-    window.draw(backButtonWindow); 
+    window.draw(backButton); 
     window.draw(backButtonText);
 }
 
@@ -485,7 +533,7 @@ void Interface::renderScoreTable() {
     for (const auto& playerNameText : playerNamesText) {
         window.draw(playerNameText);
     }
-    window.draw(backButtonWindow);
+    window.draw(backButton);
     window.draw(backButtonText);
 }
 
@@ -493,7 +541,7 @@ void Interface::renderRules()
 {
     window.draw(backgroundSprite); // Clear the window with white color
     window.draw(instructionText);   // Draw the instructions text
-    window.draw(backButtonWindow);
+    window.draw(backButton);
     window.draw(backButtonText);
 
     instructionText.setPosition(50, 50 + scrollOffset);
@@ -514,10 +562,10 @@ void Interface::loadPlayerNames() {
 
 void Interface::setupBackButton()
 {
-    backButtonWindow.setSize(sf::Vector2f(200, 60));
-    backButtonWindow.setFillColor(sf::Color::White);
-    backButtonWindow.setOutlineThickness(2);
-    backButtonWindow.setOutlineColor(sf::Color::Black);
+    backButton.setSize(sf::Vector2f(200, 60));
+    backButton.setFillColor(sf::Color::White);
+    backButton.setOutlineThickness(2);
+    backButton.setOutlineColor(sf::Color::Black);
 
     backButtonText.setFont(font);
     backButtonText.setString("Back");
@@ -525,8 +573,8 @@ void Interface::setupBackButton()
     backButtonText.setFillColor(sf::Color::Black);
 
     sf::Vector2f center(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
-    backButtonWindow.setPosition(
-        center.x - backButtonWindow.getSize().x / 2.0f,
+    backButton.setPosition(
+        center.x - backButton.getSize().x / 2.0f,
         window.getSize().y - 100
     );
     backButtonText.setPosition(
@@ -537,7 +585,12 @@ void Interface::setupBackButton()
 
 bool Interface::isBackButtonClicked(sf::Vector2i mousePos)
 {
-    return backButtonWindow.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+    return backButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+}
+
+bool Interface::isExitButtonClicked(sf::Vector2i mousePos)
+{
+    return exitButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
 
 void Interface::createPlayer() {
@@ -566,7 +619,7 @@ void Interface::createPlayer() {
         std::ofstream outfile("PlayerData/name.txt", std::ios_base::app);
         if (outfile.is_open()) {
             outfile << playerName << std::endl;
-            outfile.close();
+            outfile.close();    
             showUniqueNameMessage = false;
             readyToStart = true; //success creating
         }   
@@ -577,11 +630,16 @@ void Interface::run() {
         handleEvents();
         render();
     }
-    window.close();
 }
 
-bool Interface::getClose()
+void Interface::getGameInfo()
 {
-    return close;
+    //finishPoints = Player::getPoints();
+    readyToStart = false;
+}
+
+bool Interface::getExitProgram()
+{
+    return exitProgram;
 }
 

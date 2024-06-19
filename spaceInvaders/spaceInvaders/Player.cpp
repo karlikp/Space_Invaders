@@ -3,6 +3,8 @@
 #include "Headers/Global.h"
 #include "Headers/Game.h"
 
+bool Player::isDead;
+short Player::points;
 
 Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>** iUfo)
 	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize),
@@ -18,6 +20,7 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 		std::cout << "nullptr\n";
 	}
 
+	isDead = false;
 	points = 0;
 	health = 3;
 	currentDamage = 1;
@@ -87,17 +90,8 @@ void Player::update()
 		}
 	}
 
-
-	
 	auto getHitboxPtr = getHitbox();
 
-	/*if ((**ufo) == nullptr) {
-		std::cout << "nullptr\n";
-	}*/
-
-	//if (ufo /*&& *ufo*/ /***ufo*/) {
-	//	powerupType = (**ufo)->checkPowerupReach(&getHitboxPtr);
-	//}
 	powerupType = (**ufo)->checkPowerupReach(&getHitboxPtr);
 
 	if (powerupType > 0)
@@ -157,6 +151,21 @@ void Player::update()
 	
 
 	setEntityPosition();
+}
+
+void Player::setIsDead(bool state)
+{
+	isDead = state;
+}
+
+bool Player::getIsDead()
+{
+	return isDead;
+}
+
+short Player::getPoints()
+{
+	return points;
 }
 
 sf::IntRect Player::getHitbox() 

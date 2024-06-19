@@ -32,7 +32,13 @@ constexpr short POWERUP_DURATION = 512;
 
 constexpr short RIGHT_MOVE = 1;
 constexpr short LEFT_MOVE = -1;
-constexpr short DOWN_MOVE = 0;
+constexpr short UP_MOVE = -2;
+constexpr short DOWN_MOVE = 2;
+constexpr float NEW_PATH_LOW_BORDER = 0.725;
+constexpr float NEW_PATH_UP_BORDER = 0.2;
+
+
+
 
 constexpr short LITTLE_HEALTH = 1;
 constexpr short LOT_OF_HEALTH = 2;

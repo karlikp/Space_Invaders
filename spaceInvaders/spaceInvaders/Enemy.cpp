@@ -84,3 +84,8 @@ bool Enemy::killHit()
 	}
 	return false;
 }
+
+short Enemy::getDownLevel()
+{
+	return downLevel;
+}
