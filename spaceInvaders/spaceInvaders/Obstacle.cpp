@@ -15,6 +15,16 @@ Obstacle::Obstacle(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vec
 
 void Obstacle::update()
 {
+	for (auto& const enemy : EntityManager::getEnemies())
+	{
+		if (getHitbox().intersects(enemy->getHitbox()))
+		{
+			enemy->setIsDead(true);
+			setIsDead(true);
+			break;
+		}
+	}
+
 	for (auto& const enemyBullet : EntityManager::getEnemyBullets())
 	{
 		if (getHitbox().intersects(enemyBullet->getHitbox()))

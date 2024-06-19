@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <thread>
+//#include <mutex>
 
 #include <SFML/Graphics.hpp> 
 #include <SFML/Window.hpp>
@@ -21,6 +23,8 @@ class Game
     //Game logic
     bool endGame;
     bool mouseHeld;
+
+   // std::mutex mtx;
 
     //Private function
     void initGame();
@@ -43,6 +47,7 @@ public:
     void initPlayer(std::unique_ptr<UFO>* ufo);
     void initObstacle();
     std::unique_ptr<UFO>* initUFO();
+   //void initLives();
 
     void update();
     void draw();

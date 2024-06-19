@@ -1,5 +1,8 @@
 #pragma once
 
+#include <thread>
+#include <mutex>
+
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
@@ -17,6 +20,7 @@ class Interface {
     bool readyToStart, noRecord, showUniqueNameMessage, showPatternNameMessage,
         successCreating;
     float scrollOffset;
+    std::mutex mutex;
   
     sf::RenderWindow window;
     sf::VideoMode videoMode;

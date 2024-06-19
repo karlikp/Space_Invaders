@@ -51,6 +51,43 @@ Interface::Interface() {
     setupText(playerNotFoundText, "Type in name of an existing player!", 30, sf::Color::Red,
         center.x, center.y + 150);
     setupText(instructionText, "", 30, sf::Color::Yellow, OPTION_GAP, OPTION_GAP);
+   
+    
+
+    //sf::RectangleShape playerNameBox(sf::Vector2f(400, 60)), saveButtonWindow(sf::Vector2f(200, 60));
+
+    //std::thread thread1(&Interface::setupText, this, std::ref(enterNameText), "Enter a unique name, which include:", 50, sf::Color::Yellow,
+    //    center.x, center.y - 200);
+    //std::thread thread2(&Interface::setupText, this, std::ref(patternText), "- one lowercase and one uppercase,\n- from 4 to 12 characters",
+    //    30, sf::Color::Yellow, center.x, center.y - 130);
+    //std::thread thread3([&]() {
+    //    this->setupRectangle(playerNameBox, sf::Vector2f(400, 60), sf::Color::White, 2, sf::Color::Black,
+    //    center.x, center.y - 50);
+    //    });
+    //std::thread thread4([&]() {
+    //    this->setupRectangle(saveButtonWindow, sf::Vector2f(200, 60), sf::Color::White, 2,
+    //    sf::Color::Black, center.x, center.y + 50);
+    //    });
+    //std::thread thread5(&Interface::setupText, this, std::ref(saveButtonText), "Play", 40, sf::Color::Black,
+    //    center.x, center.y + 60);
+    //std::thread thread6(&Interface::setupText, this, std::ref(uniqueNameText), "Type in a unique player name!", 30, sf::Color::Red,
+    //    center.x, center.y + 150);
+    //std::thread thread7(&Interface::setupText, this, std::ref(patternNameText), "Type in name correct with pattern!", 30, sf::Color::Red,
+    //    center.x, center.y + 250);
+    //std::thread thread8(&Interface::setupText, this, std::ref(playerNotFoundText), "Type in name of an existing player!", 30, sf::Color::Red,
+    //    center.x, center.y + 150);
+    //std::thread thread9(&Interface::setupText, this, std::ref(instructionText), "", 30, sf::Color::Yellow, 20, 20);
+
+    //// Wait for synch
+    //thread1.join();
+    //thread2.join();
+    //thread3.join();
+    //thread4.join();
+    //thread5.join();
+    //thread6.join();
+    //thread7.join();
+    //thread8.join();
+    //thread9.join();
 
     //Exeption in set position
     playerInputNameText.setFont(font);
@@ -129,6 +166,19 @@ void Interface::setupMenuOptions() {
     addOption("Score table", startY + 2 * (OPTION_HEIGHT + OPTION_GAP));
     addOption("Rules", startY + 3 * (OPTION_HEIGHT + OPTION_GAP));
     addOption("Exit", startY + 4 * (OPTION_HEIGHT + OPTION_GAP));
+
+    std::thread thread1(&Interface::addOption, this, "New player", startY);
+    std::thread thread2(&Interface::addOption, this, "Continue", startY + OPTION_HEIGHT + OPTION_GAP);
+    std::thread thread3(&Interface::addOption, this, "Score table", startY + 2 * (OPTION_HEIGHT + OPTION_GAP));
+    std::thread thread4(&Interface::addOption, this, "Rules", startY + 3 * (OPTION_HEIGHT + OPTION_GAP));
+    std::thread thread5(&Interface::addOption, this, "Exit", startY + 4 * (OPTION_HEIGHT + OPTION_GAP));
+
+    // Czekamy na zakoñczenie wszystkich w¹tków
+    thread1.join();
+    thread2.join();
+    thread3.join();
+    thread4.join();
+    thread5.join();
 }
 
 void Interface::setupScoreTableWindow()
@@ -157,6 +207,7 @@ void Interface::setupScoreTableWindow()
 void Interface::addOption(const std::string& text, float y) {
     sf::RectangleShape optionWindow;
     sf::Text optionText;
+    std::lock_guard<std::mutex> lock(mutex);
 
     optionText.setFont(font);
     optionText.setString(text);

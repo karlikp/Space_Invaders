@@ -37,7 +37,7 @@ void Enemy::move()
 {
 	if (direction != DOWN_MOVE)
 	{
-		if ((direction == RIGHT_MOVE && getX() == screenSize.x - (ENEMY_SIZE_RATIO + GAP_RATIO) * screenSize.y) || (direction == LEFT_MOVE && getX() == GAP_RATIO * screenSize.y))
+		if ((direction == RIGHT_MOVE && getX() >= screenSize.x - (ENEMY_SIZE_RATIO + GAP_RATIO) * screenSize.y) || (direction == LEFT_MOVE && getX() <= GAP_RATIO * screenSize.y))
 		{
 			direction = DOWN_MOVE;
 			downLevel++;
@@ -57,7 +57,7 @@ void Enemy::move()
 		if (int(getY()) == int(initY + downLevel * ENEMY_OFFSET_RATIO * screenSize.y))
 		{
 			//Moving in a snake pattern. We use the modulo operator to decide whether to move left or right.
-			direction = 0 == downLevel % 2 ? -1 : 1;
+			direction = 0 == downLevel % 2 ? 1 : -1;
 		}
 	}
 }

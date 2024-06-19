@@ -5,7 +5,8 @@
 
 
 Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>** iUfo)
-	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
+	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize),
+	ufo(iUfo){
 
 	float scale = (0.075 * iScreenSize.y) / PLAYER_DEFAULT_HEIGHT;
 
@@ -13,7 +14,10 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	setEntityBulletSprite("Resources/playerBullet1.png");
 	setEntityScale(scale);
 
-	ufo = iUfo;
+	if ((**ufo) == nullptr) {
+		std::cout << "nullptr\n";
+	}
+
 	points = 0;
 	health = 3;
 	currentDamage = 1;
@@ -87,6 +91,13 @@ void Player::update()
 	
 	auto getHitboxPtr = getHitbox();
 
+	/*if ((**ufo) == nullptr) {
+		std::cout << "nullptr\n";
+	}*/
+
+	//if (ufo /*&& *ufo*/ /***ufo*/) {
+	//	powerupType = (**ufo)->checkPowerupReach(&getHitboxPtr);
+	//}
 	powerupType = (**ufo)->checkPowerupReach(&getHitboxPtr);
 
 	if (powerupType > 0)
@@ -142,6 +153,8 @@ void Player::update()
 			}
 		}
 	}
+
+	
 
 	setEntityPosition();
 }

@@ -11,6 +11,36 @@
 
 sf::RenderWindow Game::window;
 
+Game::Game()
+{
+    //EntityManager create every object in constuctor
+    initGame();
+    initBackground();
+
+
+
+    initEnemies();
+    initObstacle();
+    initPlayer(initUFO());
+
+   /*
+    {
+        std::thread initEnemiesThread(&Game::initEnemies, this);
+        std::thread initObstacleThread(&Game::initObstacle, this);
+
+        initEnemiesThread.join();
+        initObstacleThread.join();
+    }
+    initPlayer(initUFO());*/
+
+}
+
+Game::~Game()
+{
+    delete manager;
+    manager = NULL;
+}
+
 void Game::initGame()
 {
     manager = new EntityManager(&window);
@@ -76,7 +106,7 @@ void Game::initPlayer(std::unique_ptr<UFO>* ufo)
     {
         std::cerr << "WskaŸnik UFO jest null!" << std::endl;
     }
-
+    auto iUfo = &ufo;
     manager->addEntity(std::make_unique<Player>(posX, posY, PLAYER_MOVE_SPEED, MOTIONLESS_Y, screenSize, &ufo));
 }
 
@@ -125,31 +155,12 @@ std::unique_ptr<UFO>* Game::initUFO()
     std::unique_ptr<UFO> ufo = std::make_unique<UFO>(tempPosX, posY, INVADER_MOVE_SPEED_X, MOTIONLESS_Y, screenSize);
     if (ufo == nullptr)
     {
-        std::cerr << "WskaŸnik UFO jest null!" << std::endl;
+        std::cerr << "nullptr\n";
     }
     manager->addEntity(std::move(ufo));
     auto ufoPtr = &ufo;
     return ufoPtr;
 }
-
-Game::Game()
-{ 
-    //EntityManager create every object in constuctor
-    initGame();
-    initBackground();
-
-    initEnemies();//adding to enemies vector
-    initPlayer(initUFO());
-    initObstacle();
-    
-}
-
-Game::~Game()
-{
-    delete manager;
-    manager = NULL;
-}
-
 
 const bool Game::getWindowIsOpen() const
 {
