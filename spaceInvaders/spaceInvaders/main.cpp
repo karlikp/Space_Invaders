@@ -14,6 +14,11 @@
 
 int main()
 {
+
+	// cztery omawiane techniki,
+	// sprytniejsi przeciwnicy kr¹¿¹cy po innym torze
+	// komunikat o wygranej
+	// dokoñczenie bonusów (podniesienie przeciwników)
 	Interface interface;
 	
 	interface.run();
@@ -23,17 +28,17 @@ int main()
 
 	short level = 1;
 
-	////Init Game engine (object class needed to gameplay)
-	//Game game;
+	//Init Game engine (object class needed to gameplay)
+	Game game;
 
-	////Game loop
-	//while (game.getWindowIsOpen() and !game.getEndGame())
-	//{
-	//	game.update();
+	//Game loop
+	while (game.getWindowIsOpen() and !game.getEndGame())
+	{
+		game.update();
 
-	//	game.draw();
+		game.draw();
 
-	//}
+	}
 	
 
 	return 0;
