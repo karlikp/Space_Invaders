@@ -22,6 +22,7 @@ Game::Game()
     initUfo();
     initPlayer();
     initPoints();
+    initLives();
 }
 
 Game::~Game()
@@ -32,6 +33,7 @@ Game::~Game()
 
 void Game::initGame()
 {
+    lives = 3;
     points = 0;
     victory = false;
     manager = new EntityManager(&window);
@@ -218,6 +220,7 @@ void Game::update()
         manager->updateEnemyBullets();
         manager->updatePowerups();
         updatePoints();
+        updateLives();
 
         if (manager->getEnemies().empty()) {
             victory = true;
@@ -255,6 +258,7 @@ void Game::draw()
     manager->drawPowerups();
     window.draw(pointsLabel);
     window.draw(pointsText);
+    drawLives();
 
     window.display();
 }
@@ -267,12 +271,39 @@ void Game::drawUfo()
     }
 }
 
-//void Game::drawUfo()
-//{
-//   
-//    auto ufo = Player::moveOutUFO();
-//    
-//    window.draw(ufo->entitySprite);
-//
-//    Player::moveInUFO(std::move(ufo));
-//}
+void Game::initLives()
+{
+    if (!shipTexture.loadFromFile("Resources/playerShip1_blue.png")) {
+        std::cerr << "Error loading ship texture\n";
+        return;
+    }
+    float scale = (LIFE_SIZE_RATIO * screenSize.y) / PLAYER_DEFAULT_HEIGHT;
+
+    shipSprite.setTexture(shipTexture);
+    shipSprite.setScale(scale, scale); 
+
+    livesLabel.setFont(font);
+    livesLabel.setString("LIVES:    ");
+    livesLabel.setCharacterSize(24);
+    livesLabel.setFillColor(sf::Color::White);
+    livesLabel.setPosition(0.8 * screenSize.x, GAP_RATIO * screenSize.y);
+
+    startLivesX = livesLabel.getPosition().x + livesLabel.getLocalBounds().width;
+    offsetLivesX = 0.05 * screenSize.x;
+    float posY = GAP_RATIO * screenSize.y;
+}
+
+void Game::updateLives()
+{
+    lives = Player::getLives();
+}
+
+void Game::drawLives()
+{
+    window.draw(livesLabel);
+
+    for (int i = 0; i < lives; ++i) {
+        shipSprite.setPosition(startLivesX + i * offsetLivesX, (GAP_RATIO - 0.010) * screenSize.y);
+        window.draw(shipSprite);
+    }
+}

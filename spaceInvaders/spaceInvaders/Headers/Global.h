@@ -6,6 +6,7 @@ constexpr short OBSTACLE_DEFAULT_WIDTH = 300;
 constexpr short UFO_DEFAULT_HEIGHT = 84;
 constexpr short BULLET_DEFAULT_HEIGHT = 37;
 constexpr short POWERUP_DEFAULT_HEIGHT = 37;
+constexpr short LIFE_DEFAULT_HEIGHT = 26;
 
 //I set the elements based on the proportions in relation to the screen height
 // P = PROPORTIONS:
@@ -15,6 +16,7 @@ constexpr float BULLET_RATIO = 0.02;
 constexpr float ENEMY_SIZE_RATIO = 0.05;
 constexpr float ENEMY_OFFSET_RATIO = 0.075;
 constexpr float PLAYER_SIZE_RATIO = 0.075;
+constexpr float LIFE_SIZE_RATIO = 0.050;
 constexpr float OBSTACLE_HEIGHT_RATIO = 0.075;
 constexpr float OBSTACLE_WIDTH_RATIO = 0.15;
 constexpr float OBSTACLE_OFFSET_RATIO = 0.225;

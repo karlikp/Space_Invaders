@@ -12,7 +12,7 @@ class Player : public Entity
 {	
 	int currentDamage, reloadTimer, powerupTimer, activePower,
 		powerupType;
-	int health;
+	static short lives;
 	static short points;
 	static bool isDead;
 	static bool ufoInProgress;
@@ -35,7 +35,8 @@ public:
 	void setIsDead(bool state);
 	static bool getIsDead();
 	static short getPoints();
-
+	static short getLives();
+	
 	static bool getUfoInProgress();
 	static void setUfoInProgress(bool state);
 

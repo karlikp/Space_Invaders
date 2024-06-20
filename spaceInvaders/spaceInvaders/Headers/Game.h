@@ -22,6 +22,7 @@ class Game
     //Game logic
     bool endGame, victory;
     short points;
+    float startLivesX, offsetLivesX;
 
    // std::mutex mtx;
 
@@ -33,12 +34,18 @@ class Game
     void initUfo();
     void initPlayer();
     void initPoints();
+    void initLives();
 
 public:
 
     sf::Font font;
     sf::Text pointsLabel;
     sf::Text pointsText;
+
+    sf::Text livesLabel; 
+    sf::Sprite shipSprite; 
+    sf::Texture shipTexture; 
+    int lives; 
 
     sf::Sprite backgroundSprite;
     sf::Texture backgroundTexture;
@@ -61,6 +68,8 @@ public:
     void drawUfo();
     void interruptEvents();
     void endGameplay();
+    void updateLives();
+    void drawLives();
 
     bool getPlayerIsDead();
     const bool getWindowIsOpen() const;

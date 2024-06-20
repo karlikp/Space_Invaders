@@ -9,6 +9,7 @@ bool Player::isDead;
 bool Player::ufoInProgress;
 short Player::points;
 UFO* Player::tempUfo;
+short Player::lives;
 
 
 Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, UFO* iUfo)
@@ -22,10 +23,11 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	setEntityBulletSprite("Resources/playerBullet1.png");
 	setEntityScale(scale);;
 
+
 	ufoInProgress = false;
 	isDead = false;
 	points = 0;
-	health = 3;
+	lives = 3;
 	currentDamage = 1;
 	reloadTimer = RELOAD_TIME;
 	activePower = NORMAL_STATE;
@@ -86,10 +88,10 @@ void Player::update()
 
 		if (getHitbox().intersects(enemyBullet->getHitbox()))
 		{
-			health--;
+			lives--;
 			enemyBullet->setIsDead(true);
 		}
-		if (health == 0) {
+		if (lives == 0) {
 			setIsDead(true);
 			break;
 		}
@@ -101,7 +103,7 @@ void Player::update()
 	//powerupType = UFO::getPowerupType();
 
 	if (powerupType == 3) {
-		health++;
+		lives++;
 		powerupType = 0;
 	}
 	else if (powerupType > 0)
@@ -199,6 +201,11 @@ bool Player::getIsDead()
 short Player::getPoints()
 {
 	return points;
+}
+
+short Player::getLives()
+{
+	return lives;
 }
 
 bool Player::getUfoInProgress()
