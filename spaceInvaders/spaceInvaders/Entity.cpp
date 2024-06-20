@@ -10,6 +10,18 @@ Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	isDead = false;
 }
 
+Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, float iRatio) :
+	position(0, iPosY),
+	stepX(iStepX),
+	stepY(iStepY),
+	screenSize(iScreenSize),
+	ratio(iRatio)
+{
+	position.x = iPosX + ((iRatio - (BULLET_RATIO / 2)) * iScreenSize.y) / 2;
+	isDead = false;
+
+}
+
 Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iBulletSprite, float iRatio) :
 	position(0, iPosY),
 	stepX(iStepX),
@@ -61,8 +73,8 @@ bool Entity::getIsDead() {
 	return isDead;
 }
 
-sf::Sprite Entity::getEntitySprite() {
-	return entitySprite;
+sf::Sprite* Entity::getEntitySprite() {
+	return &entitySprite;
 }
 
 sf::Sprite Entity::getEntityBulletSprite() {
@@ -97,9 +109,9 @@ void Entity::setEntityScale(float scale) {
 	entitySprite.setScale(scale, scale);
 }
 
-std::bernoulli_distribution Entity::getShootPossibility()
+std::bernoulli_distribution Entity::getPossibility()
 {
-	return shootPossibility;
+	return possibility;
 }
 
 void Entity::setEntityPosition() {
@@ -111,7 +123,7 @@ void Entity::setBulletPosition()
 	entityBulletSprite.setPosition(position);
 }
 
-void Entity::setShootPossibility(float possibility)
+void Entity::setPossibility(float newPossibility)
 {
-	shootPossibility = std::bernoulli_distribution(possibility);
+	possibility = std::bernoulli_distribution(newPossibility);
 }

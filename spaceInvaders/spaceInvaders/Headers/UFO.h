@@ -5,8 +5,12 @@
 class UFO : public Entity
 {
 	bool isOnScreen;
-	unsigned short powerupType;
+	short powerupType;
 	bool duringDestruction;
+	float x, y, stepX, stepY;
+	sf::Vector2f screenSize;
+
+	std::bernoulli_distribution shootPossibility;
 
 public:
 
@@ -15,9 +19,12 @@ public:
 	void update() override;
 
 
-	float checkPowerupReach(sf::IntRect* i_player_hitbox);
-	bool checkBulletColision(sf::IntRect* i_player_hitbox);
+	short checkPowerupCollision(sf::IntRect* i_player_hitbox);
+	bool checkBulletCollision(sf::IntRect i_player_hitbox);
 	sf::IntRect getHitbox();
+	short getPowerupType();
+
+
 	bool randomArrived();
 	int randomPowerup();
 	bool bulletCollision();

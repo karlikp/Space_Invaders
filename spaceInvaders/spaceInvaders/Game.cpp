@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Headers/Game.h"
 #include "Headers/Global.h"
 #include "Headers/Player.h"
@@ -13,26 +15,13 @@ sf::RenderWindow Game::window;
 
 Game::Game()
 {
-    //EntityManager create every object in constuctor
     initGame();
     initBackground();
-
-
-
     initEnemies();
     initObstacle();
-    initPlayer(initUFO());
-
-   /*
-    {
-        std::thread initEnemiesThread(&Game::initEnemies, this);
-        std::thread initObstacleThread(&Game::initObstacle, this);
-
-        initEnemiesThread.join();
-        initObstacleThread.join();
-    }
-    initPlayer(initUFO());*/
-
+    initUfo();
+    initPlayer();
+    initPoints();
 }
 
 Game::~Game()
@@ -43,6 +32,7 @@ Game::~Game()
 
 void Game::initGame()
 {
+    points = 0;
     victory = false;
     manager = new EntityManager(&window);
     videoMode = sf::VideoMode::getDesktopMode();
@@ -97,18 +87,34 @@ void Game::initEnemies()
     }
 }
 
-void Game::initPlayer(std::unique_ptr<UFO>* ufo)
+void Game::initPlayer()
 {   
     float newShipSize = PLAYER_SIZE_RATIO * screenSize.y;
     float posX = (screenSize.x - newShipSize) / 2;
     float posY = screenSize.y - (0.1 * screenSize.y);
    
-    if (*ufo == nullptr)
-    {
-        std::cerr << "WskaŸnik UFO jest null!" << std::endl;
+    manager->addEntity(std::make_unique<Player>(posX, posY, PLAYER_MOVE_SPEED, MOTIONLESS_Y, screenSize, ufo));
+}
+
+void Game::initPoints()
+{
+    if (!font.loadFromFile("Resources/ARIAL.ttf")) {
+        std::cerr << "Error loading font\n";
+        return;
     }
-    auto iUfo = &ufo;
-    manager->addEntity(std::make_unique<Player>(posX, posY, PLAYER_MOVE_SPEED, MOTIONLESS_Y, screenSize, &ufo));
+
+    pointsLabel.setFont(font);
+    pointsLabel.setString("POINTS: ");
+    pointsLabel.setCharacterSize(24); 
+    pointsLabel.setFillColor(sf::Color::White);
+    pointsLabel.setPosition(GAP_RATIO * screenSize.y, GAP_RATIO * screenSize.y);
+
+   
+    pointsText.setFont(font);
+    pointsText.setCharacterSize(24); 
+    pointsText.setFillColor(sf::Color::White);
+    pointsText.setPosition(pointsLabel.getLocalBounds().width + GAP_RATIO * screenSize.y, GAP_RATIO * screenSize.y);
+
 }
 
 void Game::initObstacle()
@@ -149,18 +155,11 @@ void Game::initObstacle()
     }  
 }
 
-std::unique_ptr<UFO>* Game::initUFO()
+void Game::initUfo()
 {
-    float tempPosX = screenSize.x - 150;
+    float posX = screenSize.x + (2 * UFO_WIDTH_RATIO * screenSize.y);
     float posY = 0.1 * screenSize.y;
-    std::unique_ptr<UFO> ufo = std::make_unique<UFO>(tempPosX, posY, INVADER_MOVE_SPEED_X, MOTIONLESS_Y, screenSize);
-    if (ufo == nullptr)
-    {
-        std::cerr << "nullptr\n";
-    }
-    manager->addEntity(std::move(ufo));
-    auto ufoPtr = &ufo;
-    return ufoPtr;
+    ufo = new UFO(posX, posY, INVADER_MOVE_SPEED_X, MOTIONLESS_Y, screenSize);
 }
 
 bool Game::getPlayerIsDead()
@@ -178,9 +177,9 @@ const bool Game::getEndGame() const
     return endGame;
 }
 
-sf::RenderWindow& Game::getWindow()
+sf::RenderWindow* Game::getWindow()
 {
-    return window;
+    return &window;
 }
 
 void Game::interruptEvents()
@@ -217,6 +216,8 @@ void Game::update()
         manager->updateEntities();
         manager->updatePlayerBullets();
         manager->updateEnemyBullets();
+        manager->updatePowerups();
+        updatePoints();
 
         if (manager->getEnemies().empty()) {
             victory = true;
@@ -231,18 +232,47 @@ void Game::update()
     // End game condition
 }
 
+void Game::updatePoints()
+{
+    points = Player::getPoints();
+    pointsText.setString(std::to_string(points));
+}
+
 
 void Game::draw()
 {
  
     window.clear();
 
+    
     window.draw(backgroundSprite);
 
+    drawUfo();
     manager->drawEnemies(); 
     manager->drawEntities();
     manager->drawPlayerBullets();
     manager->drawEnemyBullets();
+    manager->drawPowerups();
+    window.draw(pointsLabel);
+    window.draw(pointsText);
 
     window.display();
 }
+
+void Game::drawUfo()
+{
+    if (ufo->getIsDead() == false) {
+        auto ufoPtr = Player::getUfo();
+        window.draw(ufo->entitySprite);
+    }
+}
+
+//void Game::drawUfo()
+//{
+//   
+//    auto ufo = Player::moveOutUFO();
+//    
+//    window.draw(ufo->entitySprite);
+//
+//    Player::moveInUFO(std::move(ufo));
+//}

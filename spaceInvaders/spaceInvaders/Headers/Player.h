@@ -15,31 +15,31 @@ class Player : public Entity
 	int health;
 	static short points;
 	static bool isDead;
-
-	std::unique_ptr<UFO>** ufo;
-
-
-
-
+	static bool ufoInProgress;
+	UFO* ufo;
+	static UFO* tempUfo;
+	//static std::unique_ptr<UFO> tempUfo;
+	
 
 public:
 
-	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>** ufo);
+	Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, UFO* ufo);
 	~Player() = default;
 
 	void update() override;
-	void setIsDead(bool state);
+	void updateUfo();
 	
+	void initTempUfo();
+	static UFO* getUfo();
+
+	void setIsDead(bool state);
 	static bool getIsDead();
 	static short getPoints();
 
+	static bool getUfoInProgress();
+	static void setUfoInProgress(bool state);
+
 	sf::IntRect getHitbox();
 
-	//void reset();
-	/*void moveInputs();
-	void updateLives();
-	void updatePoints();
-	void renderPlayer();
-	bool bulletCollision();*/
 };
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <chrono>
 #include <random>
+#include <iostream>
 
 #include <SFML/Graphics.hpp> 
 #include <SFML/Window.hpp>
@@ -16,6 +17,7 @@ class Entity
 {
 	//encapsulation
 
+protected:
 	sf::Vector2f position;
 	sf::Vector2f screenSize;
 	float stepX;
@@ -24,19 +26,19 @@ class Entity
 	int ratio;
 	bool isDead;
 
-	std::bernoulli_distribution shootPossibility;
+	std::bernoulli_distribution possibility;
 
 	sf::Sprite entityBulletSprite;
-	sf::Sprite entitySprite;
+	
 	sf::Texture entityBulletTexture;
 	sf::Texture entityTexture;
 
 public:
 	
-	
+	sf::Sprite entitySprite;
 
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize);
-	//Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<Entity> ufo);
+	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, float iRatio);
 	Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iBulletSprite, float iRatio);
 	Entity(float iPosX, float iPosY, float iStepY, sf::Sprite iBulletSprite, sf::Vector2f iScreenSize);
 	virtual ~Entity() = default;
@@ -51,9 +53,9 @@ public:
 	float getStepY();
 	float getScale();
 	bool getIsDead();
-	sf::Sprite getEntitySprite();
+	sf::Sprite* getEntitySprite();
 	sf::Sprite getEntityBulletSprite();
-	std::bernoulli_distribution getShootPossibility();
+	std::bernoulli_distribution getPossibility();
 
 	
 
@@ -66,7 +68,7 @@ public:
 	void setEntityScale(float scale);
 	void setEntityPosition();
 	void setBulletPosition();
-	void setShootPossibility(float possibility);
+	void setPossibility(float possibility);
 
 	friend class EntityManager;
 };
@@ -76,7 +78,6 @@ struct Bullet : public Entity
 	Bullet(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, sf::Sprite iEntityBulletSprite, float iRatio) 
 		: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize, iEntityBulletSprite, iRatio) {
 
-		
 		float scale = (BULLET_RATIO * getScreenSize().y) / BULLET_DEFAULT_HEIGHT;
 		setEntityScale(scale);
 	}
@@ -89,9 +90,6 @@ struct Bullet : public Entity
 
 			setY(getY() - getStepY());
 			setX(getX() - getStepX());
-			std::cout << getY() << "Y\n";
-			std::cout << getX() << "X\n";
-
 
 			if (getX() <= 0 || getY() <= 0 ||
 				getX() >= getScreenSize().x || getY() >= getScreenSize().y) {
@@ -115,18 +113,37 @@ struct Bullet : public Entity
 
 struct Powerup : public Entity
 {
-	Powerup(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize) : Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
+	short powerupType;
 
-		float scale = POWERUP_RATIO * iScreenSize.y / OBSTACLE_DEFAULT_WIDTH;
+	Powerup(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, float iRatio) :
+		Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize, iRatio) {
+
+		powerupType = generatorType();
+		float scale = POWERUP_RATIO * iScreenSize.y / POWERUP_DEFAULT_HEIGHT;
 
 		setEntitySprite("Resources/powerup.png");
 		setEntityScale(scale);
 	}
 	~Powerup() = default;
 
-	void update() {};
+	void update() override {
 
-	int randomPowerup() {
+		if (getIsDead() == false) {
+
+			setY(getY() - getStepY());
+			setX(getX() - getStepX());
+
+			if (getX() <= 0 || getY() <= 0 ||
+				getX() >= getScreenSize().x || getY() >= getScreenSize().y) {
+
+				setIsDead(true);
+			}
+		}
+
+		setEntityPosition();
+	}
+
+	int generatorType() {
 
 		std::random_device rd;
 		std::mt19937 gen(rd());

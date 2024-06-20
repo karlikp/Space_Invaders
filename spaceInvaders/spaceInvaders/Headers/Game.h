@@ -13,17 +13,15 @@
 
 #include "EntityManager.h"
 #include "UFO.h"
-const short BASIC_SIZE = 50;
+
 
 class Game
 {
-
     sf::Vector2f screenSize;
    
     //Game logic
-    bool endGame;
-    bool mouseHeld;
-    bool victory;
+    bool endGame, victory;
+    short points;
 
    // std::mutex mtx;
 
@@ -31,13 +29,17 @@ class Game
     void initGame();
     void initBackground();
     void initEnemies();
-    void initPlayer(std::unique_ptr<UFO>* ufo);
     void initObstacle();
-    std::unique_ptr<UFO>* initUFO();
+    void initUfo();
+    void initPlayer();
+    void initPoints();
 
 public:
 
-    //Window
+    sf::Font font;
+    sf::Text pointsLabel;
+    sf::Text pointsText;
+
     sf::Sprite backgroundSprite;
     sf::Texture backgroundTexture;
     sf::FloatRect textureBounds;
@@ -45,15 +47,18 @@ public:
     sf::Event ev;
 
     static sf::RenderWindow window;
-    static sf::RenderWindow& getWindow();
+    static sf::RenderWindow* getWindow();
  
     EntityManager* manager;
+    UFO* ufo;
 
     Game();
     ~Game();
 
     void update();
+    void updatePoints();
     void draw();
+    void drawUfo();
     void interruptEvents();
     void endGameplay();
 

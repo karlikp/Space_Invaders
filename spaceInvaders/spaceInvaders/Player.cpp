@@ -1,25 +1,28 @@
+#include <random>
+
 #include "Headers/Player.h"
 #include "Headers/UFO.h"
 #include "Headers/Global.h"
 #include "Headers/Game.h"
 
 bool Player::isDead;
+bool Player::ufoInProgress;
 short Player::points;
+UFO* Player::tempUfo;
 
-Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, std::unique_ptr<UFO>** iUfo)
+
+Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, UFO* iUfo)
 	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize),
 	ufo(iUfo){
 
+	
 	float scale = (0.075 * iScreenSize.y) / PLAYER_DEFAULT_HEIGHT;
-
+	initTempUfo();
 	setEntitySprite("Resources/playerShip1_blue.png");
 	setEntityBulletSprite("Resources/playerBullet1.png");
-	setEntityScale(scale);
+	setEntityScale(scale);;
 
-	if ((**ufo) == nullptr) {
-		std::cout << "nullptr\n";
-	}
-
+	ufoInProgress = false;
 	isDead = false;
 	points = 0;
 	health = 3;
@@ -32,11 +35,12 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 
 void Player::update()
 {
+	updateUfo();
 
 	if (getIsDead() == false) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			setX(std::max<int>(getX() - getStepX(), GAP_RATIO * getScreenSize().y/*screenHeight*/));
+			setX(std::max<int>(getX() - getStepX(), GAP_RATIO * getScreenSize().y));
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
@@ -57,17 +61,17 @@ void Player::update()
 		}
 			
 		EntityManager::addPlayerBullet
-		(std::make_unique<Bullet>(getX(), getY(), MOTIONLESS_X, BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
+		(std::make_unique<Bullet>(getX(), getY(), MOTIONLESS_X, BULLET_SPEED, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
 
 
-		float bulletOffset = (BULLET_RATIO * getScreenSize().y) / BULLET_DEFAULT_HEIGHT;
+		float bulletOffset = (BULLET_RATIO * getScreenSize().y);
 
 		if (activePower == TRIPLE_SHOOT)
 		{
 			EntityManager::addPlayerBullet
-			(std::make_unique<Bullet>(getX() - bulletOffset, getY(), MOTIONLESS_X, BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
+			(std::make_unique<Bullet>(getX() - bulletOffset, getY(), MOTIONLESS_X, BULLET_SPEED, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
 			EntityManager::addPlayerBullet
-			(std::make_unique<Bullet>(getX() + bulletOffset, getY(), MOTIONLESS_X, BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
+			(std::make_unique<Bullet>(getX() + bulletOffset, getY(), MOTIONLESS_X, BULLET_SPEED, getScreenSize(), getEntityBulletSprite(), PLAYER_SIZE_RATIO));
 			
 		}
 	}
@@ -79,6 +83,7 @@ void Player::update()
 	
 	for (auto& const enemyBullet : EntityManager::getEnemyBullets())
 	{
+
 		if (getHitbox().intersects(enemyBullet->getHitbox()))
 		{
 			health--;
@@ -92,9 +97,14 @@ void Player::update()
 
 	auto getHitboxPtr = getHitbox();
 
-	powerupType = (**ufo)->checkPowerupReach(&getHitboxPtr);
+	powerupType = ufo->checkPowerupCollision(&getHitboxPtr);
+	//powerupType = UFO::getPowerupType();
 
-	if (powerupType > 0)
+	if (powerupType == 3) {
+		health++;
+		powerupType = 0;
+	}
+	else if (powerupType > 0)
 	{
 		activePower = powerupType;
 		powerupTimer = POWERUP_DURATION;
@@ -113,15 +123,11 @@ void Player::update()
 	{
 		if (getIsDead() == false)
 		{		
-			if ((*ufo) == nullptr)
-			{
-				std::cerr << "WskaŸnik UFO jest null!" << std::endl;
-			}
-			 auto bulletHitbox = bullet->getHitbox();
-
-			if ((**ufo)->checkBulletColision(&bulletHitbox))
+			if (ufo->checkBulletCollision(bullet->getHitbox()))
 			{
 				bullet->setIsDead(true);
+				points += 100;
+				
 			}
 		}
 	}
@@ -153,6 +159,33 @@ void Player::update()
 	setEntityPosition();
 }
 
+void Player::updateUfo()
+{
+	std::random_device rd;
+	std::mt19937_64 randomEngine(rd());
+	std::bernoulli_distribution possibility = getPossibility();
+	setPossibility(0.0001);
+
+	//shoots generator
+	if (ufoInProgress == false && possibility(randomEngine) == true) {
+		ufoInProgress = true;
+	}
+	if (ufoInProgress == true) {
+		ufo->update();
+	}
+	
+}
+
+void Player::initTempUfo()
+{
+	tempUfo = ufo;
+}
+
+UFO* Player::getUfo()
+{
+	return tempUfo;
+}
+
 void Player::setIsDead(bool state)
 {
 	isDead = state;
@@ -166,6 +199,16 @@ bool Player::getIsDead()
 short Player::getPoints()
 {
 	return points;
+}
+
+bool Player::getUfoInProgress()
+{
+	return ufoInProgress;
+}
+
+void Player::setUfoInProgress(bool state)
+{
+	ufoInProgress = state;
 }
 
 sf::IntRect Player::getHitbox() 

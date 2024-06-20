@@ -21,7 +21,7 @@ void Enemy::update()
 
 	std::random_device rd;
 	std::mt19937_64 randomEngine(rd());
-	std::bernoulli_distribution shootPossibility = getShootPossibility();
+	std::bernoulli_distribution shootPossibility = getPossibility();
 
 	//shoots generator
 	if (shootPossibility(randomEngine) == true) {

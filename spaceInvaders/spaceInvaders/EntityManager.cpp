@@ -122,6 +122,20 @@ void EntityManager::updateEnemyBullets()
         enemyBullets.end());
 }
 
+void EntityManager::updatePowerups()
+{
+    for (const auto& powerup : powerups) {
+        powerup->update();
+    }
+
+    powerups.erase(
+        std::remove_if(powerups.begin(), powerups.end(),
+            [](const std::unique_ptr<Powerup>& powerup) {
+                return powerup->getIsDead();
+            }),
+        powerups.end());
+}
+
 void EntityManager::drawEnemies()
 {
     for (const auto& enemy : enemies) {
@@ -148,6 +162,13 @@ void EntityManager::drawEnemyBullets()
 {
     for (const auto& bullet : enemyBullets) {
         (*window).draw(bullet->entityBulletSprite);
+    }
+}
+
+void EntityManager::drawPowerups()
+{
+    for (const auto& powerup : powerups) {
+        (*window).draw(powerup->entitySprite);
     }
 }
 

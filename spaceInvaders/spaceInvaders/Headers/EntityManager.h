@@ -39,11 +39,13 @@ public:
 	void updateEntities();
 	void updatePlayerBullets();
 	void updateEnemyBullets();
+	void updatePowerups();
 
 	void drawEnemies();
 	void drawEntities();
 	void drawPlayerBullets();
 	void drawEnemyBullets();
+	void drawPowerups();
 
 	static std::vector<std::unique_ptr<Enemy>>& getEnemies();
 	static std::vector<std::unique_ptr<Bullet>>& getEnemyBullets();

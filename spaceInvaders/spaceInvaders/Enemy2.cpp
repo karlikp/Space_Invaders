@@ -9,7 +9,7 @@ Enemy2::Enemy2(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	float enemySize = ENEMY_SIZE_RATIO * iScreenSize.y;
 	float scale = enemySize / ENEMY_DEFAULT_HEIGHT;
 
-	setShootPossibility(0.0008);
+	setPossibility(0.0008);
 	setEntitySprite("Resources/Enemy2.png");
 	setEntityBulletSprite("Resources/enemyBullet2.png");
 	setEntityScale(scale);
@@ -18,9 +18,9 @@ Enemy2::Enemy2(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 void Enemy2::shoot()
 {
 	EntityManager::addEnemyBullet
-	(std::make_unique<Bullet>(getX(), getY(), (0.125f* BULLET_SPEED_Y), -BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), ENEMY_SIZE_RATIO));
+	(std::make_unique<Bullet>(getX(), getY(), (0.125f* BULLET_SPEED), -BULLET_SPEED, getScreenSize(), getEntityBulletSprite(), ENEMY_SIZE_RATIO));
 	EntityManager::addEnemyBullet
-	(std::make_unique<Bullet>(getX(), getY(), (-0.125f * BULLET_SPEED_Y), -BULLET_SPEED_Y, getScreenSize(), getEntityBulletSprite(), ENEMY_SIZE_RATIO));
+	(std::make_unique<Bullet>(getX(), getY(), (-0.125f * BULLET_SPEED), -BULLET_SPEED, getScreenSize(), getEntityBulletSprite(), ENEMY_SIZE_RATIO));
 }
 
 int Enemy2::getPoints()
