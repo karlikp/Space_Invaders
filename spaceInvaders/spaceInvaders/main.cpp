@@ -21,34 +21,34 @@ int main()
 	// dokoñczenie bonusów (podniesienie przeciwników)
 
 
-	/*Interface interface;
+	Interface interface;
 	
 	interface.run();
 
 	if (interface.getExitProgram())
 		return 0;
 
-	short level = 1;*/
+	short level = 1;
 
-	/*do{*/
+	do{
 
-		Game* game = new Game();
+		//Game* game = new Game();
 
 		//Game loop
-		while (game->getWindowIsOpen() and !game->getEndGame())
-		{
-			game->update();
+		//while (game->getWindowIsOpen() and !game->getEndGame())
+		//{
+		//	game->update();
 
-			game->draw();
-		}
+		//	game->draw();
+		//}
 
-		/*interface.getGameInfo();*/
+		interface.getGameInfo();
 
-		delete game;
+		/*delete game;*/
 
-		/*interface.run();*/
+		interface.run();
 
-	//} while (not interface.getExitProgram());
+	} while (not interface.getExitProgram());
 
 	//interface.closeWindow();
 	

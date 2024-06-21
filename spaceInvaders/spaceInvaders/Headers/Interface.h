@@ -11,6 +11,10 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <ranges>
+#include <algorithm>
+#include <filesystem>
+
 
 class Interface {
 
@@ -18,9 +22,14 @@ class Interface {
     currentState = State::MainMenu;
 
     bool readyToStart, noRecord, showUniqueNameMessage, showPatternNameMessage,
-        successCreating, exitProgram, finishPoints;
+        successCreating, exitProgram, finishPoints, win;
     float scrollOffset;
+
+    int points;
     std::string playerName;
+   
+    
+    std::vector<std::pair<std::string, int>> records;
 
     std::mutex mutex;
   
@@ -59,16 +68,14 @@ class Interface {
     sf::RectangleShape summaryBackButton;
     sf::RectangleShape summaryExitButton;
 
-   
-
-    
-    
-
     void checkOptionClicked(sf::Vector2i& mousePos);
     void addOption(const std::string& text, float y);
+    void initSummaryGame();
+
     void loadResources();
     void loadInstructions();
     void loadPlayerNames();
+
     void setupText(sf::Text& text, const std::string& content, int charSize, const sf::Color& color, float posX, float posY);
     void setupRectangle(sf::RectangleShape& rectangle, const sf::Vector2f& size,
         const sf::Color& fillColor, float outlineThickness, const sf::Color& outlineColor, float posX, float posY);
@@ -76,27 +83,32 @@ class Interface {
     void setupMenuOptions();
     void setupScoreTableWindow();
     void setupBackButton();
+
     void handleEvents();
     void handleMainMenuEvents(sf::Event& event);
     void handleNewPlayerEvents(sf::Event& event);
     void handleContinuePlayerEvents(sf::Event& event);
     void handleScoreTableEvents(sf::Event& event);
     void handleRulesEvents(sf::Event& event);
+    void handleSummaryGameEvents(sf::Event& event);
+    void handleExit();
+
     void render();
     void renderMainMenu();
     void renderNewPlayer();
     void renderContinuePlayer();
     void renderScoreTable();
     void renderRules();
+    void renderSummaryGame();
+
     void createPlayer();
     bool playerExists(const std::string& playerName);
     bool isBackButtonClicked(sf::Vector2i mousePos);
     bool isExitButtonClicked(sf::Vector2i mousePos);
 
-    void initSummaryGame();
-    void handleSummaryGameEvents(sf::Event& event);
-    void handleExit();
-    void renderSummaryGame();
+    void loadData();
+    void sortData();
+    void recordData();
 
 public:
 

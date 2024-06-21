@@ -48,7 +48,7 @@ void Game::initGame()
 
 void Game::initBackground()
 {
-    if (!backgroundTexture.loadFromFile("Resources/Background.png")) {
+    if (!backgroundTexture.loadFromFile("Resources/Textures/Background.png")) {
         std::cerr << "Failed to load image 'Resources/Background.png'" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
@@ -100,7 +100,7 @@ void Game::initPlayer()
 
 void Game::initPoints()
 {
-    if (!font.loadFromFile("Resources/ARIAL.ttf")) {
+    if (!font.loadFromFile("Resources/Texts/ARIAL.ttf")) {
         std::cerr << "Error loading font\n";
         return;
     }
@@ -273,7 +273,7 @@ void Game::drawUfo()
 
 void Game::initLives()
 {
-    if (!shipTexture.loadFromFile("Resources/playerShip1_blue.png")) {
+    if (!shipTexture.loadFromFile("Resources/Textures/playerShip1_blue.png")) {
         std::cerr << "Error loading ship texture\n";
         return;
     }

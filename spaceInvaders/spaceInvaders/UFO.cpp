@@ -14,7 +14,7 @@ UFO::UFO(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScr
 	
 	float scale = (UFO_HEIGHT_RATIO * iScreenSize.y) / UFO_DEFAULT_HEIGHT;
 
-	setEntitySprite("Resources/UFO.png");
+	setEntitySprite("Resources/Textures/UFO.png");
 	setEntityScale(scale);
 	setEntityPosition();
 }

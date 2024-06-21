@@ -19,8 +19,8 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	
 	float scale = (0.075 * iScreenSize.y) / PLAYER_DEFAULT_HEIGHT;
 	initTempUfo();
-	setEntitySprite("Resources/playerShip1_blue.png");
-	setEntityBulletSprite("Resources/playerBullet1.png");
+	setEntitySprite("Resources/Textures/playerShip1_blue.png");
+	setEntityBulletSprite("Resources/Textures/playerBullet1.png");
 	setEntityScale(scale);;
 
 

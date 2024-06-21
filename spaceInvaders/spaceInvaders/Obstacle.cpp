@@ -9,7 +9,7 @@ Obstacle::Obstacle(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vec
 	float scale = OBSTACLE_WIDTH_RATIO * iScreenSize.y / OBSTACLE_DEFAULT_WIDTH;
 
 	health = 20;
-	setEntitySprite("Resources/Obstacle.png");
+	setEntitySprite("Resources/Textures/Obstacle.png");
 	setEntityScale(scale);
 }
 

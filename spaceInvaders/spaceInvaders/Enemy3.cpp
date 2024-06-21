@@ -10,8 +10,8 @@ Enemy3::Enemy3(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	float scale = enemySize / ENEMY_DEFAULT_HEIGHT;
 
 	setPossibility(0.0005);
-	setEntitySprite("Resources/Enemy3.png");
-	setEntityBulletSprite("Resources/enemyBullet3.png");
+	setEntitySprite("Resources/Textures/Enemy3.png");
+	setEntityBulletSprite("Resources/Textures/enemyBullet3.png");
 	setEntityScale(scale);
 }
 

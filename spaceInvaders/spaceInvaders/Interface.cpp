@@ -13,14 +13,14 @@ const float CELL_GAP = 10.0f;
 
 //windows initialisation 
 Interface::Interface() {
-    finishPoints = 0;
+    win = false;
     showPatternNameMessage = false;
     successCreating = false;
     readyToStart = false;
     showUniqueNameMessage = false;
     exitProgram = false;
 
-    if (!font.loadFromFile("Resources/ARIAL.ttf")) {
+    if (!font.loadFromFile("Resources/Texts/ARIAL.ttf")) {
         std::cerr << "Failed to load font!" << std::endl;
     }
     window.create(videoMode, "Menu", sf::Style::Fullscreen);
@@ -82,9 +82,15 @@ Interface::Interface() {
 
 void Interface::initSummaryGame()
 {
-    std::thread summaryThread1(&Interface::setupText, this, std::ref(summaryScoreText), "Victory!", 60, sf::Color::Yellow,
-        center.x, center.y - 200);
-    std::thread summaryThread2(&Interface::setupText, this, std::ref(summaryPointsText), "Points: " + Player::getPoints(),
+    if (win) {
+        setupText(summaryScoreText, "Victory!", 60, sf::Color::Yellow, center.x, center.y - 200);
+    }
+    else {
+        setupText(summaryScoreText, "Failure", 60, sf::Color::Yellow, center.x, center.y - 200);
+    }
+    
+
+    std::thread summaryThread2(&Interface::setupText, this, std::ref(summaryPointsText), "Points: " + points,
         30, sf::Color::Yellow, center.x, center.y - 130);
 
     std::thread summaryThread3([&]() {
@@ -101,7 +107,6 @@ void Interface::initSummaryGame()
     std::thread summaryThread6(&Interface::setupText, this, std::ref(summaryExitText), "Exit", 40, sf::Color::Black,
         center.x + 300, center.y + 60);
 
-    summaryThread1.join();
     summaryThread2.join();
     summaryThread3.join();
     summaryThread4.join();
@@ -130,8 +135,8 @@ void Interface::setupRectangle(sf::RectangleShape& rectangle, const sf::Vector2f
     rectangle.setPosition(centerX - rectangle.getGlobalBounds().width / 2.0f, posY);
 }
 void Interface::loadResources() {
-    if (!backgroundTexture.loadFromFile("Resources/Menu.jpg")) {
-        std::cerr << "Failed to load image 'Resources/Menu.jpg'" << std::endl;
+    if (!backgroundTexture.loadFromFile("Resources/Textures/Menu.jpg")) {
+        std::cerr << "Failed to load image 'Resources/Textures/Menu.jpg'" << std::endl;
     }
 }
 
@@ -139,7 +144,7 @@ void Interface::loadInstructions()
 {
     instructionText.setString("");
 
-    std::ifstream file("Resources/Instruction.txt");
+    std::ifstream file("Resources/Texts/Instruction.txt");
     if (file.is_open()) {
         std::string line;
         while (std::getline(file, line)) {
@@ -196,14 +201,14 @@ void Interface::setupScoreTableWindow()
 {
 
     float width = CELL_WIDTH;
-    float height = (CELL_HEIGHT + CELL_GAP) * playerNames.size();
+    float height = (CELL_HEIGHT + CELL_GAP) * records.size();
     setupRectangle(scoreTableWindow, sf::Vector2f(width, height), sf::Color::White, 2,
         sf::Color::Black, window.getSize().x / 2.0f, OPTION_GAP);
 
-    for (size_t i = 0; i < playerNames.size(); ++i) {
+    for (size_t i = 0; i < records.size(); ++i) {
         sf::Text playerOutputNameText;
         playerOutputNameText.setFont(font);
-        playerOutputNameText.setString(playerNames[i]);
+        playerOutputNameText.setString(records[i].first + ' ' + std::to_string(records[i].second));
         playerOutputNameText.setCharacterSize(40);
         playerOutputNameText.setFillColor(sf::Color::Black);
         playerOutputNameText.setPosition(
@@ -287,6 +292,9 @@ void Interface::handleEvents() {
             break;
         case State::SummaryGame:
             initSummaryGame();
+            loadData();
+            sortData();
+            recordData();
             handleSummaryGameEvents(event);
             break;
         case State::Exit:
@@ -513,11 +521,13 @@ void Interface::renderContinuePlayer() {
 }
 
 bool Interface::playerExists(const std::string& playerName) {
-    std::ifstream file("PlayerData/name.txt");
+    std::ifstream file("Resources/Texts/scoreTable.txt");
     if (file.is_open()) {
-        std::string line;
-        while (std::getline(file, line)) {
-            if (line == playerName) {
+        std::string name;
+        int score;
+
+        while (file >> name >> score) {
+            if (name == playerName) {
                 file.close();
                 return true;
             }
@@ -551,10 +561,11 @@ void Interface::renderRules()
 void Interface::loadPlayerNames() {
 
     playerNames.clear();
-    std::ifstream inFile("PlayerData/name.txt");
+    std::ifstream inFile("Resources/Texts/scoreTable.txt");
     std::string playerName;
-    while (inFile >> playerName) {
-        playerNames.push_back(playerName);
+    int score;
+    while (inFile >> playerName >>score) {
+        records.push_back({ playerName, score });
     }
     inFile.close();
     setupScoreTableWindow();
@@ -593,13 +604,64 @@ bool Interface::isExitButtonClicked(sf::Vector2i mousePos)
     return exitButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
 
+void Interface::loadData()
+{
+    records.push_back({playerName, points});
+
+    std::filesystem::path inputPath = "Resources/Texts/scoreTable.txt";
+
+    if (!std::filesystem::exists(inputPath)) {
+        std::cerr << "Unable to open file: " << inputPath << std::endl;
+        return;
+    }
+
+   std::ifstream inputFile(inputPath);
+    if (!inputFile) {
+        std::cerr << "Unable to open file: " << inputPath << std::endl;
+        return;
+    }
+
+    std::string name;
+    int score;
+    while (inputFile >> name >> score) {
+        records.push_back({name, score });
+    }
+    inputFile.close();
+
+}
+
+void Interface::sortData()
+{
+    std::ranges::sort(records, [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
+        return b.second < a.second;
+        });
+}
+
+void Interface::recordData()
+{
+    std::filesystem::path outputPath = "Resources/Texts/scoreTable.txt";
+
+    std::ofstream outputFile(outputPath);
+    if (!outputFile) {
+        std::cerr << "Unable to open file: " << outputPath << std::endl;
+        return;
+    }
+
+    for (const auto& record : records) {
+        outputFile << record.first << " " << record.second << std::endl;
+    }
+    outputFile.close();
+}
+
 void Interface::createPlayer() {
 
-        std::ifstream file("PlayerData/name.txt");
+        std::ifstream file("Resources/Texts/scoreTable.txt");
         if (file.is_open()) {
-            std::string line;
-            while (std::getline(file, line)) {
-                if (line == playerName) {
+            std::string name;
+            int score;
+
+            while (file >> name >> score) {
+                if (name == playerName) {
                     showUniqueNameMessage = true;
                     file.close();
                     return;
@@ -616,13 +678,13 @@ void Interface::createPlayer() {
             return;
         }
 
-        std::ofstream outfile("PlayerData/name.txt", std::ios_base::app);
-        if (outfile.is_open()) {
-            outfile << playerName << std::endl;
-            outfile.close();    
-            showUniqueNameMessage = false;
-            readyToStart = true; //success creating
-        }   
+        //std::ofstream outfile("PlayerData/name.txt", std::ios_base::app);
+        //if (outfile.is_open()) {
+        //    outfile << playerName << std::endl;
+        //    outfile.close();    
+        //    showUniqueNameMessage = false;
+        //    readyToStart = true; //success creating
+        //}   
 }
 
 void Interface::run() {
@@ -634,7 +696,8 @@ void Interface::run() {
 
 void Interface::getGameInfo()
 {
-    //finishPoints = Player::getPoints();
+    points = Player::getPoints();
+    win = (not Player::getIsDead());
     readyToStart = false;
 }
 
