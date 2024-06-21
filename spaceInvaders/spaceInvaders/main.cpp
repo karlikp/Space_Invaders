@@ -32,19 +32,19 @@ int main()
 
 	do{
 
-		//Game* game = new Game();
+		Game* game = new Game();
 
-		//Game loop
-		//while (game->getWindowIsOpen() and !game->getEndGame())
-		//{
-		//	game->update();
+		
+		while (game->getWindowIsOpen() and !game->getEndGame())
+		{
+			game->update();
 
-		//	game->draw();
-		//}
+			game->draw();
+		}
 
 		interface.getGameInfo();
 
-		/*delete game;*/
+		delete game;
 
 		interface.run();
 

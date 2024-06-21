@@ -27,7 +27,6 @@ void UFO::update()
 		if (getX() < 0 - (UFO_HEIGHT_RATIO * getScreenSize().y)) {
 			setIsDead(true);
 		}
-		std::cout << getIsDead();
 	}
 	else {
 		setX(screenSize.x + (2 * UFO_WIDTH_RATIO * screenSize.y));

@@ -26,7 +26,7 @@ Scoring:
     Enemy type I 10 points (shoot vertically downwards)
     Enemy type II 20 points (faster projectiles)
     Enemy type III 30 points (faster projectiles + multiply shoots)
-    Mystery ship 200 points
+    Mystery ship 100 points
 
 The player loses when the aliens reach the bottom level of the screen where
  the player's ship moves or if the player loses all their lives by being hit

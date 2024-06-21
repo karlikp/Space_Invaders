@@ -22,7 +22,7 @@ class Interface {
     currentState = State::MainMenu;
 
     bool readyToStart, noRecord, showUniqueNameMessage, showPatternNameMessage,
-        successCreating, exitProgram, finishPoints, win;
+        successCreating, exitProgram, finishPoints, win, isRecord;
     float scrollOffset;
 
     int points;
@@ -88,7 +88,7 @@ class Interface {
     void handleMainMenuEvents(sf::Event& event);
     void handleNewPlayerEvents(sf::Event& event);
     void handleContinuePlayerEvents(sf::Event& event);
-    void handleScoreTableEvents(sf::Event& event);
+    void handleScoreTableEvents(sf::Event& event); //
     void handleRulesEvents(sf::Event& event);
     void handleSummaryGameEvents(sf::Event& event);
     void handleExit();

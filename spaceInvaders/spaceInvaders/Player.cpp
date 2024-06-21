@@ -100,7 +100,6 @@ void Player::update()
 	auto getHitboxPtr = getHitbox();
 
 	powerupType = ufo->checkPowerupCollision(&getHitboxPtr);
-	//powerupType = UFO::getPowerupType();
 
 	if (powerupType == 3) {
 		lives++;

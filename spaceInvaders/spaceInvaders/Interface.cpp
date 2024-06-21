@@ -13,6 +13,7 @@ const float CELL_GAP = 10.0f;
 
 //windows initialisation 
 Interface::Interface() {
+    isRecord = false;
     win = false;
     showPatternNameMessage = false;
     successCreating = false;
@@ -90,8 +91,8 @@ void Interface::initSummaryGame()
     }
     
 
-    std::thread summaryThread2(&Interface::setupText, this, std::ref(summaryPointsText), "Points: " + points,
-        30, sf::Color::Yellow, center.x, center.y - 130);
+    std::thread summaryThread2(&Interface::setupText, this, std::ref(summaryPointsText), "Points: " + std::to_string(points),
+        30, sf::Color::Yellow, center.x, center.y - 130);    
 
     std::thread summaryThread3([&]() {
         this->setupRectangle(std::ref(summaryBackButton), sf::Vector2f(300, 60), sf::Color::White, 2,
@@ -199,7 +200,7 @@ void Interface::setupMenuOptions() {
 
 void Interface::setupScoreTableWindow()
 {
-
+    playerNamesText.clear();
     float width = CELL_WIDTH;
     float height = (CELL_HEIGHT + CELL_GAP) * records.size();
     setupRectangle(scoreTableWindow, sf::Vector2f(width, height), sf::Color::White, 2,
@@ -292,9 +293,12 @@ void Interface::handleEvents() {
             break;
         case State::SummaryGame:
             initSummaryGame();
-            loadData();
-            sortData();
-            recordData();
+            if (not isRecord) {
+                loadData();
+                sortData();
+                recordData();
+                isRecord = true;
+            }
             handleSummaryGameEvents(event);
             break;
         case State::Exit:
@@ -560,6 +564,7 @@ void Interface::renderRules()
 
 void Interface::loadPlayerNames() {
 
+    records.clear();
     playerNames.clear();
     std::ifstream inFile("Resources/Texts/scoreTable.txt");
     std::string playerName;
@@ -606,6 +611,7 @@ bool Interface::isExitButtonClicked(sf::Vector2i mousePos)
 
 void Interface::loadData()
 {
+    records.clear();
     records.push_back({playerName, points});
 
     std::filesystem::path inputPath = "Resources/Texts/scoreTable.txt";
@@ -624,7 +630,7 @@ void Interface::loadData()
     std::string name;
     int score;
     while (inputFile >> name >> score) {
-        records.push_back({name, score });
+        records.push_back({name, score});
     }
     inputFile.close();
 
@@ -641,7 +647,7 @@ void Interface::recordData()
 {
     std::filesystem::path outputPath = "Resources/Texts/scoreTable.txt";
 
-    std::ofstream outputFile(outputPath);
+    std::ofstream outputFile(outputPath, std::ofstream::trunc);
     if (!outputFile) {
         std::cerr << "Unable to open file: " << outputPath << std::endl;
         return;
@@ -677,14 +683,7 @@ void Interface::createPlayer() {
             showPatternNameMessage = true;
             return;
         }
-
-        //std::ofstream outfile("PlayerData/name.txt", std::ios_base::app);
-        //if (outfile.is_open()) {
-        //    outfile << playerName << std::endl;
-        //    outfile.close();    
-        //    showUniqueNameMessage = false;
-        //    readyToStart = true; //success creating
-        //}   
+        readyToStart = true;
 }
 
 void Interface::run() {
@@ -699,6 +698,7 @@ void Interface::getGameInfo()
     points = Player::getPoints();
     win = (not Player::getIsDead());
     readyToStart = false;
+    isRecord = false;
 }
 
 bool Interface::getExitProgram()
