@@ -165,7 +165,7 @@ void Player::updateUfo()
 	std::random_device rd;
 	std::mt19937_64 randomEngine(rd());
 	std::bernoulli_distribution possibility = getPossibility();
-	setPossibility(0.0001);
+	setPossibility(0.01);
 
 	//shoots generator
 	if (ufoInProgress == false && possibility(randomEngine) == true) {

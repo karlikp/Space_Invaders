@@ -22,12 +22,12 @@ class Interface {
     currentState = State::MainMenu;
 
     bool readyToStart, noRecord, showUniqueNameMessage, showPatternNameMessage,
-        successCreating, exitProgram, finishPoints, win, isRecord;
+        successCreating, exitProgram, finishPoints, win, isRecord, tableIsSet,
+        instructionIsLoad, gameIsFinish;
     float scrollOffset;
 
-    int points;
     std::string playerName;
-   
+    int previousPoints, newPoints;
     
     std::vector<std::pair<std::string, int>> records;
 
@@ -45,11 +45,12 @@ class Interface {
     std::vector<sf::Text> playerNamesText;
     std::vector<std::string> playerNames;
 
-    sf::Text enterNameText;
+    sf::Text uniqueNameText;
+    sf::Text existNameText;
     sf::Text patternText;
     sf::Text playerInputNameText;
     sf::Text saveButtonText;
-    sf::Text uniqueNameText;
+    sf::Text uniqueInfoText;
     sf::Text patternNameText;
     sf::Text playerNotFoundText;
     sf::Text instructionText;
@@ -61,20 +62,24 @@ class Interface {
     sf::Text summaryExitText;
 
     sf::RectangleShape playerNameWindow;
-    sf::RectangleShape saveButton;
+    sf::RectangleShape playButton;
     sf::RectangleShape scoreTableWindow;
     sf::RectangleShape backButton;
     sf::RectangleShape exitButton;
     sf::RectangleShape summaryBackButton;
     sf::RectangleShape summaryExitButton;
 
+    void updateLastScore();
     void checkOptionClicked(sf::Vector2i& mousePos);
     void addOption(const std::string& text, float y);
     void initSummaryGame();
 
-    void loadResources();
+    void loadBackground();
     void loadInstructions();
-    void loadPlayerNames();
+    void loadScoreTable();
+
+    void sortScoreTable();
+    void recordScoreTable();
 
     void setupText(sf::Text& text, const std::string& content, int charSize, const sf::Color& color, float posX, float posY);
     void setupRectangle(sf::RectangleShape& rectangle, const sf::Vector2f& size,
@@ -88,7 +93,7 @@ class Interface {
     void handleMainMenuEvents(sf::Event& event);
     void handleNewPlayerEvents(sf::Event& event);
     void handleContinuePlayerEvents(sf::Event& event);
-    void handleScoreTableEvents(sf::Event& event); //
+    void handleScoreTableEvents(sf::Event& event); 
     void handleRulesEvents(sf::Event& event);
     void handleSummaryGameEvents(sf::Event& event);
     void handleExit();
@@ -101,22 +106,23 @@ class Interface {
     void renderRules();
     void renderSummaryGame();
 
-    void createPlayer();
+    void checkPattern();
     bool playerExists(const std::string& playerName);
     bool isBackButtonClicked(sf::Vector2i mousePos);
     bool isExitButtonClicked(sf::Vector2i mousePos);
+    bool isPlayButtonClicked(sf::Vector2i mousePos);
+  
+   
 
-    void loadData();
-    void sortData();
-    void recordData();
-
+   
 public:
 
     Interface();
     ~Interface() = default;
 
     void run();
-    void getGameInfo();
+    void setSummaryData();
+    void reset();
 
     bool getExitProgram();
 };

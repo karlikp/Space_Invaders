@@ -121,7 +121,7 @@ struct Powerup : public Entity
 		powerupType = generatorType();
 		float scale = POWERUP_RATIO * iScreenSize.y / POWERUP_DEFAULT_HEIGHT;
 
-		setEntitySprite("Resources/powerup.png");
+		setEntitySprite("Resources/Textures/powerup.png");
 		setEntityScale(scale);
 	}
 	~Powerup() = default;

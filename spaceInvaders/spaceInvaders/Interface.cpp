@@ -13,6 +13,11 @@ const float CELL_GAP = 10.0f;
 
 //windows initialisation 
 Interface::Interface() {
+    previousPoints = 0;
+    newPoints = 0;
+    gameIsFinish = false;
+    instructionIsLoad = false;
+    tableIsSet = false;
     isRecord = false;
     win = false;
     showPatternNameMessage = false;
@@ -26,7 +31,8 @@ Interface::Interface() {
     }
     window.create(videoMode, "Menu", sf::Style::Fullscreen);
 
-    loadResources();
+    loadBackground();
+    loadScoreTable();
     setupBackground();
     setupMenuOptions();
     setupBackground();
@@ -34,28 +40,29 @@ Interface::Interface() {
     // Set message communication inside background
     center = { window.getSize().x / 2.0f, window.getSize().y / 2.0f };
 
-    std::thread thread1(&Interface::setupText, this, std::ref(enterNameText), "Enter a unique name, which include:", 50, sf::Color::Yellow,
+    std::thread thread1(&Interface::setupText, this, std::ref(uniqueNameText), "Enter a unique name, which include:", 50, sf::Color::Yellow,
         center.x, center.y - 200);
-    std::thread thread2(&Interface::setupText, this, std::ref(patternText), "- lowercase, uppercase and digit\n- from 4 to 12 characters",
+    std::thread thread2(&Interface::setupText, this, std::ref(patternText), "- lowercase, uppercase and digit\n- from 4 to 12 signs without special characters",
         30, sf::Color::Yellow, center.x, center.y - 130);
     std::thread thread3([&]() {
         this->setupRectangle(std::ref(playerNameWindow), sf::Vector2f(400, 60), sf::Color::White, 2, sf::Color::Black,
         center.x, center.y - 50);
         });
     std::thread thread4([&]() {
-        this->setupRectangle(std::ref(saveButton), sf::Vector2f(200, 60), sf::Color::White, 2,
+        this->setupRectangle(std::ref(playButton), sf::Vector2f(200, 60), sf::Color::White, 2,
         sf::Color::Black, center.x, center.y + 50);
         });
     std::thread thread5(&Interface::setupText, this, std::ref(saveButtonText), "Play", 40, sf::Color::Black,
         center.x, center.y + 60);
-    std::thread thread6(&Interface::setupText, this, std::ref(uniqueNameText), "Type in a unique player name!", 30, sf::Color::Red,
+    std::thread thread6(&Interface::setupText, this, std::ref(uniqueInfoText), "Type in a unique player name!", 30, sf::Color::Red,
         center.x, center.y + 150);
     std::thread thread7(&Interface::setupText, this, std::ref(patternNameText), "Type in name correct with pattern!", 30, sf::Color::Red,
         center.x, center.y + 250);
     std::thread thread8(&Interface::setupText, this, std::ref(playerNotFoundText), "Type in name of an existing player!", 30, sf::Color::Red,
         center.x, center.y + 150);
     std::thread thread9(&Interface::setupText, this, std::ref(instructionText), "", 30, sf::Color::Yellow, 20, 20);
-
+    std::thread thread10(&Interface::setupText, this, std::ref(existNameText), "Enter the name of an existing player", 50, sf::Color::Yellow,
+        center.x, center.y - 200);
     // Wait for synch
     thread1.join();
     thread2.join();
@@ -66,6 +73,7 @@ Interface::Interface() {
     thread7.join();
     thread8.join();
     thread9.join();
+    thread10.join();
 
     //Exeption in set position
     playerInputNameText.setFont(font);
@@ -91,7 +99,7 @@ void Interface::initSummaryGame()
     }
     
 
-    std::thread summaryThread2(&Interface::setupText, this, std::ref(summaryPointsText), "Points: " + std::to_string(points),
+    std::thread summaryThread2(&Interface::setupText, this, std::ref(summaryPointsText), "Points: " + std::to_string(newPoints),
         30, sf::Color::Yellow, center.x, center.y - 130);    
 
     std::thread summaryThread3([&]() {
@@ -135,7 +143,7 @@ void Interface::setupRectangle(sf::RectangleShape& rectangle, const sf::Vector2f
     rectangle.setOutlineColor(outlineColor);
     rectangle.setPosition(centerX - rectangle.getGlobalBounds().width / 2.0f, posY);
 }
-void Interface::loadResources() {
+void Interface::loadBackground() {
     if (!backgroundTexture.loadFromFile("Resources/Textures/Menu.jpg")) {
         std::cerr << "Failed to load image 'Resources/Textures/Menu.jpg'" << std::endl;
     }
@@ -244,6 +252,11 @@ void Interface::addOption(const std::string& text, float y) {
     optionTexts.push_back(optionText);
 }
 
+void Interface::updateLastScore()
+{
+    records.push_back({ playerName, std::max(previousPoints, newPoints) });
+}
+
 void Interface::checkOptionClicked(sf::Vector2i& mousePos) {
     for (size_t i = 0; i < optionWindows.size(); ++i) {
         if (optionWindows[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
@@ -255,11 +268,17 @@ void Interface::checkOptionClicked(sf::Vector2i& mousePos) {
                 currentState = State::ContinuePlayer;
                 break;
             case 2:
-                loadPlayerNames();
+                if (tableIsSet == false) {
+                    setupScoreTableWindow();
+                    tableIsSet = true;
+                }
                 currentState = State::ScoreTable;
                 break;
             case 3:
-                loadInstructions();
+                if (instructionIsLoad == false) {
+                    loadInstructions();
+                    instructionIsLoad = true;
+                }
                 currentState = State::Rules;
                 break;
             case 4:
@@ -292,14 +311,17 @@ void Interface::handleEvents() {
             handleRulesEvents(event);
             break;
         case State::SummaryGame:
-            initSummaryGame();
-            if (not isRecord) {
-                loadData();
-                sortData();
-                recordData();
-                isRecord = true;
+            if (gameIsFinish) {
+                initSummaryGame();
+                if (not isRecord) {
+                    updateLastScore();
+                    sortScoreTable();
+                    recordScoreTable();
+                    isRecord = true;
+                   // playerName = "";
+                }
+                handleSummaryGameEvents(event);
             }
-            handleSummaryGameEvents(event);
             break;
         case State::Exit:
             handleExit();
@@ -365,12 +387,17 @@ void Interface::handleNewPlayerEvents(sf::Event& event) {
     case sf::Event::MouseButtonPressed:
         if (event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            if (saveButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                createPlayer();
-                currentState = State::SummaryGame;
+
+            if (isPlayButtonClicked(mousePos)) {              
+                if (not playerExists(playerName)) {
+                    checkPattern();
+                }
+                else {
+                    showUniqueNameMessage = true;
+                }  
+                
             }
-        
-        else if (isBackButtonClicked(mousePos)) 
+            else if (isBackButtonClicked(mousePos)) 
                 currentState = State::MainMenu;
         }
         break;
@@ -395,8 +422,9 @@ void Interface::handleContinuePlayerEvents(sf::Event& event) {
     case sf::Event::MouseButtonPressed:
        if (event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            if (saveButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            if (isPlayButtonClicked(mousePos)) {
                 if (playerExists(playerName)) {
+
                     readyToStart = true;
                     currentState = State::SummaryGame;
                 }
@@ -493,15 +521,15 @@ void Interface::renderMainMenu() {
 
 void Interface::renderNewPlayer() {
     window.draw(backgroundSprite);
-    window.draw(enterNameText);
+    window.draw(uniqueNameText);
     window.draw(patternText);
     window.draw(playerNameWindow);
     window.draw(playerInputNameText);
-    window.draw(saveButton);
+    window.draw(playButton);
     window.draw(saveButtonText);
 
     if (showUniqueNameMessage)
-        window.draw(uniqueNameText);
+        window.draw(uniqueInfoText);
     if (showPatternNameMessage)
         window.draw(patternNameText);
 
@@ -511,10 +539,10 @@ void Interface::renderNewPlayer() {
 
 void Interface::renderContinuePlayer() {
     window.draw(backgroundSprite);
-    window.draw(enterNameText);
+    window.draw(existNameText);
     window.draw(playerNameWindow);
     window.draw(playerInputNameText);
-    window.draw(saveButton);
+    window.draw(playButton);
     window.draw(saveButtonText);
 
     if (showUniqueNameMessage)
@@ -526,17 +554,15 @@ void Interface::renderContinuePlayer() {
 
 bool Interface::playerExists(const std::string& playerName) {
     std::ifstream file("Resources/Texts/scoreTable.txt");
-    if (file.is_open()) {
-        std::string name;
-        int score;
-
-        while (file >> name >> score) {
-            if (name == playerName) {
-                file.close();
-                return true;
-            }
+  
+    for (auto it = records.begin(); it != records.end();) {
+        if (it->first == playerName) {
+            previousPoints = it->second;
+            it = records.erase(it);
+            return true;
         }
-        file.close();
+        else
+            it++;
     }
     return false;
 }
@@ -560,20 +586,6 @@ void Interface::renderRules()
 
     instructionText.setPosition(50, 50 + scrollOffset);
 
-}
-
-void Interface::loadPlayerNames() {
-
-    records.clear();
-    playerNames.clear();
-    std::ifstream inFile("Resources/Texts/scoreTable.txt");
-    std::string playerName;
-    int score;
-    while (inFile >> playerName >>score) {
-        records.push_back({ playerName, score });
-    }
-    inFile.close();
-    setupScoreTableWindow();
 }
 
 void Interface::setupBackButton()
@@ -609,10 +621,15 @@ bool Interface::isExitButtonClicked(sf::Vector2i mousePos)
     return exitButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
 
-void Interface::loadData()
+bool Interface::isPlayButtonClicked(sf::Vector2i mousePos)
+{
+    return playButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+}
+
+void Interface::loadScoreTable()
 {
     records.clear();
-    records.push_back({playerName, points});
+   // records.push_back({playerName, previousPoints});
 
     std::filesystem::path inputPath = "Resources/Texts/scoreTable.txt";
 
@@ -620,30 +637,25 @@ void Interface::loadData()
         std::cerr << "Unable to open file: " << inputPath << std::endl;
         return;
     }
-
    std::ifstream inputFile(inputPath);
-    if (!inputFile) {
-        std::cerr << "Unable to open file: " << inputPath << std::endl;
-        return;
-    }
+   std::string name;
+   int score;
 
-    std::string name;
-    int score;
-    while (inputFile >> name >> score) {
+   while (inputFile >> name >> score) {
         records.push_back({name, score});
-    }
-    inputFile.close();
+   }
+   inputFile.close();
 
 }
 
-void Interface::sortData()
+void Interface::sortScoreTable()
 {
     std::ranges::sort(records, [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
         return b.second < a.second;
         });
 }
 
-void Interface::recordData()
+void Interface::recordScoreTable()
 {
     std::filesystem::path outputPath = "Resources/Texts/scoreTable.txt";
 
@@ -659,46 +671,51 @@ void Interface::recordData()
     outputFile.close();
 }
 
-void Interface::createPlayer() {
+void Interface::reset()
+{
+    previousPoints = 0;
+    newPoints = 0;
+    gameIsFinish = false;
+    instructionIsLoad = false;
+    tableIsSet = false;
+    isRecord = false;
+    win = false;
+    showPatternNameMessage = false;
+    successCreating = false;
+    showUniqueNameMessage = false;
+}
 
-        std::ifstream file("Resources/Texts/scoreTable.txt");
-        if (file.is_open()) {
-            std::string name;
-            int score;
-
-            while (file >> name >> score) {
-                if (name == playerName) {
-                    showUniqueNameMessage = true;
-                    file.close();
-                    return;
-                }
-            }
-            file.close();
-        }
-        
-        std::regex reg("(?=\.*[a-z])(?=\.*[A-Z])(?=\.*\\d)\.{4,12}"); 
+void Interface::checkPattern() {
+ 
+        std::regex reg("^(?=\.*[a-z])(?=\.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{4,12}$"); 
 
         auto isNameValid = std::regex_match(playerName, reg);
         if (not isNameValid) {
             showPatternNameMessage = true;
-            return;
         }
-        readyToStart = true;
+        else {
+            readyToStart = true;
+            currentState = State::SummaryGame;
+        }
+        return;
 }
 
 void Interface::run() {
     while (window.isOpen() and not readyToStart) {
         handleEvents();
+        if (not readyToStart) {
         render();
+        }
     }
 }
 
-void Interface::getGameInfo()
+void Interface::setSummaryData()
 {
-    points = Player::getPoints();
+    newPoints = Player::getPoints();
     win = (not Player::getIsDead());
+    gameIsFinish = true;
     readyToStart = false;
-    isRecord = false;
+    tableIsSet = false;
 }
 
 bool Interface::getExitProgram()

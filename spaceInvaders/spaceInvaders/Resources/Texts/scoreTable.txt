@@ -1,8 +1,6 @@
+Karol03 1700
 Lola05 600
+Lena3 560
+Oliwia03 410
 Robert02 400
-Jola5 250
-Karol03 200
-Patryk3 180
-Pawel05 20
-Piotrek12 20
-Krysia7 10
+Radek1 20
