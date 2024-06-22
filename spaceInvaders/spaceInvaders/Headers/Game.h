@@ -53,7 +53,8 @@ public:
     sf::VideoMode videoMode;
     sf::Event ev;
 
-    static sf::RenderWindow window;
+    //static sf::RenderWindow window;
+    static sf::RenderWindow* windowPtr;
     static sf::RenderWindow* getWindow();
  
     EntityManager* manager;
@@ -66,7 +67,6 @@ public:
     void updatePoints();
     void draw();
     void drawUfo();
-    void interruptEvents();
     void endGameplay();
     void updateLives();
     void drawLives();

@@ -21,19 +21,22 @@ class Interface {
     enum class State { MainMenu, NewPlayer, ContinuePlayer, ScoreTable, Rules, SummaryGame, Exit}
     currentState = State::MainMenu;
 
-    bool readyToStart, noRecord, showUniqueNameMessage, showPatternNameMessage,
-        successCreating, exitProgram, finishPoints, win, isRecord, tableIsSet,
-        instructionIsLoad, gameIsFinish;
+    bool successCreating, exitProgram;
+    static bool gameIsFinish, readyToStart, isRecord, win,
+        uniqueMessageWasShow, patternMessageWasShow, tableWasSet;
+         
     float scrollOffset;
 
     std::string playerName;
-    int previousPoints, newPoints;
+    int previousPoints;
+    static int newPoints;
     
     std::vector<std::pair<std::string, int>> records;
 
     std::mutex mutex;
   
-    sf::RenderWindow window;
+    static sf::RenderWindow window;
+    static sf::RenderWindow* windowPtr;
     sf::VideoMode videoMode;
     sf::Font font;
     sf::Texture backgroundTexture;
@@ -69,10 +72,14 @@ class Interface {
     sf::RectangleShape summaryBackButton;
     sf::RectangleShape summaryExitButton;
 
+    void chooseVideoMode();
     void updateLastScore();
     void checkOptionClicked(sf::Vector2i& mousePos);
     void addOption(const std::string& text, float y);
     void initSummaryGame();
+    void newPlayerActions();
+    void playContinueActions();
+    void playerErase(const std::string& playerName);
 
     void loadBackground();
     void loadInstructions();
@@ -121,8 +128,17 @@ public:
     ~Interface() = default;
 
     void run();
-    void setSummaryData();
     void reset();
 
     bool getExitProgram();
+    static sf::RenderWindow* getWindowPtr();
+
+    static void setGameIsFinish(bool newState);
+    static void setWin(bool newState);
+    static void setNewPoints(int iNewPoints);
+    static void setReadyToStart(bool newState);
+    static void setIsRecord(bool newState);
+    static void setPatternMessageWasShow(bool newState);
+    static void setUniqueMessageWasShow(bool newState);
+    static void setTableWasSet(bool newState);
 };

@@ -14,18 +14,10 @@
 
 int main()
 {
-
-	// cztery omawiane techniki,
-	// sprytniejsi przeciwnicy kr¹¿¹cy po innym torze ok
-	// komunikat o wygranej
-	// dokoñczenie bonusów (podniesienie przeciwników)
-
-
-	
-	
 	Interface interface;
 	
 	do{
+		interface.reset();
 
 		interface.run();
 
@@ -33,7 +25,6 @@ int main()
 			return 0;
 
 		Game* game = new Game();
-
 		
 		while (game->getWindowIsOpen() and !game->getEndGame())
 		{
@@ -42,17 +33,10 @@ int main()
 			game->draw();
 		}
 
-		interface.setSummaryData();
-		//interface.run();
-		interface.reset();
-
 		delete game;
 
 	} while (not interface.getExitProgram());
 
-	//interface.closeWindow();
-	
 	return 0;
-
 }
 

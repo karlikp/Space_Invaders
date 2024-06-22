@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "Headers/Interface.h"
 #include "Headers/Game.h"
 #include "Headers/Global.h"
 #include "Headers/Player.h"
@@ -11,7 +12,7 @@
 #include "Headers/Enemy3.h"
 
 
-sf::RenderWindow Game::window;
+sf::RenderWindow* Game::windowPtr;
 
 Game::Game()
 {
@@ -36,14 +37,18 @@ void Game::initGame()
     lives = 3;
     points = 0;
     victory = false;
-    manager = new EntityManager(&window);
+
+    windowPtr = Interface::getWindowPtr();
+
+    manager = new EntityManager(windowPtr);
     videoMode = sf::VideoMode::getDesktopMode();
 
-    window.create(videoMode, "Space Invaders", sf::Style::Fullscreen);
-    window.setFramerateLimit(60);
 
-    screenSize.x = window.getSize().x;
-    screenSize.y = window.getSize().y;
+    //window.create(videoMode, "Space Invaders", sf::Style::Fullscreen);
+    
+
+    screenSize.x = windowPtr->getSize().x;
+    screenSize.y = windowPtr->getSize().y;
 }
 
 void Game::initBackground()
@@ -53,15 +58,15 @@ void Game::initBackground()
     }
     backgroundSprite.setTexture(backgroundTexture);
 
-    float scaleX = static_cast<float>(window.getSize().x) / backgroundTexture.getSize().x;
-    float scaleY = static_cast<float>(window.getSize().y) / backgroundTexture.getSize().y;
+    float scaleX = static_cast<float>(windowPtr->getSize().x) / backgroundTexture.getSize().x;
+    float scaleY = static_cast<float>(windowPtr->getSize().y) / backgroundTexture.getSize().y;
     float scale = std::min(scaleX, scaleY);
     backgroundSprite.setScale(scale, scale);
 
     sf::FloatRect spriteBounds = backgroundSprite.getGlobalBounds();
     backgroundSprite.setPosition(
-        (window.getSize().x - spriteBounds.width) / 2.0f,
-        (window.getSize().y - spriteBounds.height) / 2.0f
+        (windowPtr->getSize().x - spriteBounds.width) / 2.0f,
+        (windowPtr->getSize().y - spriteBounds.height) / 2.0f
     );
 }
 
@@ -171,7 +176,7 @@ bool Game::getPlayerIsDead()
 
 const bool Game::getWindowIsOpen() const
 {
-    return window.isOpen();
+    return windowPtr->isOpen();
 }
 
 const bool Game::getEndGame() const
@@ -181,37 +186,24 @@ const bool Game::getEndGame() const
 
 sf::RenderWindow* Game::getWindow()
 {
-    return &window;
-}
-
-void Game::interruptEvents()
-{
-    while (window.pollEvent(ev))
-    {
-        switch (ev.type)
-        {
-        case sf::Event::Closed:
-            window.close();
-            break;
-        case sf::Event::KeyPressed:
-            if (ev.key.code == sf::Keyboard::Escape)
-                window.close();
-            break;
-        }
-    }
+    return windowPtr;
 }
 
 void Game::endGameplay()
 {
     endGame = true;
-    window.clear();
-    window.close();
+    Interface::setGameIsFinish(true);
+    Interface::setReadyToStart(false);
+    Interface::setWin(not Player::getIsDead());
+    Interface::setNewPoints(Player::getPoints());
+    Interface::setIsRecord(false);
+    Interface::setPatternMessageWasShow(false);
+    Interface::setUniqueMessageWasShow(false);
+    Interface::setTableWasSet(false);
 }
 
 void Game::update()
 {
-    interruptEvents();
-
     if (!endGame)
     {
         manager->updateEnemies();
@@ -231,8 +223,6 @@ void Game::update()
             endGameplay();
         }
     }
-
-    // End game condition
 }
 
 void Game::updatePoints()
@@ -245,10 +235,10 @@ void Game::updatePoints()
 void Game::draw()
 {
  
-    window.clear();
+    windowPtr->clear();
 
     
-    window.draw(backgroundSprite);
+    windowPtr->draw(backgroundSprite);
 
     drawUfo();
     manager->drawEnemies(); 
@@ -256,18 +246,18 @@ void Game::draw()
     manager->drawPlayerBullets();
     manager->drawEnemyBullets();
     manager->drawPowerups();
-    window.draw(pointsLabel);
-    window.draw(pointsText);
+    windowPtr->draw(pointsLabel);
+    windowPtr->draw(pointsText);
     drawLives();
 
-    window.display();
+    windowPtr->display();
 }
 
 void Game::drawUfo()
 {
     if (ufo->getIsDead() == false) {
         auto ufoPtr = Player::getUfo();
-        window.draw(ufo->entitySprite);
+        windowPtr->draw(ufo->entitySprite);
     }
 }
 
@@ -300,10 +290,10 @@ void Game::updateLives()
 
 void Game::drawLives()
 {
-    window.draw(livesLabel);
+    windowPtr->draw(livesLabel);
 
     for (int i = 0; i < lives; ++i) {
         shipSprite.setPosition(startLivesX + i * offsetLivesX, (GAP_RATIO - 0.010) * screenSize.y);
-        window.draw(shipSprite);
+        windowPtr->draw(shipSprite);
     }
 }

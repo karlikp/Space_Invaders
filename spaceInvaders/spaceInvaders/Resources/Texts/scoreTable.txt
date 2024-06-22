@@ -1,6 +1,5 @@
-Karol03 1700
-Lola05 600
-Lena3 560
-Oliwia03 410
-Robert02 400
-Radek1 20
+Kasia01 300
+Kuba04 290
+Tomek03 250
+Karol03 210
+Jan09 200
