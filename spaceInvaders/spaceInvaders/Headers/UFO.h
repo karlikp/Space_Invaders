@@ -25,9 +25,6 @@ public:
 	short getPowerupType();
 
 
-	bool randomArrived();
-	int randomPowerup();
-	bool bulletCollision();
-	void destruction();
+;
 };
 

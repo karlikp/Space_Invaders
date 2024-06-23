@@ -14,29 +14,38 @@
 
 int main()
 {
+	//Tworzenie obiektu zarz¹dzaj¹cego programem poza rozgrywk¹
 	Interface interface;
 	
 	do{
+		/* resetowanie wybranych pól obiektu, kluczowe gdy gracz
+		   uruchamia dwie lub wiêcej rozgrywek bez wychodzenia z programu */
 		interface.reset();
 
+		// Obs³uga menu g³ównego
 		interface.run();
 
+		// Sprawdzenie czy gracz zamierza opóœciæ program
 		if (interface.getExitProgram())
 			return 0;
-
+		// Utworzenie nowej rozgrywki
 		Game* game = new Game();
 		
+		// G³ówna pêtla rozgrywki
 		while (game->getWindowIsOpen() and !game->getEndGame())
 		{
-			game->update();
+			game->update(); // Aktualizowanie stanu rozgrywki
 
-			game->draw();
+			game->draw();   // Wypisywanie powy¿szego stanu na ekran
 		}
 
-		delete game;
+		/* Po przekazaniu kluczowych danuch do obiektu interface nastêpuje zniszczenie
+		   obiektu rozgrywka na wypadek gdyby gracz zamierza³ zagraæ po raz drugi */
+		delete game;		
 
+		/* Sprawdzenie czy gracz zamierza opóœciæ program,
+		   jeœli nie to powtórz pêtle */
 	} while (not interface.getExitProgram());
-
 	return 0;
 }
 

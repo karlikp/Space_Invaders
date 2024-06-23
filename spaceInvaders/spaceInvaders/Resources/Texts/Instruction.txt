@@ -1,33 +1,55 @@
-Space Invaders is a type of fixed shooter game, meaning that the entire game screen
- is visible from the beginning to the end of the gameplay.
- The objective is to destroy four rows of aliens,
- with 14 enemies in each row, which move horizontally back
- and forth and descend towards the bottom of the screen.
- The player defeats an alien by shooting it from the player's ship,
- earning a certain number of points in the process.
+"Space Invaders" Game.
+The goal is to destroy 4 rows of aliens, with 14 enemies in each row,
+moving horizontally back and forth and descending towards the bottom 
+of the screen. The player defeats an alien by hitting it with a bullet 
+fired from their spaceship. The enemies require different 
+amounts of hits to be destroyed.
 
-Every time 14 aliens are destroyed, their speed increases.
- Defeating one wave of aliens brings the next wave, which is more difficult
- due to the increased speed of the aliens,
+    Enemy No. 1: 
+	 Requires 1 hit,
+    	 Shoots a single bullet,
+   	 Destroying it adds 10 points.
+   	 Moves regularly from left to right and vice versa, 
+gradually lowering its position on the map.
 
-The aliens try to destroy the player's ship by shooting at it while simultaneously
- advancing towards the bottom of the screen. If they reach the bottom,
- the invasion is successful, and the game ends. A special mystery ship
- occasionally moves across the top of the screen.
- Destroying this ship rewards the player with extra points,
- and the destroyed ship drops a cargo which, if caught by the player,
- increases the player's shooting frequency or adds an extra life.
+    Enemy No. 2: 
+	Requires 1 hit,
+  	Shoots two bullets simultaneously,
+  	Destroying it adds 20 points.
+   	Moves similarly to Enemy No. 1.
 
-The player's ship is protected by four stationary defense positions,
- which are gradually destroyed by enemy fire and occasional player shots.
- The player's task is to score as many points as possible by destroying aliens.
+These enemies destroy obstacles upon collision and die, and if they 
+collide with the player's spaceship,the ship is destroyed.
 
-Scoring:
-    Enemy typeI: 10 points (shoot vertically downwards)
-    Enemy typeII: 20 points (faster projectiles)
-    Enemy typeIII: 30 points (faster projectiles + multiply shoots)
-    Mystery ship: 100 points
+    Enemy No. 3: 
+	Requires 2 hits,
+    	Shoots three bullets simultaneously,
+    	Destroying it adds 20 points.
+    	Moves in the same pattern as other enemies for two rows, 
+	then changes its path and circles around the map.
 
-The player loses when the aliens reach the bottom level of the screen where
- the player's ship moves or if the player loses all their lives by being hit
- by enemy projectiles. Initially, the player has three lives, which is the maximum number.
+The aliens aim to destroy the player by shooting at them. 
+Each hit subtracts one health point from the player and 
+when their health points reach zero, the ship is destroyed and 
+the game ends in defeat. The player should avoid enemy bullets or 
+hide behind "defense positions" generated at the beginning of the game. 
+Each defense position has 20 health points, meaning that after 20 hits, 
+it is destroyed, and the player loses the shelter. Defense positions 
+are vulnerable to both player and enemy bullets.
+
+The player controls the spaceship using the arrow keys: left, right. 
+Shooting occurs automatically after the bullet reload time.
+
+Occasionally, a UFO appears at the top of the map, which, when shot down, 
+adds 100 points and drops a mysterious package. Upon catching it, 
+the player receives one of three possible bonuses:
+
+    Faster bullet reload time,
+    Triple shot,
+    Addition of one health point.
+
+The player can have a maximum of 3 health points. 
+If the player already has three health points, 
+the bonus of adding a health point is replaced by a triple shot. 
+The game ends in victory after shooting down all the enemies. 
+However, if the player loses all their health points, the game ends in defeat.

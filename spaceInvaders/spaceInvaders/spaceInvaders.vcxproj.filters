@@ -77,9 +77,6 @@
     <ClInclude Include="Headers\UFO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>

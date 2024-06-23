@@ -29,7 +29,7 @@ constexpr float SMALL_HITBOX_MARGIN_RATIO = 0.005;
 constexpr short ENEMY_SHOOT_CHANCE = 4096;
 constexpr short ENEMY_SHOOT_CHANCE_INCREASE = 64;
 constexpr short ENEMY_SHOOT_CHANCE_MIN = 1024;
-constexpr short POWERUP_DURATION = 512;
+constexpr int   POWERUP_DURATION = 512;
 
 constexpr short RIGHT_MOVE = 1;
 constexpr short LEFT_MOVE = -1;
@@ -54,7 +54,7 @@ constexpr short BULLET_SPEED = 5;
 constexpr short POWERUP_SPEED = 4;
 constexpr short PLAYER_MOVE_SPEED = 4;
 constexpr short INVADER_MOVE_SPEED_X = 2;
-constexpr short INVADER_MOVE_SPEED_Y = 2;
+constexpr short INVADER_MOVE_SPEED_Y = 2; 
 constexpr short MOTIONLESS_X = 0;
 constexpr short MOTIONLESS_Y = 0;
 

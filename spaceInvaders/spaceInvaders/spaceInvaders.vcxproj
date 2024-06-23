@@ -179,7 +179,6 @@
     <ClInclude Include="Headers\Enemy3.h" />
     <ClInclude Include="Headers\EntityManager.h" />
     <ClInclude Include="Headers\Entity.h" />
-    <ClInclude Include="Headers\functions.h" />
     <ClInclude Include="Headers\Game.h" />
     <ClInclude Include="Headers\Global.h" />
     <ClInclude Include="Headers\Interface.h" />

@@ -115,6 +115,15 @@ struct Powerup : public Entity
 {
 	short powerupType;
 
+	int generatorType() {
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> dis(1, 3);
+
+		return dis(gen);
+	}
+
 	Powerup(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize, float iRatio) :
 		Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize, iRatio) {
 
@@ -143,14 +152,7 @@ struct Powerup : public Entity
 		setEntityPosition();
 	}
 
-	int generatorType() {
-
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dis(1, 3);
-
-		return dis(gen);
-	}
+	
 
 	sf::IntRect getHitbox() {
 		return sf::IntRect(
