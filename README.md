@@ -1,8 +1,6 @@
 
 # 👾 Space Invaders
-In the game, your objective is to contain an invasion by controlling a spaceship and shooting at the invading forces. 
-You must also dodge their attacks to survive, as your ship has only 3 lives. By hitting invaders, you earn points. 
-Occasionally, a UFO flies across the upper part of the screen. When hit, the UFO drops power-ups that can help you in your mission.
+Space Invaders is a classic arcade shooter game where players control a ship with laser cannon to defend Earth by destroying waves of descending alien invaders before they reach the ground.
 
 ### 💬 Context of the project:
 This was my main project from the fourth semester of my studies.
