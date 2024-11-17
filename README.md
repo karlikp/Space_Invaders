@@ -2,16 +2,64 @@
 # 👾 Space Invaders
 Space Invaders is a classic arcade shooter game where players control a ship with laser cannon to defend Earth by destroying waves of descending alien invaders before they reach the ground.
 
-### 💬 Context of the project:
-This was my main project from the fourth semester of my studies.
-I developed it as part of a computer programming course.
+## Table of contents:
+1. [Introduction](#Introduction)
+2. [Requirements](#Requirements)
+3. [Installation](#Installation)
+4. [Usage](#Usage)
+   
+### 1. Introduction:
 
-### 🚀 My motivation:
-I wanted to create this game because when I was a child, my favorite game was Chicken Invaders.
- It is a game where you control a spaceship and fight with chickens that want to take over the world.
+This project was my main assignment during the fourth semester of my studies, developed as part of a computer programming course.
 
-## 📌 To run the program:
-In the progress
+I chose to create this game because it reminded me of my favorite childhood game, which inspired me to bring a similar experience to life.
 
-### 📷 Galery:
+## 2. Requirements:
+- 2.1. Linux (tested on Ubuntu 22.04 LTS)
+    - g++ compiler
+      ```bash
+      sudo apt update
+      sudo apt install g++
+      ```
+    - library SFML
+      ```bash
+      sudo apt install libsfml-dev
+      ```
+    - CMake
+      ```bash
+      sudo apt install cmake
+      ```
+- 2.2. Windows (tested on Windows 11)
+    - g++ compiler (https://www.msys2.org/)
+    - configured SFML library (https://www.sfml-dev.org/download.php)
+    - CMake (https://cmake.org/download/)
+
+## 3. Installation:
+- Download repository Space_Invaders
+- Go to Space_Invaders directory
+ ```bash
+ cd /path/to/Space_Invaders
+ ```
+- Create build directory and go there
+ ```bash
+ mkdir build
+ cd build
+```
+- Set up a project build system
+ ```bash
+ cmake ..
+```
+- build project with Makefile
+```
+make
+```
+   - start program (on Linux)
+   ```bash
+   ./Spacelnvaders
+   ```
+   - start program (on Windows)
+   ```bash
+   SpaceInvaders
+   ```
+## Usage:
 In the progress
