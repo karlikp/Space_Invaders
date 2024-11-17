@@ -1,5 +1,5 @@
-#include "Headers/Entity.h"
-#include "Headers/Global.h"
+#include "../headers/Entity.h"
+#include "../headers/Global.h"
 
 Entity::Entity(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize) :
 	position(iPosX, iPosY),

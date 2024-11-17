@@ -19,12 +19,9 @@ class Game
 {
     sf::Vector2f screenSize;
    
-    //Game logic
     bool endGame, victory;
     short points;
     float startLivesX, offsetLivesX;
-
-   // std::mutex mtx;
 
     //Private function
     void initGame();
@@ -53,7 +50,6 @@ public:
     sf::VideoMode videoMode;
     sf::Event ev;
 
-    //static sf::RenderWindow window;
     static sf::RenderWindow* windowPtr;
     static sf::RenderWindow* getWindow();
  

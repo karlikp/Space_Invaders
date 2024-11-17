@@ -110,7 +110,7 @@ class Interface {
     void renderNewPlayer();
     void renderContinuePlayer();
     void renderScoreTable();
-    void renderRules();
+    void renderInstruction();
     void renderSummaryGame();
 
     void checkPattern();
@@ -119,8 +119,6 @@ class Interface {
     bool isExitButtonClicked(sf::Vector2i mousePos);
     bool isPlayButtonClicked(sf::Vector2i mousePos);
   
-   
-
    
 public:
 

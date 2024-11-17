@@ -1,6 +1,6 @@
-#include "Headers/Enemy1.h"
-#include "Headers/Global.h"
-#include "Headers/EntityManager.h"
+#include "../headers/Enemy1.h"
+#include "../headers/Global.h"
+#include "../headers/EntityManager.h"
 
 Enemy1::Enemy1(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
 	: Enemy(iPosX, iPosY, iStepX, iStepY, iScreenSize, LITTLE_HEALTH) {
@@ -10,8 +10,8 @@ Enemy1::Enemy1(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	float scale = enemySize / ENEMY_DEFAULT_HEIGHT;
 
 	setPossibility(0.0009);
-	setEntitySprite("Resources/Textures/Enemy1.png");
-	setEntityBulletSprite("Resources/Textures/enemyBullet1.png");
+	setEntitySprite("../resources/textures/enemy1.png");
+	setEntityBulletSprite("../resources/textures/enemyBullet1.png");
 	setEntityScale(scale);
 
 }

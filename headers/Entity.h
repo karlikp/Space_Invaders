@@ -15,8 +15,6 @@
  
 class Entity
 {
-	//encapsulation
-
 protected:
 	sf::Vector2f position;
 	sf::Vector2f screenSize;
@@ -130,7 +128,7 @@ struct Powerup : public Entity
 		powerupType = generatorType();
 		float scale = POWERUP_RATIO * iScreenSize.y / POWERUP_DEFAULT_HEIGHT;
 
-		setEntitySprite("Resources/Textures/powerup.png");
+		setEntitySprite("../resources/textures/powerup.png");
 		setEntityScale(scale);
 	}
 	~Powerup() = default;

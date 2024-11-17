@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "Headers/Interface.h"
-#include "Headers/Game.h"
-#include "Headers/Global.h"
-#include "Headers/Player.h"
-#include "Headers/Obstacle.h"
-#include "Headers/UFO.h"
-#include "Headers/Enemy1.h"
-#include "Headers/Enemy1.h"
-#include "Headers/Enemy2.h"
-#include "Headers/Enemy3.h"
+#include "../headers/Interface.h"
+#include "../headers/Game.h"
+#include "../headers/Global.h"
+#include "../headers/Player.h"
+#include "../headers/Obstacle.h"
+#include "../headers/UFO.h"
+#include "../headers/Enemy1.h"
+#include "../headers/Enemy1.h"
+#include "../headers/Enemy2.h"
+#include "../headers/Enemy3.h"
 
 
 sf::RenderWindow* Game::windowPtr;
@@ -42,19 +42,15 @@ void Game::initGame()
 
     manager = new EntityManager(windowPtr);
     videoMode = sf::VideoMode::getDesktopMode();
-
-
-    //window.create(videoMode, "Space Invaders", sf::Style::Fullscreen);
     
-
     screenSize.x = windowPtr->getSize().x;
     screenSize.y = windowPtr->getSize().y;
 }
 
 void Game::initBackground()
 {
-    if (!backgroundTexture.loadFromFile("Resources/Textures/Background.png")) {
-        std::cerr << "Failed to load image 'Resources/Background.png'" << std::endl;
+    if (!backgroundTexture.loadFromFile("../resources/textures/background.png")) {
+        std::cerr << "Failed to load image '../resources/background.png'" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
 
@@ -78,7 +74,6 @@ void Game::initEnemies()
     float offsetY = ENEMY_OFFSET_RATIO * screenSize.y;
     float enemySize = ENEMY_SIZE_RATIO * screenSize.y;
 
-    //  Tworzenie wierszy przeciwników
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 14; ++j) {
             if (i == 0) {
@@ -105,7 +100,7 @@ void Game::initPlayer()
 
 void Game::initPoints()
 {
-    if (!font.loadFromFile("Resources/Texts/ARIAL.ttf")) {
+    if (!font.loadFromFile("../resources/texts/ARIAL.TTF")) {
         std::cerr << "Error loading font\n";
         return;
     }
@@ -147,10 +142,12 @@ void Game::initObstacle()
 
     while (obstacleCount > 1) {
         leftPosX = (OBSTACLE_HEIGHT_RATIO + (OBSTACLE_OFFSET_RATIO * offsetCount)) * screenSize.y;
+
         //left obstacles
         manager->addEntity(std::make_unique<Obstacle>(leftPosX, posY, MOTIONLESS_X, MOTIONLESS_Y, screenSize));
         
         rightPosX = screenSize.x - ((OBSTACLE_OFFSET_RATIO + (OBSTACLE_OFFSET_RATIO * offsetCount)) * screenSize.y);
+        
         //right obstacles
         manager->addEntity(std::make_unique<Obstacle>(rightPosX, posY, MOTIONLESS_X, MOTIONLESS_Y, screenSize));
         obstacleCount -= 2;
@@ -263,7 +260,7 @@ void Game::drawUfo()
 
 void Game::initLives()
 {
-    if (!shipTexture.loadFromFile("Resources/Textures/playerShip1_blue.png")) {
+    if (!shipTexture.loadFromFile("../resources/textures/playerShip1_blue.png")) {
         std::cerr << "Error loading ship texture\n";
         return;
     }

@@ -1,19 +1,17 @@
-#pragma once
-
 #include <iostream>
 #include <vector>
 #include <memory>
 
-//#include "Headers/Entity.h"
-#include "Headers/EntityManager.h"
-//#include "Headers/Enemy.h"
-#include "Headers/Enemy1.h"
-#include "Headers/Enemy2.h"
-#include "Headers/Enemy3.h"
-#include "Headers/Player.h"
-#include "Headers/Obstacle.h"
-#include "Headers/UFO.h"
-#include "Headers/Global.h"
+//#include "../headers/Entity.h"
+#include "../headers/EntityManager.h"
+//#include "../headers/Enemy.h"
+#include "../headers/Enemy1.h"
+#include "../headers/Enemy2.h"
+#include "../headers/Enemy3.h"
+#include "../headers/Player.h"
+#include "../headers/Obstacle.h"
+#include "../headers/UFO.h"
+#include "../headers/Global.h"
 
 
 
@@ -66,7 +64,6 @@ void EntityManager::addPowerup(std::unique_ptr<Powerup> powerup)
 
 void EntityManager::updateEnemies()
 {
-    //set position
     for (const auto& enemy : enemies) {
         enemy->update();
     }
@@ -81,7 +78,6 @@ void EntityManager::updateEnemies()
 
 void EntityManager::updateEntities()
 {
-    //set position
     for (const auto& entity : entities) {
         entity->update();
     }

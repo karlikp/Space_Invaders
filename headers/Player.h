@@ -18,7 +18,6 @@ class Player : public Entity
 	static bool ufoInProgress;
 	UFO* ufo;
 	static UFO* tempUfo;
-	//static std::unique_ptr<UFO> tempUfo;
 	
 
 public:

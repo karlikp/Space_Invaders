@@ -1,7 +1,7 @@
-#include "Headers/UFO.h"
-#include "Headers/Global.h"
-#include "Headers/EntityManager.h"
-#include "Headers/Player.h"
+#include "../headers/UFO.h"
+#include "../headers/Global.h"
+#include "../headers/EntityManager.h"
+#include "../headers/Player.h"
 
 UFO::UFO(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScreenSize)
 	: Entity(iPosX, iPosY, iStepX, iStepY, iScreenSize) {
@@ -14,7 +14,7 @@ UFO::UFO(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2f iScr
 	
 	float scale = (UFO_HEIGHT_RATIO * iScreenSize.y) / UFO_DEFAULT_HEIGHT;
 
-	setEntitySprite("Resources/Textures/UFO.png");
+	setEntitySprite("../resources/textures/ufo.png");
 	setEntityScale(scale);
 	setEntityPosition();
 }
@@ -41,7 +41,7 @@ void UFO::update()
 short UFO::checkPowerupCollision(sf::IntRect* iPlayerHitbox)
 {
 	auto playerHitbox = *iPlayerHitbox;
-    for (auto& const powerup : EntityManager::getPowerups()) //I tried use iterators and delete dead powerups but it generate errors
+    for (const auto& powerup : EntityManager::getPowerups()) //I tried use iterators and delete dead powerups but it generate errors
     {
         if (powerup->getIsDead() == false && powerup->getHitbox().intersects(playerHitbox))
         {
@@ -56,7 +56,6 @@ short UFO::checkPowerupCollision(sf::IntRect* iPlayerHitbox)
 
 bool UFO::checkBulletCollision(sf::IntRect iBulletHitbox)
 {
-		//auto bulletHitbox = *iBulletHitbox;
 		if (getHitbox().intersects(iBulletHitbox))
 		{
 			setIsDead(true);

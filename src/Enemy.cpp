@@ -1,8 +1,8 @@
 #include <random>
 
-#include "Headers/EntityManager.h"
-#include "Headers/Enemy.h"
-#include "Headers/Global.h"
+#include "../headers/EntityManager.h"
+#include "../headers/Enemy.h"
+#include "../headers/Global.h"
 
 int Enemy::enemyCounter = 0;
 

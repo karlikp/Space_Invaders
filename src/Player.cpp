@@ -1,9 +1,9 @@
 #include <random>
 
-#include "Headers/Player.h"
-#include "Headers/UFO.h"
-#include "Headers/Global.h"
-#include "Headers/Game.h"
+#include "../headers/Player.h"
+#include "../headers/UFO.h"
+#include "../headers/Global.h"
+#include "../headers/Game.h"
 
 bool Player::isDead;
 bool Player::ufoInProgress;
@@ -19,8 +19,8 @@ Player::Player(float iPosX, float iPosY, float iStepX, float iStepY, sf::Vector2
 	
 	float scale = (0.075 * iScreenSize.y) / PLAYER_DEFAULT_HEIGHT;
 	initTempUfo();
-	setEntitySprite("Resources/Textures/playerShip1_blue.png");
-	setEntityBulletSprite("Resources/Textures/playerBullet1.png");
+	setEntitySprite("../resources/textures/playerShip1_blue.png");
+	setEntityBulletSprite("../resources/textures/playerBullet1.png");
 	setEntityScale(scale);;
 
 
@@ -83,7 +83,7 @@ void Player::update()
 	}
 	//Check enemy hit
 	
-	for (auto& const enemyBullet : EntityManager::getEnemyBullets())
+	for (const auto& enemyBullet : EntityManager::getEnemyBullets())
 	{
 
 		if (getHitbox().intersects(enemyBullet->getHitbox()))
@@ -124,7 +124,7 @@ void Player::update()
 		powerupTimer--;
 	}
 	//Hit UFO 
-	for (auto& const bullet : EntityManager::getPlayerBullets())
+	for (const auto& bullet : EntityManager::getPlayerBullets())
 	{
 		if (getIsDead() == false)
 		{		
@@ -137,9 +137,9 @@ void Player::update()
 		}
 	}
 
-	for (auto& const enemy : EntityManager::getEnemies())
+	for (const auto& enemy : EntityManager::getEnemies())
 	{
-		for (auto& const bullet : EntityManager::getPlayerBullets())
+		for (const auto& bullet : EntityManager::getPlayerBullets())
 		{
 			if (bullet->getIsDead() == 0 && enemy->getHealth() > 0 && enemy->getHitbox().intersects(getHitbox()))
 			{
