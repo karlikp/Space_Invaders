@@ -18,7 +18,7 @@ I chose to create this game because it reminded me of my favorite childhood game
 ## 2. Requirements:
    - 2.1. Operating system:
        - Linux (tested on Ubuntu 22.04 LTS),
-       - Windows (tested on Windows 11).
+       <!--- Windows (tested on Windows 11).-->
    - 2.2. Dependence:
        - g++ compiler
        - SFML library
@@ -39,10 +39,10 @@ I chose to create this game because it reminded me of my favorite childhood game
          ```bash
          sudo apt install cmake
          ```
-   - 3.2. Dependence for Windows:
+  <!-- - 3.2. Dependence for Windows:
        - g++ compiler (https://www.msys2.org/)
        - configured SFML library (https://www.sfml-dev.org/download.php)
-       - CMake (https://cmake.org/download/)
+       - CMake (https://cmake.org/download/)-->
 
 ## 4. Usage:
    - 4.1 download repository:
@@ -71,14 +71,13 @@ I chose to create this game because it reminded me of my favorite childhood game
       make
       ```
    - 4.6 start program:
-      - on Linux:
-        ```bash
-        ./Spacelnvaders
-        ```
-      - on Windows:
+     ```bash
+     ./Spacelnvaders
+     ```
+      <!--- on Windows:
         ```bash
         SpaceInvaders
-        ```
+        ```-->
 ## 5. Gallery:
 
 <div align="center">
