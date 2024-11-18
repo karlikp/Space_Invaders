@@ -3,13 +3,13 @@
 Space Invaders is a classic arcade shooter game where players control a ship with laser cannon to defend Earth by destroying waves of descending alien invaders before they reach the ground.
 
 ## Table of contents:
-1. [Introduction](#introduction)
-2. [Requirements](#requirements)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Gallery](#gallery)
+1. [Introduction](#1-introduction)
+2. [Requirements](#2-requirements)
+3. [Installation](#3-installation)
+4. [Usage](#4-usage)
+5. [Gallery](#5-gallery)
    
-### 1. Introduction:
+## 1. Introduction:
 
 This project was my main assignment during the fourth semester of my studies, developed as part of a computer programming course.
 
@@ -17,8 +17,8 @@ I chose to create this game because it reminded me of my favorite childhood game
 
 ## 2. Requirements:
    - 2.1. Operating system:
-         - Linux (tested on Ubuntu 22.04 LTS),
-         - Windows (tested on Windows 11).
+       - Linux (tested on Ubuntu 22.04 LTS),
+       - Windows (tested on Windows 11).
    - 2.2. Dependence:
        - g++ compiler
        - SFML library
