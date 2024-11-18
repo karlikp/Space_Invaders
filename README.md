@@ -17,8 +17,8 @@ I chose to create this game because it reminded me of my favorite childhood game
 
 ## 2. Requirements:
    - 2.1. Operating system:
-       - Linux (tested on Ubuntu 22.04 LTS),
-       <!--- Windows (tested on Windows 11).-->
+       - Linux (tested on Ubuntu 22.04 LTS)
+       <!--- Windows (tested on Windows 11)-->
    - 2.2. Dependence:
        - g++ compiler
        - SFML library
