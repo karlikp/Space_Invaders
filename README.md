@@ -1,4 +1,3 @@
-
 # 👾 Space Invaders
 Space Invaders is a classic arcade shooter game where players control a ship with laser cannon to defend Earth by destroying waves of descending alien invaders before they reach the ground.
 
